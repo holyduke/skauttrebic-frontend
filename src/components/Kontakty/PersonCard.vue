@@ -1,0 +1,210 @@
+<template>
+  <div>
+    <v-hover v-slot:default="{hover}">
+      <v-card class="my-5 mx-auto card" max-width="344" :elevation="hover ? 12 : 7" raised>
+        <v-img
+          v-if="local_img"
+          v-show="fotkaUrl"
+          class="white--text align-end fotka"
+          height="300px"
+          :src="fotkaUrl"
+        ></v-img>
+        <v-img
+          v-else
+          v-show="fotkaUrl"
+          class="white--text align-end fotka"
+          height="300px"
+          :src="fotkaUrl"
+        >
+        </v-img>
+        <v-card-title v-show="jmeno" class="jmeno">
+          <div class="jmenoprijmeni">
+            {{ jmeno }}
+            <span v-if="prezdivka">({{ prezdivka }})</span>
+          </div>
+        </v-card-title>
+        <v-card-subtitle v-show="funkce" class="fce">{{ funkce }}</v-card-subtitle>
+        <div v-show="isContributor && showPossibleEditBtn" class="text-xs-center">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn                
+                class="mb-2 mt-n2 mx-2 editBtn"
+                fab
+                dark
+                v-bind="attrs"
+                v-on="on"
+                color="#174085"
+                :to="{name: 'EditVedouciView', params: {_id: _id}}"
+              >
+                <v-icon dark>mdi-pencil</v-icon>
+              </v-btn>
+            </template>   
+            <span>Upravit</span>
+
+          </v-tooltip>
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn                
+                class="mb-2 mt-n2 mx-2 editBtn"
+                fab
+                dark
+                v-bind="attrs"
+                v-on="on"
+                color="error"
+                @click="deleteItem"
+              >
+                <v-icon dark>mdi-delete</v-icon>
+              </v-btn>
+            </template>
+            <span>Odstranit</span>          
+          </v-tooltip>
+        </div>
+
+        <v-divider v-if="telefonParsed || email || popis"></v-divider>
+
+        <!-- facebook icon, email, phone -->
+        <v-card-actions>
+          <div class="kontakt" align>
+            <div v-if="facebook">
+              <v-btn icon target="_blank" :href="facebook">
+                <v-icon>mdi-facebook</v-icon>
+              </v-btn>
+            </div>
+
+            <div v-show="telefon" class="telefon">
+              <v-icon class="ml-1 mr-3">mdi-phone</v-icon>
+              {{ telefonParsed }}
+            </div>
+
+            <div v-show="email" class="email">
+              <v-icon class="ml-1 mr-3">mdi-email</v-icon>
+              {{ email }}
+            </div>
+          </div>
+
+          <v-spacer></v-spacer>
+
+          <!-- arrow for controling description -->
+          <v-tooltip bottom>
+            <template v-slot:activator="{on, attrs}">
+              <v-btn v-show="popis" large icon v-bind="attrs" v-on="on" @click="show = !show">
+                <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
+              </v-btn>
+            </template>
+            <span v-if="!show">Zobrazit popis</span>
+            <span v-else>Skrýt popis</span>
+          </v-tooltip>
+        </v-card-actions>
+
+        <!-- description of person -->
+        <v-expand-transition>
+          <div v-show="show" class="text-center">
+            <v-divider></v-divider>
+            <v-card-text>{{ popis }}</v-card-text>
+          </div>
+        </v-expand-transition>
+      </v-card>
+    </v-hover>
+
+    <Confirm v-show="loginConfirmation && showPossibleEditBtn" ref="confirm"></Confirm>
+  </div>
+</template>
+
+<script>
+import Confirm from "@/components/Confirm";
+
+export default {
+  name: "PersonCard",
+
+  props: [
+    "fotkaUrl",
+    "jmeno",
+    "prezdivka",
+    "email",
+    "telefon",
+    "funkce",
+    "popis",
+    "facebook",
+    "_id",
+    "showPossibleEditBtn",
+    "local_img"
+  ],
+
+  data: () => {
+    return {
+      loginConfirmation: false,
+      show: false,
+    };
+  },
+
+  methods:  {
+    deleteItem()  {
+      this.loginConfirmation= true
+      this.$refs.confirm.open('Odstranit', 'Opravdu chcete odstranit vedoucího ' + this.jmeno + ' z tohoto seznamu?', { color: 'error' }).then((confirm) => {
+        if (confirm)  {
+          console.log("emiting event to deleteItem");
+          this.$emit('deleteItem');
+        }
+      })
+    }
+  },
+
+  computed: {
+    telefonParsed: function () {
+      // make spaces after each 3 digits
+      return this.telefon.replace(/(\d{3})/g, "$1 ").replace(/(^\s+|\s+$)/, "");
+    },
+
+    // getBackendAPI() {
+    //   return this.$store.getters.getBackendAPI;
+    // },
+
+    isContributor() {
+      return this.$store.getters.isContributor;
+    },
+  },
+
+  components: {
+    Confirm
+  }
+};
+</script>
+
+<style scoped>
+
+.jmeno {
+  display: block;
+  text-align: center;
+}
+
+.jmenoprijmeni {
+  font-size: 1.5rem;
+  font-weight: normal;
+  display: block;
+}
+
+.prezdivka {
+  font-weight: normal;
+  font-size: 1.2rem;
+}
+
+.fce {
+  font-family: "themix";
+  font-size: 1rem;
+  text-align: center;
+}
+
+.telefon {
+  text-decoration: none !important;
+  color: black !important;
+}
+
+.kontakt {
+  font-family: "themix";
+  display: inline-block;
+  font-size: 1rem;
+  text-align: left;
+  /* min-height: 90px; */
+}
+</style>
