@@ -3,39 +3,9 @@
     <h1>Nástěnka</h1>
     <v-row justify="space-around">
       <v-col cols="12" md="6" class="px-200">
-        <v-card
-          elevation="4"
-          class="pa-4 mb-5"
-          >
-            <div >          
-              <h2>Implementované funkce</h2>          
-              <v-card
-                v-for="(item, index) in features.done" :key="index"
-                elevation="2"
-                class="my-1"
-              >
-                <v-card-subtitle>
-                  <span> ✔️  {{item.popis}} ({{getDate(item.updatedAt)}})</span>
-                </v-card-subtitle>
-              </v-card>
-
-              <br>
-
-              <h2>Plánované funkce</h2>          
-              <v-card
-                v-for="(item, index) in features.notdone" :key="index"
-                elevation="2"
-                class="my-1"
-              >
-                <v-card-subtitle>
-                  <span> ❌  {{item.popis}}</span>
-                </v-card-subtitle>
-              </v-card>
-            </div>
-        </v-card>
+        <Features />
       </v-col>
-
-
+      
       <v-col cols="12" md="6">
         <v-card
           elevation="4"
@@ -55,7 +25,8 @@
           >
           <h2>Administrátor</h2>
           <v-card-subtitle>
-            Tyto webové stránky vytvořil Dominik Jašek (Šíša). V případě jakýchkoliv dotazů mě kontaktujte na telefonu <a href="tel:00420-732-181-317">732 181 317</a> nebo na <v-btn icon href='https://www.facebook.com/dominikjasekk'><v-icon class="mb-1">mdi-facebook</v-icon></v-btn>.
+            <p>Tyto webové stránky vytvořil Dominik Jašek (Šíša). V případě jakýchkoliv dotazů mě kontaktujte na telefonu <a href="tel:00420-732-181-317">732 181 317</a> nebo na <v-btn icon href='https://www.facebook.com/dominikjasekk'><v-icon class="mb-1">mdi-facebook</v-icon></v-btn>.</p>
+            <p>Vše dělám ve svém volném čase, tudíž se předem omlouvám za moje výmluvy typu "<i>sorry, nemám teď vůbec čas</i>". Nenechte se ale zastrašit a perte to do mě, já si s tím nějak poradím 🙂</p>
           </v-card-subtitle>          
         </v-card>
       </v-col>
@@ -64,39 +35,15 @@
 </template>
 
 <script>
-import axios from "axios";
+import Features from "@/components/Features";
+
+
 
 export default {
   name: "Noticeboard",
 
-  data() {
-    return {
-      features: {
-        done: [],
-        notdone: []
-      },
-    }
-  },
-
-  methods: {
-    getDate(updatedAt)  {
-      const date = new Date(updatedAt);
-      return date.toLocaleDateString('cs-CS');
-    }
-  },
-
-  created() {
-    axios.get("/features").then((res) => {
-      console.log("features", res.data);
-      res.data.forEach(f => {
-        if (f.done) {
-          this.features.done.push(f);
-        }
-        else {
-          this.features.notdone.push(f);
-        }
-      });
-    })
+  components: {
+    Features,
   }
 };
 </script>

@@ -65,7 +65,7 @@
                     v-on="on"
                   >
                     <v-icon>mdi-delete</v-icon>
-                    </v-btn>
+                  </v-btn>
                   </v-fab-transition>                
                 </template>
                 <span>Odstranit vybrané položky</span>
