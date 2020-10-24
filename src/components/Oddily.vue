@@ -20,15 +20,6 @@ import OddilCard from "./OddilCard";
 export default {
   data: () => ({
     show: false,
-    oddilTemplate: {
-      nazev: "skauti",
-      vekova_skupina: "chlapci ve věku 12-16 let",
-      show: false,
-      popis: "Do oddílu skautů přicházejí chlapci ve věku 12 let z vlčat. Scházíme se každý pátek od 16:00 v klubovně Trafo. Momentálně je kapacita oddílu naplněna.",
-      logo: require("../assets/loga_oddilu/skauti.svg"),
-      link: "skauti",
-      rot: "0deg",
-    },
     oddily: [],
   }),
 
@@ -38,7 +29,6 @@ export default {
         console.log("oddily loaded", res);
         let loadedOddily = res.data;
         loadedOddily.forEach(laodedOddil => {
-          // let newOddil =  Object.assign({}, this.oddilTemplate);
           let newOddil = {};
           newOddil.rot = Math.floor(Math.random() * Math.floor(360));
           newOddil.nazev = laodedOddil.nazev;
