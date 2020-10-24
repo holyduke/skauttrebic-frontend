@@ -10,7 +10,7 @@ module.exports = {
   devServer:  {
     // proxy: 'https://cdn.skauting.cz/',
     // proxy: 'http://localhost:1337',
-    https: true
+    // https: true
   },
 
   pluginOptions: {
