@@ -55,23 +55,8 @@
           >
           <h2>Administrátor</h2>
           <v-card-subtitle>
-            Tyto webové stránky vytvořil Dominik Jašek (Šíša). V případě jakýchkoliv dotazů mě kontaktujte.
-          </v-card-subtitle>
-          <v-card-actions>
-            <div>
-              <v-btn icon href='https://www.facebook.com/dominikjasekk'>
-                <v-icon>mdi-facebook</v-icon>
-              </v-btn>
-            </div>
-          
-            <div>
-              <v-btn icon>
-                <v-icon class="ml-1 mr-3">mdi-phone</v-icon>
-                732 181 317
-              </v-btn>
-            </div>
-          
-          </v-card-actions>
+            Tyto webové stránky vytvořil Dominik Jašek (Šíša). V případě jakýchkoliv dotazů mě kontaktujte na telefonu <a href="tel:00420-732-181-317">732 181 317</a> nebo na <v-btn icon href='https://www.facebook.com/dominikjasekk'><v-icon class="mb-1">mdi-facebook</v-icon></v-btn>.
+          </v-card-subtitle>          
         </v-card>
       </v-col>
     </v-row>
