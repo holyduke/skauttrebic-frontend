@@ -1,6 +1,6 @@
 <template>
   <v-container class="oddily">
-    <img src="@/assets/logo_bg.svg" alt="logo_bg" class="logo-bg" />
+    <img src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603563597/logo_bg_vkafrm.svg" alt="logo_bg" class="logo-bg" />
     <h1>Oddíly</h1>
     <h3>Patříme pod středisko Srdíčko Třebíč.</h3>
     <v-layout row wrap justify-space-around align-center temporary>

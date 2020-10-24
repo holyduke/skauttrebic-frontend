@@ -1,6 +1,5 @@
 <template>
   <v-container class="aboutus">
-    <!-- <img src="@/assets/logo_bg.svg" alt="logo_bg" class="logo-bg" /> -->
     <v-layout row wrap justify-space-around align-center>
       <v-flex xs12 md6 text-center>
         <h1>O NÁS</h1>

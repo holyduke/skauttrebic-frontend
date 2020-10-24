@@ -105,7 +105,7 @@
           alt="Skautské logo"
           class="shrink mr-3"
           contain
-          src="../../../src/assets/skaut_logo.png"
+          src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603563744/skaut_logo_0bedea165c.png"
           transition="scale-transition"
           width="40"
         />

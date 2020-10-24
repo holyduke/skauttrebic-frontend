@@ -2,7 +2,7 @@
   <v-hover v-slot:default="{hover}">
     <v-card  class="my-5 mx-auto pt-3 card" max-width="344" :elevation="hover ? 12 : 7" raised>
       <div class="brambora">
-        <img src="@/assets/brambora.svg" alt="brambora" rotate="5" />
+        <img src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603563592/brambora_vqicvu.svg" alt="brambora" rotate="5" />
       </div>
       <div class="logo">
         <img :src="oddil.logo.url" :alt="oddil.nazev" />

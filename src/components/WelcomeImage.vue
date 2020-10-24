@@ -1,12 +1,12 @@
 <template>
   <div class="welcomeimage" :class="{ 'welcomeimageAdmin': isContributor }">
     <div class="logo" :class="{ 'logoAdmin': isContributor }" ref="logo">
-      <img src="../../public/oranz_vert.svg" alt="logo1" class="svg orange1" />
-      <img src="../../public/oranz_hor.svg" alt="logo1" class="svg orange2" />
-      <img src="../../public/modr_left.svg" alt="logo1" class="svg blue1" />
-      <img src="../../public/modr_right.svg" alt="logo1" class="svg blue2" />
-      <img src="../../public/drak1.svg" alt="logo1" class="svg drak" />
-      <img src="../../public/jazyk1.svg" alt="logo1" class="svg jazyk" />
+      <img src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603563353/oranz_vert_n2vnwd.svg" alt="skautská lilie" class="svg orange1" />
+      <img src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603563354/oranz_hor_gyzc6k.svg" alt="skautská lilie" class="svg orange2" />
+      <img src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603563337/modr_left_mzb1o6.svg" alt="skautská lilie" class="svg blue1" />
+      <img src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603563354/modr_right_q9r6bg.svg" alt="skautská lilie" class="svg blue2" />
+      <img src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603562909/drak1_1eabb1eeaa.svg" alt="skautská lilie" class="svg drak" />
+      <img src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603562909/jazyk1_03787bdc97.svg" alt="skautská lilie" class="svg jazyk" />
     </div>
     <div class="title" :class="{'titleAdmin': isContributor }" ref="title">
       <h1>SKAUT</h1>
@@ -162,7 +162,8 @@ h3 {
   /* min-height: 900px; */
   /* width: 100%; */
   /* height: auto; */
-  background-image: url("../../public/taboriste-min.jpg");
+  /* background-image: url("../../public/taboriste-min.jpg"); */
+  background-image: url("https://res.cloudinary.com/dpcprmunp/image/upload/v1603562677/taboriste_min_08ed354b65.jpg");
   /* background-repeat: no-repeat; */
   animation: scaleslider 60s infinite ease-in-out;
   background-size: cover;
