@@ -179,6 +179,7 @@ export default {
     },
 
     getAktuality: function () {
+      this.loaded = false;
       axios
         .get(`/aktualitas?` + this.queryStringSpecific)
         .then((response) => {
