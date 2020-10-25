@@ -1,18 +1,18 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
-import KontaktView from '../views/KontaktView.vue';
-import Missing from '../views/Missing.vue';
-import Aktuality from '../views/Aktuality.vue';
-import Photos from '../views/Photos.vue';
-import LoginRequired from '../views/LoginRequired.vue';
-import Noticeboard from '../views/Admin/Noticeboard.vue';
-import CreatePost from '../views/Admin/EditPostView.vue';
-import EditVedouciView from '../views/Admin/EditVedouciView.vue';
-import EmailList from '../views/Admin/EmailList.vue';
-import Unsubscribe from '../views/Admin/Unsubscribe.vue';
-import Register from '../views/Admin/Register.vue';
-import Post from '../views/Post.vue';
+// import KontaktView from '../views/KontaktView.vue';
+// import Missing from '../views/Missing.vue';
+// import Aktuality from '../views/Aktuality.vue';
+// import Photos from '../views/Photos.vue';
+// import LoginRequired from '../views/LoginRequired.vue';
+// import Noticeboard from '../views/Admin/Noticeboard.vue';
+// import CreatePost from '../views/Admin/EditPostView.vue';
+// import EditVedouciView from '../views/Admin/EditVedouciView.vue';
+// import EmailList from '../views/Admin/EmailList.vue';
+// import Unsubscribe from '../views/Admin/Unsubscribe.vue';
+// import Register from '../views/Admin/Register.vue';
+// import Post from '../views/Post.vue';
 import store from '../store/store';
 
 Vue.use(VueRouter);
@@ -29,7 +29,7 @@ const routes = [
 	{
 		path: '/kontakt',
 		name: 'KontaktVedouci',
-		component: KontaktView,
+		component: () => import(/* webpackChunkName: "KontaktView-lazy-load" */ '../views/KontaktView.vue'),
 		meta: {
 			title: 'Skaut Třebíč - Vedoucí'
 		}
@@ -37,7 +37,7 @@ const routes = [
 	{
 		path: '/kontakt/:oddil',
 		name: 'Kontakt',
-		component: KontaktView,
+		component: () => import(/* webpackChunkName: "KontaktView-lazy-load" */ '../views/KontaktView.vue'),
 		meta: {
 			requiresAuth: true,
 			title: 'Skaut Třebíč - Vedoucí oddílů'
@@ -46,7 +46,7 @@ const routes = [
 	{
 		path: '/unsubscribe/:email',
 		name: 'Unsubscribe',
-		component: Unsubscribe,
+		component: () => import(/* webpackChunkName: "Unsubscribe-lazy-load" */ '../views/Admin/Unsubscribe.vue'),
 		meta: {
 			title: 'Skaut Třebíč - Zrušit odběr emailů'
 		}
@@ -54,7 +54,7 @@ const routes = [
 	{
 		path: '/fotografie',
 		name: 'Photos',
-		component: Photos,
+		component: () => import(/* webpackChunkName: "Photos-lazy-load" */ '../views/Photos.vue'),
 		meta: {
 			requiresAuth: true,
 			title: 'Skaut Třebíč - Fotografie'
@@ -63,7 +63,7 @@ const routes = [
 	{
 		path: '/aktuality/:oddil?',
 		name: 'Aktuality',
-		component: Aktuality,
+		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Aktuality.vue'),
 		meta: {
 			requiresAuth: true,
 			title: 'Skaut Třebíč - Aktuality'
@@ -72,7 +72,7 @@ const routes = [
 	{
 		path: '/aktuality/post/:slug?',
 		name: 'Post',
-		component: Post,
+		component: () => import(/* webpackChunkName: "Post-lazy-load" */ '../views/Admin/EmailList.vue'),
 		meta: {
 			requiresAuth: true,
 			title: 'Skaut Třebíč - Aktuality'
@@ -81,7 +81,7 @@ const routes = [
 	{
 		path: '/login',
 		name: 'Login',
-		component: LoginRequired,
+		component: () => import(/* webpackChunkName: "LoginRequired-lazy-load" */ '../views/LoginRequired.vue'),
 		meta: {
 			requiresVisitor: true,
 			title: 'Skaut Třebíč - Přihlásit se'
@@ -90,7 +90,7 @@ const routes = [
 	{
 		path: '/edit/noticeboard',
 		name: 'Noticeboard',
-		component: Noticeboard,
+		component: () => import(/* webpackChunkName: "Noticeboard-lazy-load" */ '../views/Admin/Noticeboard.vue'),
 		meta: {
 			requiresContributor: true,
 			title: 'Skaut Třebíč - Nástěnka'
@@ -99,7 +99,7 @@ const routes = [
 	{
 		path: '/edit/emaily',
 		name: 'EmailList',
-		component: EmailList,
+		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/EmailList.vue'),
 		meta: {
 			requiresContributor: true,
 			title: 'Skaut Třebíč - Emaily'
@@ -108,7 +108,7 @@ const routes = [
 	{
 		path: '/edit/vytvorit-prispevek',
 		name: 'CreatePost',
-		component: CreatePost,
+		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/EditPostView.vue'),
 		meta: {
 			requiresContributor: true,
 			title: 'Skaut Třebíč - Vytvořit příspěvek'
@@ -117,7 +117,7 @@ const routes = [
 	{
 		path: '/edit/editovat-prispevek/:slug',
 		name: 'EditPost',
-		component: CreatePost,
+		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/EditPostView.vue'),
 		meta: {
 			requiresContributor: true,
 			title: 'Skaut Třebíč Edit - Editovat příspěvek'
@@ -126,7 +126,7 @@ const routes = [
 	{
 		path: '/Edit/editovat-vedouci/:_id',
 		name: 'EditVedouciView',
-		component: EditVedouciView,
+		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/EditVedouciView.vue'),
 		meta: {
 			requiresContributor: true,
 			title: 'Skaut Třebíč - Editovat vedoucího'
@@ -135,7 +135,7 @@ const routes = [
 	{
 		path: '/edit/vytvorit-vedouci/:oddil?',
 		name: 'CreateVedouciView',
-		component: EditVedouciView,
+		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/EditVedouciView.vue'),
 		meta: {
 			requiresContributor: true,
 			title: 'Skaut Třebíč - Vytvořit vedoucího'
@@ -144,14 +144,14 @@ const routes = [
 	{
 		path: '/registrace',
 		name: 'Register',
-		component: Register,
+		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/Register.vue'),
 		meta: {
 			title: 'Skaut Třebíč - Registrace'
 		}
 	},
 	{
 		path: '*',
-		component: Missing,
+		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Missing.vue'),
 		meta: {
 			title: 'Skaut Třebíč - Stránka neexistuje'
 		}
