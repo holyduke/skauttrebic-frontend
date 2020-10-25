@@ -149,10 +149,9 @@
         <!-- add login button -->
         <template v-if="!isLoggedIn">
           <v-btn
-            dark
             min-width="160px"
             depressed
-            color="#0b0b0b"
+            color="#db9600"
             @click.stop="setLoginDialogForm(true)"
           >
             <v-icon left>{{ loginButton.icon }}</v-icon>
