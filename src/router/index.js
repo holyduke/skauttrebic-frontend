@@ -72,7 +72,7 @@ const routes = [
 	{
 		path: '/aktuality/post/:slug?',
 		name: 'Post',
-		component: () => import(/* webpackChunkName: "Post-lazy-load" */ '../views/Admin/EmailList.vue'),
+		component: () => import(/* webpackChunkName: "Post-lazy-load" */ '../views/Post.vue'),
 		meta: {
 			requiresAuth: true,
 			title: 'Skaut Třebíč - Aktuality'
