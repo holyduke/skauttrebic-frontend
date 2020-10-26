@@ -37,6 +37,15 @@
       class="mx-5"
     >Zadali jste špatné jméno nebo heslo</v-alert>
 
+    <!-- Inform about user being block (= waitng for manual confirmation by some vedouci) -->
+    <v-alert
+      :value="blockedUserMsg"
+      type="error"
+      dense
+      outlined
+      class="mx-5"
+    >Účet čeká na manuální potvrzení jiným vedoucím. Prosím kontaktuj správce webu nebo kteréhokoliv jiného vedoucího, který má účet aktivní.</v-alert>
+
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-row>
@@ -103,9 +112,14 @@ export default {
           }
         })
       .catch((error) => {
-        console.log('Error 400: wrong username or password:',error);
+        console.log('Error 400: wrong username or password:',error.response);
         this.$store.commit('setLoginDialogLoader',false);
-        this.$store.commit('setWrongPassword',true);
+        if (error.response.data.message[0].messages[0].id == "Auth.form.error.invalid") {
+          this.$store.commit('setWrongPassword',true);
+        }
+        else if (error.response.data.message[0].messages[0].id == "Auth.form.error.blocked")  {
+          this.$store.commit('setBlockedUserMsg',true);
+        }
       });
     },
 
@@ -116,6 +130,10 @@ export default {
 
     setWrongPassword: function (value) {
       this.$store.commit("setWrongPassword", value);
+    },
+
+    setBlockedUserMsg: function (value) {
+      this.$store.commit("setBlockedUserMsg", value);
     },
   },
 
@@ -138,6 +156,9 @@ export default {
     },
     wrongPassword: function () {
       return this.$store.getters.getWrongPassword;
+    },
+    blockedUserMsg: function () {
+      return this.$store.getters.getBlockedUserMsg;
     },
   },
 };

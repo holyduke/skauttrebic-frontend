@@ -256,6 +256,8 @@ export default {
         prezdivka: this.prezdivka,
         password: this.password,
         email: this.email,
+        confirmed: false,
+        blocked: true,
       }
       return registerJson
     },

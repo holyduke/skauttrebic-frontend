@@ -20,6 +20,7 @@ const store = new Vuex.Store({
 			_id: localStorage.getItem('_id') || null,
 			justLoggedIn: null,
 			wrongPassword: false,
+			blockedUserMsg: false,
 			username: null,
 			password: null
 		},
@@ -117,6 +118,9 @@ const store = new Vuex.Store({
 		getWrongPassword: (state) => {
 			return state.login.wrongPassword;
 		},
+		getBlockedUserMsg: (state) => {
+			return state.login.blockedUserMsg;
+		},
 		getJustLoggedIn: (state) => {
 			return state.login.justLoggedIn;
 		},
@@ -140,6 +144,7 @@ const store = new Vuex.Store({
 			state.login.username = null;
 			state.login.password = null;
 			state.login.wrongPassword = false;
+			state.login.blockedUserMsg = false;
 		},
 
 		setLoading: (state, value) => {
@@ -175,6 +180,11 @@ const store = new Vuex.Store({
 		setWrongPassword: (state, newValue) => {
 			state.login.wrongPassword = newValue;
 			console.log('wrongPassword = ', state.login.wrongPassword);
+		},
+
+		setBlockedUserMsg: (state, newValue) => {
+			state.login.blockedUserMsg = newValue;
+			console.log('blockedUserMsg = ', state.login.blockedUserMsg);
 		},
 
 		setName: (state, newValue) => {
