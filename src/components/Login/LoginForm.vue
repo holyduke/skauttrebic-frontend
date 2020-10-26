@@ -6,7 +6,7 @@
     <v-card-text>
       <v-form>
         <v-text-field
-          label="Uživatelské jméno"
+          label="Uživatelské jméno nebo email"
           v-model="username"
           name="login"
           prepend-icon="mdi-account"
