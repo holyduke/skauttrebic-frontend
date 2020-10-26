@@ -88,7 +88,7 @@
             <!-- <v-spacer></v-spacer> -->
             <v-dialog v-model="dialog" max-width="500px">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn color="primary" dark class="mb-2 d-none d-md-flex mdAndUp" v-bind="attrs" v-on="on" @click="freshNewClen">Nový člen</v-btn>
+                <v-btn color="primary" dark class="mb-2 d-none d-md-flex mdAndUp" v-bind="attrs" v-on="on" @click="freshNewClen()">Nový člen</v-btn>
               </template>                
               
               <v-form ref="form" v-model="valid" lazy-validation>
@@ -159,7 +159,7 @@
         </v-toolbar>
        
         <v-container class="d-md-none">
-          <v-btn color="primary" dark class="mb-2" @click="freshNewDialog()">Nový člen</v-btn>
+          <v-btn color="primary" dark class="mb-2" @click="freshNewClen()">Nový člen</v-btn>
           <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
@@ -309,6 +309,7 @@ export default {
     },
 
     freshNewClen()  {
+      this.dialog = true;
       console.log("creating fresh new clen");
       this.defaultItem.emails = [{email:'', id:''}];
       this.defaultItem.emailsEditable = [{address:'', id:''}];
