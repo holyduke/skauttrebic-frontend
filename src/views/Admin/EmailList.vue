@@ -34,6 +34,10 @@
       </template>
     </v-data-table>
     
+
+
+
+    <!-------------------------- PHONE VERSION ---------------------->
     <v-data-table
       v-else
       :search="search"
@@ -45,10 +49,9 @@
       hide-default-footer
       calculate-widths
       v-model="selected"
-      show-select      
-      select-c
+      show-select
     >
-    <!-- :mobile-breakpoint="0" pro zakazani mobiloveho rezimu -->
+      <!-- :mobile-breakpoint="0" pro zakazani mobiloveho rezimu -->
       <template v-slot:top>
         <v-toolbar flat color="white">
               <v-tooltip bottom>
@@ -82,10 +85,10 @@
                 hide-details
                 single-expand
               ></v-text-field>
-            <v-divider class="mx-4" inset vertical></v-divider>
             <!-- </v-container>             -->
 
             <!-- <v-spacer></v-spacer> -->
+            <v-divider class="mx-4" inset vertical></v-divider>
             <v-dialog v-model="dialog" max-width="500px">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="primary" dark class="mb-2 d-none d-md-flex mdAndUp" v-bind="attrs" v-on="on" @click="freshNewClen()">Nový člen</v-btn>
@@ -197,7 +200,7 @@ export default {
     dialog: false,
     headers: [
       {
-        text: "Jméno",
+        text: "Jméno člena",
         align: "start",
         value: "jmeno",
       },

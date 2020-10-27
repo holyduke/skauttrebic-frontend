@@ -1,8 +1,8 @@
 <template>
   <v-container grid-list-xs class="my-3">
     <h1 class="mb-0" id="Aktuality">Aktuality</h1>
-    <v-btn color="#174085" :to="{ name: 'CreatePost' }" class="my-3 white--text"><v-icon class="pr-2">mdi-message-draw</v-icon>Vytvořit příspěvek</v-btn>
     <v-divider class="mb-2"></v-divider>
+    <v-btn color="#174085" :to="{ name: 'CreatePost' }" class="my-3 white--text"><v-icon class="pr-2">mdi-message-draw</v-icon>Vytvořit příspěvek</v-btn>
     <v-container grid-list-xs class="subtitle">
       <v-row>
         <v-layout row wrap>

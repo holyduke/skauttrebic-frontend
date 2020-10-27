@@ -88,7 +88,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/edit/noticeboard',
+		path: '/admin/nastenka',
 		name: 'Noticeboard',
 		component: () => import(/* webpackChunkName: "Noticeboard-lazy-load" */ '../views/Admin/Noticeboard.vue'),
 		meta: {
@@ -97,7 +97,16 @@ const routes = [
 		}
 	},
 	{
-		path: '/edit/emaily',
+		path: '/admin/schvaleni-registrace',
+		name: 'ManageVedoucisRights',
+		component: () => import(/* webpackChunkName: "Noticeboard-lazy-load" */ '../views/Admin/ManageVedoucisRights.vue'),
+		meta: {
+			requiresContributor: true,
+			title: 'Skaut Třebíč - Schválení registrace'
+		}
+	},
+	{
+		path: '/admin/emaily',
 		name: 'EmailList',
 		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/EmailList.vue'),
 		meta: {
@@ -106,7 +115,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/edit/vytvorit-prispevek',
+		path: '/admin/vytvorit-prispevek',
 		name: 'CreatePost',
 		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/EditPostView.vue'),
 		meta: {
@@ -115,7 +124,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/edit/editovat-prispevek/:slug',
+		path: '/admin/editovat-prispevek/:slug',
 		name: 'EditPost',
 		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/EditPostView.vue'),
 		meta: {
@@ -124,7 +133,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/Edit/editovat-vedouci/:_id',
+		path: '/admin/editovat-vedouci/:_id',
 		name: 'EditVedouciView',
 		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/EditVedouciView.vue'),
 		meta: {
@@ -133,7 +142,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/edit/vytvorit-vedouci/:oddil?',
+		path: '/admin/vytvorit-vedouci/:oddil?',
 		name: 'CreateVedouciView',
 		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/EditVedouciView.vue'),
 		meta: {
@@ -159,8 +168,8 @@ const routes = [
 
 	// ------------------------------------------------------- REDIRECTS -------------------------------------------------------
 	{ 
-		path: '/edit', 
-		redirect: '/edit/noticeboard'
+		path: '/admin', 
+		redirect: '/admin/nastenka'
   }
 ];
 

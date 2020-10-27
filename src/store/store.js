@@ -29,8 +29,8 @@ const store = new Vuex.Store({
 			editItems: [
 				{ title: 'Nástěnka', icon: 'mdi-bulletin-board', link: { name: 'Noticeboard' } },
 				{ title: 'Vytvořit příspěvek', icon: 'mdi-message-draw', link: { name: 'CreatePost' } },
-				{ title: 'Vytvořit vedoucího', icon: 'mdi-clipboard-account', link: { name: 'CreateVedouciView' } },
-				{ title: 'Spravovat emaily', icon: 'mdi-email', link: { name: 'EmailList' } }
+				{ title: 'Spravovat emaily', icon: 'mdi-email', link: { name: 'EmailList' } },
+				{ title: 'Schválení registrace', icon: 'mdi-clipboard-account', link: { name: 'ManageVedoucisRights' } },
 			]
 		},
 		saveSnackbar: false
@@ -281,6 +281,8 @@ const store = new Vuex.Store({
 		login: (context) => {
 			console.log('trying to log in');
 			context.commit('setLoginDialogLoader', true);
+			context.commit('setWrongPassword', false);
+			context.commit('setBlockedUserMsg', false);
 
 			return new Promise((resolve, reject) => {
 				axios
