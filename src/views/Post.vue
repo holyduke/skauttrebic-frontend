@@ -1,7 +1,19 @@
 <template>
   <v-container v-if="aktualita" grid-list-xs class="my-5">
     <div
+      v-if="loading"
+      class="text-center"
+    >
+      <v-progress-circular
+      :size="100"
+      :width="10"
+      color="primary"
+      indeterminate
+      ></v-progress-circular>
+    </div>
+    <div
       :class="{'ma-0': $vuetify.breakpoint.mdAndDown, 'marginlg': $vuetify.breakpoint.lg, 'marginxl': $vuetify.breakpoint.xl}"
+      v-else
     >
       <v-layout row wrap justify-space-around class="heading">
         <v-flex xs12 sm8 md9 lg10 xl10>
@@ -72,6 +84,7 @@ export default {
 
   data() {
     return {
+      loading:false,
       colors: Constants.colors,
       backendAPI: Constants.backendAPI,
       slug: "",
@@ -130,6 +143,7 @@ export default {
   },
 
   created() {
+    this.loading=true;
     this.slug = this.$route.params.slug.replace("+", "%2B");
     console.log("getting post with slug = ",this.slug);
     axios
@@ -139,10 +153,12 @@ export default {
         this.convertTimeToCET(this.aktualita);
         this.text = this.convertToHTML(this.aktualita.text);
         document.title = "Skaut" + " - " + this.aktualita.nadpis;
-        console.log("response post",response)
+        console.log("response post",response);
+        this.loading=false;
       })
       .catch((e) => {
         console.log(e);
+        this.loading=false;
       });
   },
 
