@@ -228,6 +228,18 @@ export default {
                 console.log('error while deleting dulezity vedouci',e);
               }))
 
+            //delete photo
+            if (person.vedouci.fotka[0].url) {
+              promises.push(
+                axios.delete('/upload/files/' + person.vedouci.fotka[0]._id)
+                  .then((response) => {
+                    console.log('photo of vedouci deleted successfully',response);                    
+                  })
+                  .catch(function(e){
+                    console.log('error while deleting photo of vedouci',e);
+                  }));
+            }
+
             // delete from collection vedoucis
             promises.push(axios.delete('/vedoucis/' + person.vedouci.id)
               .then((response) => {
@@ -239,7 +251,7 @@ export default {
 
             Promise.all(promises)
               .then((res) =>  {
-                console.log("vedouci deleted from both collections successfully",res);
+                console.log("vedouci (and photo) deleted from both collections successfully",res);
                 this.getMainVedoucis();
               })
               .catch((e) =>  {

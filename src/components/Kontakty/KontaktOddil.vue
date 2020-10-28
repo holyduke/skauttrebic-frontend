@@ -110,17 +110,43 @@ export default {
         )
         .then((confirm) => {
           if (confirm)  {
-            console.log("emiting event to deleteItem");
-            // this.setLoading(true);
-            console.log("deleting item",vedouci.id);
+            console.log("deleting item",vedouci);
+            this.setLoading(true);     
+            let promises = [];       
+
+            //delete photo
+            if (vedouci.fotka[0].url) {
+              promises.push(
+                axios.delete('/upload/files/' + vedouci.fotka[0]._id)
+                  .then((response) => {
+                    console.log('photo of vedouci deleted successfully',response);                    
+                  })
+                  .catch(function(e){
+                    console.log('error while deleting photo of vedouci',e);
+                  }));
+            }
+            
+            //delete vedouci
+            promises.push(
             axios.delete('/vedoucis/' + vedouci.id)
               .then((response) => {
-                console.log('vedouci deleted',response);
-                this.getVedoucis(this.oddilDiacritics[this.oddil])
-                // this.setLoading(false);
+                console.log('vedouci deleted successfully',response);
+                
               })
               .catch(function(e){
                 console.log('error while deleting vedouci',e);
+              }));
+
+            Promise.all(promises)
+              .then((res) =>  {
+                console.log("both vedouci and photo deleted successfully", res);
+                this.getVedoucis(this.oddilDiacritics[this.oddil])
+                this.setLoading(false);
+              })
+              .catch((e) => {
+                console.log("error while deleting photo or vedouci", e.response);
+                this.getVedoucis(this.oddilDiacritics[this.oddil])
+                this.setLoading(false);
               })
           }
         });      
