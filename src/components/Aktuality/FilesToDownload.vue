@@ -26,7 +26,6 @@
 
 <script>
 import axios from "axios";
-// import Constants from "@/constants.js";
 import Confirm from "@/components/Confirm";
 
 
@@ -35,18 +34,15 @@ export default {
 
   data() {
     return {
-      // backendAPI: Constants.backendAPI,
     };
   },
 
   methods: {
     printFileSize: function (s) {
       if (s) {
-        // console.log("size = ",s)
         if (s<1000) { //data from Strapi are in bytes while from local are in kB
           s*=1000;
         }
-        // s = s/1000; //kB
         let unit = s < 1000000 ? "kB" : "MB";
         s = s > 1000000 ? Math.ceil(s / 1000000) : Math.ceil(s/1000);
         return s + " " + unit;

@@ -27,6 +27,7 @@
           <v-card-subtitle>
             <p>Tyto webové stránky vytvořil Dominik Jašek (Šíša). V případě jakýchkoliv dotazů mě kontaktujte na telefonu <a href="tel:732-181-317">732 181 317</a> nebo na <v-btn icon href='https://www.facebook.com/dominikjasekk'><v-icon class="mb-1">mdi-facebook</v-icon></v-btn>.</p>
             <p>Vše dělám ve svém volném čase, tudíž se předem omlouvám za moje výmluvy typu "<i>sorry, nemám teď vůbec čas</i>". Nenechte se ale zastrašit a perte to do mě, já si s tím nějak poradím 🙂</p>
+            <p>PS: Velmi rád uvítám výpomoc šikovného programátora se znalostí Vue.js. Rád si s Tebou projdu zdrojový kód a vysvětlím Ti, jak všechno funguje. Pokud máš chuť mi pomoct, ozvi se mi prosím. </p>
           </v-card-subtitle>          
         </v-card>
       </v-col>
