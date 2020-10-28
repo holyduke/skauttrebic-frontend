@@ -1,7 +1,7 @@
 <template>
   <!-- Login dialog -->
   <v-card justify="center" >    
-    <v-dialog v-model="loginDialogForm" width="504">
+    <v-dialog v-model="loginDialogForm" width="500">
       <LoginForm/>
     </v-dialog>
     <v-dialog v-model="loginDialogLoader" width="500">
