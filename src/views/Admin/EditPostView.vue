@@ -55,7 +55,7 @@
         type="info"
         elevation="2"
       >Po uložení příspěvku se odešlou emaily rodičům.</v-alert>
-      <v-btn :disabled="!valid" color="#174085" class="white--text" @click="publish">Uložit</v-btn>
+      <v-btn :loading="loading" :disabled="!valid" color="#174085" class="white--text" @click="publish">Uložit</v-btn>
       <v-btn color="error" v-if="editView" class="white--text mx-5" @click="deletePost">Smazat</v-btn>
     </v-container>
     <Confirm ref="confirm"></Confirm>
@@ -94,6 +94,7 @@ export default {
   name: "EditPostView",
 
   data: () => ({
+    loading:false,
     post: {
       nadpis: "",
       files: null,
@@ -158,43 +159,44 @@ export default {
 
   methods: {
     publish() {
+      console.log("------------------------------- publishing ----------------------------------------------");
       this.getSelectedOddily(); //this.post.selectedoddily gets updated
       if (this.validate()) {
         if (this.editView) {
           //editing existing post
           console.log("trying to update post", this.post);
-          this.setLoading(true);
+          this.loading = true;
           this.convertToMarkDown(); //this.post.md gets updated
           this.uploadNewFiles().then(() => {
             axios
               .put("/aktualitas/" + this.post._id, this.getDataObject)
               .then((result) => {
-                this.setLoading(false);
+                this.loading = false;
                 router.push("/aktuality/post/" + result.data.slug);
                 console.log("put update successfull", result);
               })
               .catch((e) => {
-                this.setLoading(false);
+                this.loading = false;
                 console.log("put update FAILURE", e);
               });
           });
         } else {
           //creating new post
           console.log("trying to publish post");
-          this.setLoading(true);
+          this.loading = true;
           this.convertToMarkDown(); //this.post.md gets updated
           this.uploadFiles() //this.post.file_IDs gets updated
             .then(() => {
               axios
                 .post("/aktualitas", this.getDataObject)
                 .then((result) => {
-                  this.setLoading(false);
+                  this.loading = false;
                   router.push("/aktuality/post/" + result.data.slug);
                   console.log(result);
                   // this.setLoading(false);
                 })
                 .catch((e) => {
-                  this.setLoading(false);
+                  this.loading = false;
                   console.log("post FAILURE", e);
                 });
             });
@@ -418,9 +420,9 @@ export default {
       } else return { _id: this.post.thumbnail_ID };
     },
 
-    setLoading: function (value) {
-      this.$store.commit("setLoading", value);
-    },
+    // setLoading: function (value) {
+      // this.$store.commit("setLoading", value);
+    // },
 
     markdownToHTML: function (markdown) {
       const marked = require("marked");
