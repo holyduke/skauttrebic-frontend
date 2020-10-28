@@ -207,8 +207,7 @@ export default {
       return true;
     },
 
-    deleteItem(person)  {
-      this.setLoading(true);
+    deleteItem(person)  {      
       console.log("opening confirmation dialog to delete", person.vedouci);
       this.$refs.confirm
         .open(
@@ -217,6 +216,7 @@ export default {
         )
         .then((confirm) => {
           if (confirm)  {
+            this.setLoading(true);
             let promises = [];
 
             // delete from collection dulezity-vedoucis
@@ -251,7 +251,6 @@ export default {
     },
 
     removeItem(person)  {
-      this.setLoading(true);
       console.log("opening confirmation dialog to remove", person);
       this.$refs.confirm
         .open(
@@ -260,6 +259,7 @@ export default {
         )
         .then((confirm) => {
           if (confirm)  {
+            this.setLoading(true);
             axios.delete('/dulezity-vedoucis/' + person.id)
               .then((response) => {
                 console.log('dulezity vedouci deleted',response);
