@@ -1,12 +1,12 @@
 <template>
   <div class="welcomeimage" :class="{ 'welcomeimageAdmin': isContributor }">
     <div class="logo" :class="{ 'logoAdmin': isContributor }">
-      <img src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603563353/oranz_vert_n2vnwd.svg" alt="skautská lilie" class="svg orange1" />
-      <img src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603563354/oranz_hor_gyzc6k.svg" alt="skautská lilie" class="svg orange2" />
-      <img src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603563337/modr_left_mzb1o6.svg" alt="skautská lilie" class="svg blue1" />
-      <img src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603563354/modr_right_q9r6bg.svg" alt="skautská lilie" class="svg blue2" />
-      <img src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603562909/drak1_1eabb1eeaa.svg" alt="skautská lilie" class="svg drak" />
-      <img src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603562909/jazyk1_03787bdc97.svg" alt="skautská lilie" class="svg jazyk" />
+      <img src="https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/static/oranz_vert.svg" alt="skautská lilie" class="svg orange1" />
+      <img src="https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/static/oranz_hor_.svg" alt="skautská lilie" class="svg orange2" />
+      <img src="https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/static/modr_left.svg" alt="skautská lilie" class="svg blue1" />
+      <img src="https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/static/modr_right.svg" alt="skautská lilie" class="svg blue2" />
+      <img src="https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/static/drak.svg" alt="skautská lilie" class="svg drak" />
+      <img src="https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/static/jazyk.svg" alt="skautská lilie" class="svg jazyk" />
     </div>
     <div class="title" :class="{'titleAdmin': isContributor }">
       <h1>SKAUT</h1>
@@ -163,7 +163,7 @@ h3 {
   /* width: 100%; */
   /* height: auto; */
   /* background-image: url("../../public/taboriste-min.jpg"); */
-  background-image: url("https://res.cloudinary.com/dpcprmunp/image/upload/v1603562677/taboriste_min_08ed354b65.jpg");
+  background-image: url("https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/static/taboriste_min.jpg");
   /* background-repeat: no-repeat; */
   animation: scaleslider 60s infinite ease-in-out;
   background-size: cover;

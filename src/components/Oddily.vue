@@ -1,6 +1,6 @@
 <template>
   <v-container class="oddily">
-    <img src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603563597/logo_bg_vkafrm.svg" alt="logo_bg" class="logo-bg" />
+    <img src="https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/static/logo_bg.svg" alt="logo_bg" class="logo-bg" />
     <h1>Oddíly</h1>
     <h3>Patříme pod středisko Srdíčko Třebíč.</h3>
     <v-layout row wrap justify-space-around align-center temporary>
@@ -30,7 +30,7 @@ export default {
         let loadedOddily = res.data;
         loadedOddily.forEach(laodedOddil => {
           let newOddil = {};
-          newOddil.rot = Math.floor(Math.random() * Math.floor(360));
+          // newOddil.rot = Math.floor(Math.random() * Math.floor(360));
           newOddil.nazev = laodedOddil.nazev;
           newOddil.vekova_skupina = laodedOddil.vekova_skupina;
           newOddil.popis = laodedOddil.popis;
@@ -80,7 +80,7 @@ h3 {
   height: auto;
   position: absolute;
   pointer-events: none;
-  opacity: 0.07;
+  opacity: 0.1;
   transform: rotate(20deg) scale(2);
   -moz-user-select: none;
   -webkit-user-select: none;

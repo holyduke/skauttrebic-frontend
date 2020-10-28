@@ -105,7 +105,7 @@
           alt="Skautské logo"
           class="shrink mr-3"
           contain
-          src="https://res.cloudinary.com/dpcprmunp/image/upload/v1603563744/skaut_logo_0bedea165c.png"
+          src="https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/static/skaut_logo_bnw.png"
           transition="scale-transition"
           width="40"
         />
