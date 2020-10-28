@@ -1,5 +1,5 @@
 <template>
-  <v-card class="elevation-12" width="500">
+  <v-card class="elevation-12 text-center" width="500">
     <v-toolbar color="#174085" dark flat>
       <v-toolbar-title>Přihlášení</v-toolbar-title>
     </v-toolbar>
@@ -44,12 +44,12 @@
       dense
       outlined
       class="mx-5"
-    >Účet čeká na manuální potvrzení jiným vedoucím. Prosím kontaktuj správce webu nebo kteréhokoliv jiného vedoucího, který má účet aktivní.</v-alert>
+    >Účet čeká na manuální potvrzení jiným vedoucím. Prosím kontaktuj správce webu nebo kteréhokoliv jiného vedoucího, který má účet aktivní.
+    </v-alert>
 
     <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-row>
-        <v-col cols="12" sm="6" md="6">
+      <v-row class="ma-0 pa-0">
+        <v-col cols="12" sm="6" md="6" >
           <v-dialog v-model="dialogForgotPassword" width="400">
             <template v-slot:activator="{ on, attrs }">
               <v-btn text color="#174085" dark v-bind="attrs" v-on="on">Zapomněl jsem heslo</v-btn>
@@ -71,6 +71,7 @@
             </v-card>
           </v-dialog>
         </v-col>
+        <!-- <v-spacer></v-spacer> -->
         <v-col cols="12" sm="6" md="6">
           <v-btn dark color="#174085" @click="login">Přihlásit se</v-btn>
         </v-col>
