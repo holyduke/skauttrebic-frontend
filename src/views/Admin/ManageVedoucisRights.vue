@@ -51,7 +51,7 @@ import axios from "axios";
 import Confirm from "@/components/Confirm";
 
 export default {
-  name: 'ManageVedoucis',
+  name: 'ManageVedoucisRights',
 
   data() {
     return {
