@@ -1,5 +1,6 @@
 <template>
   <div class="team py-2">
+    <Confirm ref="confirm"></Confirm>
     <v-container grid-list-xs my-2>
       <h2 class="mb-5">{{oddilNazev[oddil]}}</h2>
       <v-tooltip bottom>
@@ -40,7 +41,8 @@
               :facebook="person.facebook ? person.facebook : ''"
               :_id="person._id"
               showPossibleEditBtn="isContributor"
-              @deleteItem="deleteItem(person._id)"
+              :showRemoveBtn="false"
+              @deleteItem="deleteItem(person)"
             ></PersonCard>
           </v-flex>
         </template>
@@ -54,6 +56,8 @@ import axios from "axios";
 import PersonCard from "./PersonCard";
 import PersonCardLoader from "./PersonCardLoader";
 import Constants from "@/constants.js";
+import Confirm from "../Confirm";
+
 
 export default {
   name: "Kontakt",
@@ -82,6 +86,7 @@ export default {
     },
 
     getVedoucis: function (oddil_nazev) {
+      console.log("getting vedoucis for oddil:", oddil_nazev);
       axios
         .get(`/vedoucis?oddil.nazev=` + oddil_nazev + '&_sort=updatedAt:desc')
         .then((response) => {
@@ -96,23 +101,30 @@ export default {
         });
     },
 
-    deleteItem(_id)  {
-      this.setLoading(true);
-      console.log("deleting item",_id);
-      axios.put('/vedoucis/' + _id,  {
-          "oddil": {
-            "_id": null
+    deleteItem(vedouci)  {
+      console.log("opening confirmation dialog", vedouci);
+      this.$refs.confirm
+        .open(
+          'Odstranit', 'Opravdu chcete trvale odstranit vedoucího ' + vedouci.jmeno + '?', 
+          { color: 'error' }
+        )
+        .then((confirm) => {
+          if (confirm)  {
+            console.log("emiting event to deleteItem");
+            // this.setLoading(true);
+            console.log("deleting item",vedouci.id);
+            axios.delete('/vedoucis/' + vedouci.id)
+              .then((response) => {
+                console.log('vedouci deleted',response);
+                this.getVedoucis(this.oddilDiacritics[this.oddil])
+                // this.setLoading(false);
+              })
+              .catch(function(e){
+                console.log('error while deleting vedouci',e);
+              })
           }
-        })
-        .then((response) => {
-          console.log('vedouci deleted',response);
-          this.getVedoucis(this.oddilDiacritics[this.oddil]);
-          this.setLoading(false);
-        })
-        .catch(function(e){
-          console.log('error while deleting dulezity vedouci',e);
-        })
-    }
+        });      
+    },
   },
 
   computed: {
@@ -133,7 +145,8 @@ export default {
 
   components: {
     PersonCard,
-    PersonCardLoader
+    PersonCardLoader,
+    Confirm
   },
 };
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div class="team py-2">
+    <Confirm ref="confirm"></Confirm>
     <v-container grid-list-xs my-5>
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
@@ -38,7 +39,9 @@
               :facebook="person.vedouci.facebook ? person.vedouci.facebook : ''"
               :_id="person.vedouci._id"
               showPossibleEditBtn="isContributor"
-              @deleteItem="deleteItem(person.id)"
+              :showRemoveBtn="true"
+              @deleteItem="deleteItem(person)"
+              @removeItem="removeItem(person)"
             ></PersonCard>
           </v-flex>
         </template>
@@ -80,7 +83,7 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-      </v-dialog>
+      </v-dialog>    
   </div>
 </template>
 
@@ -88,6 +91,7 @@
 import axios from "axios";
 import PersonCard from "./PersonCard";
 import PersonCardLoader from "./PersonCardLoader";
+import Confirm from "../Confirm";
 
 
 export default {
@@ -128,11 +132,13 @@ export default {
             this.getRestOfVedoucis();
             console.log("main_contacts", this.main_contacts);
             this.loading = false;
+            this.setLoading(false);
             resolve('OK');
           })
           .catch((e) => {
             this.errors.push(e);
             this.loading = false;
+            this.setLoading(false);
           });
       })
     },
@@ -148,8 +154,8 @@ export default {
               jmeno,
               id
             }
-            }
-          `
+        }
+        `
       }})
       .then((result) => {      
         console.log("vedoucis", result.data.data.vedoucis);
@@ -201,20 +207,71 @@ export default {
       return true;
     },
 
-    deleteItem(id)  {
+    deleteItem(person)  {
       this.setLoading(true);
-      console.log("deleting item",id);
-      console.log("main_leaders",this.main_contacts);
-      axios.delete('/dulezity-vedoucis/' + id)
-        .then((response) => {
-          console.log('dulezity vedouci deleted',response);
-          this.getMainVedoucis()
-          this.setLoading(false);
-        })
-        .catch(function(e){
-          console.log('error while deleting dulezity vedouci',e);
-        })
-    }
+      console.log("opening confirmation dialog to delete", person.vedouci);
+      this.$refs.confirm
+        .open(
+          'Odstranit', 'Opravdu chcete trvale odstranit vedoucího ' + person.vedouci.jmeno + '?', 
+          { color: 'error' }
+        )
+        .then((confirm) => {
+          if (confirm)  {
+            let promises = [];
+
+            // delete from collection dulezity-vedoucis
+            promises.push(axios.delete('/dulezity-vedoucis/' + person.id)
+              .then((response) => {
+                console.log('dulezity vedouci deleted',response);
+              })
+              .catch(function(e){
+                console.log('error while deleting dulezity vedouci',e);
+              }))
+
+            // delete from collection vedoucis
+            promises.push(axios.delete('/vedoucis/' + person.vedouci.id)
+              .then((response) => {
+                console.log('vedouci deleted',response);
+              })
+              .catch(function(e){
+                console.log('error while deleting vedouci',e);
+              }))
+
+            Promise.all(promises)
+              .then((res) =>  {
+                console.log("vedouci deleted from both collections successfully",res);
+                this.getMainVedoucis();
+              })
+              .catch((e) =>  {
+                console.log("there was a fail during deleting vedouci",e.response);
+                this.getMainVedoucis();
+              })
+          }
+        });      
+    },
+
+    removeItem(person)  {
+      this.setLoading(true);
+      console.log("opening confirmation dialog to remove", person);
+      this.$refs.confirm
+        .open(
+          'Odstranit', 'Opravdu chcete odebrat vedoucího ' + person.vedouci.jmeno + '? Vedoucí nebude smazán úplně, pouze bude odstraněn z tohoto veřejného seznamu.', 
+          { color: 'warning' }
+        )
+        .then((confirm) => {
+          if (confirm)  {
+            axios.delete('/dulezity-vedoucis/' + person.id)
+              .then((response) => {
+                console.log('dulezity vedouci deleted',response);
+                this.getMainVedoucis();
+              })
+              .catch(function(e){
+                console.log('error while deleting dulezity vedouci',e);
+                this.getMainVedoucis();
+              })
+          }
+        });      
+    },    
   },
 
   computed: {
@@ -224,13 +281,14 @@ export default {
   },
 
   created() {
-    // get main vedouci-----------------------------------------
+    // get main vedouci-----
     this.getMainVedoucis();
   },
 
   components: {
     PersonCard,
     PersonCardLoader,
+    Confirm,
   },
 };
 </script>

@@ -59,6 +59,24 @@
             </template>
             <span>Odstranit</span>          
           </v-tooltip>
+
+          <v-tooltip bottom >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn       
+                v-show="showRemoveBtn"         
+                class="mb-2 mt-n2 mx-2 editBtn"
+                fab
+                dark
+                v-bind="attrs"
+                v-on="on"
+                color="warning"
+                @click="removeItem"
+              >
+                <v-icon dark>mdi-account-remove</v-icon>
+              </v-btn>
+            </template>
+            <span>Odebrat</span>          
+          </v-tooltip>
         </div>
 
         <v-divider v-if="telefonParsed || email || popis"></v-divider>
@@ -107,12 +125,12 @@
       </v-card>
     </v-hover>
 
-    <Confirm v-show="loginConfirmation && showPossibleEditBtn" ref="confirm"></Confirm>
+    
   </div>
 </template>
 
 <script>
-import Confirm from "@/components/Confirm";
+// import Confirm from "@/components/Confirm";
 
 export default {
   name: "PersonCard",
@@ -128,25 +146,24 @@ export default {
     "facebook",
     "_id",
     "showPossibleEditBtn",
-    "local_img"
+    "local_img",
+    "showRemoveBtn"
   ],
 
   data: () => {
     return {
-      loginConfirmation: false,
+      // loginConfirmation: false,
       show: false,
     };
   },
 
   methods:  {
     deleteItem()  {
-      this.loginConfirmation= true
-      this.$refs.confirm.open('Odstranit', 'Opravdu chcete odstranit vedoucího ' + this.jmeno + ' z tohoto seznamu?', { color: 'error' }).then((confirm) => {
-        if (confirm)  {
-          console.log("emiting event to deleteItem");
-          this.$emit('deleteItem');
-        }
-      })
+      this.$emit('deleteItem');      
+    },
+
+    removeItem()  {
+      this.$emit('removeItem');      
     }
   },
 
@@ -165,9 +182,9 @@ export default {
     },
   },
 
-  components: {
-    Confirm
-  }
+  // components: {
+  //   Confirm
+  // }
 };
 </script>
 
