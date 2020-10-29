@@ -2,8 +2,8 @@
   <v-card height="100">
     <v-footer absolute class="font-weight-medium">
       <v-col class="text-center" cols="12">
-        <v-btn color="#e8e8e8" elevation="1" x-small to="/registrace">Registrace pro vedoucí</v-btn>
-        •  {{ new Date().getFullYear() }}  •
+        <v-btn class="mr-1" color="#e8e8e8" elevation="1" x-small to="/registrace">Registrace pro vedoucí</v-btn>
+         •   {{ new Date().getFullYear() }}  •
         <a
           target="_blank"
           href="http://dominikjasek.skauting.cz/"
