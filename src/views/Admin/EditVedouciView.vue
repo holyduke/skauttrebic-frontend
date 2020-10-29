@@ -49,6 +49,7 @@
               :funkce="editedPerson.funkce ? editedPerson.funkce : ''"
               :popis="editedPerson.popis ? editedPerson.popis : ''"
               :email="editedPerson.email ? editedPerson.email : ''"
+              :_id="editedPerson._id"
               :telefon="editedPerson.telefon ? editedPerson.telefon : ''"
               :facebook="editedPerson.facebook ? editedPerson.facebook : ''"
               :showPossibleEditBtn="false"
@@ -347,6 +348,7 @@ export default {
           this.originalPerson = response.data[0];
           console.log("original person", this.originalPerson);
           this.editedPerson = JSON.parse(JSON.stringify(this.originalPerson));
+          this.editedPerson._id = this.$route.params._id;
           if (this.originalPerson.fotka[0]) {
             this.file_id = this.originalPerson.fotka[0]._id;
           }
