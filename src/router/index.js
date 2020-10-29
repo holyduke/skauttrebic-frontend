@@ -106,7 +106,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/admin/emaily',
+		path: '/admin/emaily/upravit',
 		name: 'EmailList',
 		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/EmailList.vue'),
 		meta: {
