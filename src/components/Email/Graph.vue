@@ -1,4 +1,3 @@
-
 <script>
 import axios from "axios";
 import { Bar } from 'vue-chartjs'
@@ -6,7 +5,7 @@ import { Bar } from 'vue-chartjs'
 export default {
   extends: Bar,
 
-  props: ["days"],
+  props: ['days'],
 
   data () {
     return {      
@@ -41,38 +40,17 @@ export default {
             hidden: false,
           },
           {
-            label: 'Kliknuto na odkaz v emailu',
+            label: 'Kliknuto na příspěvek',
             backgroundColor: '#ffa600',
             pointBackgroundColor: 'white',
             borderWidth: 1,
             pointBorderColor: '#249EBF',
             data: [],
-            hidden: true,
+            hidden: false,
           }
         ]
       },
       options: {
-        // onClick: function(e, legendItem) {
-        //   var index = legendItem.datasetIndex;
-        //   // var ci = this.chart;
-        //   var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
-
-        //   ci.data.datasets.forEach(function(e, i) {
-        //     var meta = ci.getDatasetMeta(i);
-
-        //     if (i !== index) {
-        //       if (!alreadyHidden) {
-        //         meta.hidden = meta.hidden === null ? !meta.hidden : null;
-        //       } else if (meta.hidden === null) {
-        //         meta.hidden = true;
-        //       }
-        //     } else if (i === index) {
-        //       meta.hidden = null;
-        //     }
-        //   });
-        //   this.renderChart(this.datacollection, this.options)
-        //   // ci.update();
-        // },
         scales: {
           yAxes: [{
             ticks: {
@@ -111,13 +89,13 @@ export default {
       weekAgo.setDate(today.getDate()-daysInPast)
       // console.log("today", today);
       // console.log("weekAgo", weekAgo);
-      console.log("adding empty days to reports for daysinpast",daysInPast, reports);
+      // console.log("adding empty days to reports for daysinpast",daysInPast, reports);
       let dateLater = today;
       let lastDateNotExisting = false;
       let dateEarlier = null;
       for (let index = 0; index <= daysInPast-1; index++) {
         try {
-          console.log("resolving with index ", index ," date", reports[index].date)
+          // console.log("resolving with index ", index ," date", reports[index].date)
           dateEarlier = new Date(reports[index].date);
         } catch (error) {
           console.log("catching exception", error);
@@ -145,23 +123,12 @@ export default {
           break;
         }
       }
-      console.log("returning new reports added with empty days", reports);
       return reports
-    },
-
-    updateVisibility()  {
-      // this.datacollection.controller.getDatasetMeta(1).hidden=true;
-      // this.datacollection.update();
-      // this.datacollection.datasets.forEach((dataSet, i) => {
-      // var meta = this.datacollection.getDatasetMeta(i);
-
-      // meta.hidden = true;
-    // });
     },
 
     updateLabels(reports)  {
       this.datacollection.labels = [];
-      console.log("updating labels...");
+      // console.log("updating labels...");
       reports.forEach(element => {
         const date = new Date(element.date);
         this.datacollection.labels.push(date.toLocaleDateString('cs-CS'));
@@ -190,11 +157,7 @@ export default {
             this.datacollection.datasets[1].data.push(report.delivered);
             this.datacollection.datasets[2].data.push(report.uniqueOpens);
             this.datacollection.datasets[3].data.push(report.uniqueClicks);
-          });
-
-          //update visibility
-          this.updateVisibility();
-          
+          });          
 
           //update date labels
           this.updateLabels(reports);
