@@ -108,10 +108,19 @@ const routes = [
 	{
 		path: '/admin/emaily/upravit',
 		name: 'EmailList',
-		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/EmailList.vue'),
+		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/Emails/EmailList.vue'),
 		meta: {
 			requiresContributor: true,
 			title: 'Skaut Třebíč - Emaily'
+		}
+	},
+	{
+		path: '/admin/emaily/prehled',
+		name: 'EmailOverview',
+		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/Emails/EmailOverview.vue'),
+		meta: {
+			requiresContributor: true,
+			title: 'Skaut Třebíč - Statistika'
 		}
 	},
 	{

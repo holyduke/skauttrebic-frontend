@@ -191,9 +191,8 @@ export default {
                 .post("/aktualitas", this.getDataObject)
                 .then((result) => {
                   this.loading = false;
-                  router.push("/aktuality/post/" + result.data.slug);
                   console.log(result);
-                  // this.setLoading(false);
+                  router.push("/aktuality/post/" + result.data.slug);
                 })
                 .catch((e) => {
                   this.loading = false;

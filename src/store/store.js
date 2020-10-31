@@ -25,15 +25,39 @@ const store = new Vuex.Store({
 			password: null
 		},
 		adminMenu: {
-			// items: [],
-			editItems: [
-				{ title: 'Nástěnka', icon: 'mdi-bulletin-board', link: { name: 'Noticeboard' } },
-				{ title: 'Vytvořit příspěvek', icon: 'mdi-message-draw', link: { name: 'CreatePost' } },
-				{ title: 'Spravovat emaily', icon: 'mdi-email', link: { name: 'EmailList' } },
-				{ title: 'Schválení registrace', icon: 'mdi-clipboard-account', link: { name: 'ManageVedoucisRights' } },
-			]
+			edit: {
+				items:	[
+					{ title: 'Nástěnka', icon: 'mdi-bulletin-board', link: { name: 'Noticeboard' } },
+					{ title: 'Vytvořit příspěvek', icon: 'mdi-message-draw', link: { name: 'CreatePost' } },				
+					{ title: 'Schválení registrace', icon: 'mdi-clipboard-account', link: { name: 'ManageVedoucisRights' } },
+				],
+				title: "Úpravy"
+			},
+			emails:{
+				items: [
+					{ title: 'Spravovat emaily', icon: 'mdi-comment-account-outline', link: { name: 'EmailList' } },
+					{ title: 'Přehled', icon: 'mdi-email', link: { name: 'EmailOverview' } },
+				],
+				title: "Emaily"
+			},
 		},
-		saveSnackbar: false
+		saveSnackbar: false,
+		// breadcrumbs: [
+		// 	{
+		// 		text: 'Emaily',
+		// 		disabled: true,
+		// 	},
+		// 	{
+		// 		text: 'Statistika',
+		// 		disabled: false,
+		// 		link: 'EmailStatistics'
+		// 	},
+		// 	{
+		// 		text: 'Statistika2',
+		// 		disabled: false,
+		// 		link: 'EmailStatistics'
+		// 	}
+		// ],
 	},
 
 	getters: {
@@ -61,7 +85,7 @@ const store = new Vuex.Store({
 						}
 					})
 						.then((result) => {
-							console.log('graphql oddily result', result);
+							// console.log('graphql oddily result', result);
 							result.data.data.oddils.forEach((it) => {
 								state.oddily.push(it);
 							});
@@ -132,6 +156,9 @@ const store = new Vuex.Store({
 		},
 		getSaveSnackbar: (state) => {
 			return state.saveSnackbar;
+		},
+		getBreadcrumbs: (state) => {
+			return state.breadcrumbs;
 		},
 		isContributor: (state) => {
 			return state.login.roleName == 'Contributor';
@@ -219,6 +246,11 @@ const store = new Vuex.Store({
 			axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt;
 		},
 
+		setBreadcrumbs: (state, newValue) => {
+			console.log('Setting new breacdcrumbs in store...');
+			state.breadcrumbs = newValue;
+		},
+
 		logout: (state) => {
 			if (state.login.jwt) {
 				state.login.jwt = null;
@@ -276,6 +308,10 @@ const store = new Vuex.Store({
 
 		set_id: (context, _id) => {
 			context.commit('set_id', _id);
+		},
+
+		setBreadcrumbs: (context, newValue) => {
+			context.commit('setBreadcrumbs', newValue);
 		},
 
 		login: (context) => {
