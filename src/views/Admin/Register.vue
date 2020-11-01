@@ -212,10 +212,6 @@ export default {
       verify: "",
       loginPassword: "",
       loginEmail: "",
-      loginEmailRules: [
-        v => !!v || "Povinný údaj",
-        v => /.+@.+\..+/.test(v) || "neplatný email"
-      ],
       emailRules: [
         v => !!v || "Povinný údaj",
         v => /.+@.+\..+/.test(v) || "neplatný email"
