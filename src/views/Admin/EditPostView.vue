@@ -87,7 +87,7 @@ import {
   HardBreak,
   HorizontalRule,
   History,
-  // Image,
+  Image,
 } from "tiptap-vuetify";
 
 export default {
@@ -149,7 +149,7 @@ export default {
       ListItem, // if you need to use a list (BulletList, OrderedList)
       BulletList,
       OrderedList,
-      // Image,
+      Image,
       Code,
       HorizontalRule,
       Paragraph,
