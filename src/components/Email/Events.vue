@@ -2,112 +2,119 @@
   <div>
     <v-card-title primary-title class="mb-0 pb-0"> Filtrovat: </v-card-title>
     <v-card-text class="mt-0 pt-0">
-      <v-row>
-        <v-col cols="12" sm="12" lg="6">
-          <!-- tags -->
-          <v-chip-group v-model="selectedOddils" multiple column>
-            <v-chip
-              filter
-              outlined
-              v-for="(item, index) in oddilyTags"
-              :key="index"
+      <v-form ref="filterForm" v-model="valid" lazy-validation>
+        <v-row>
+          <v-col cols="12" sm="12" lg="6">
+            <!-- tags -->
+            <v-chip-group v-model="selectedOddils" multiple column>
+              <v-chip
+                filter
+                outlined
+                v-for="(item, index) in oddilyTags"
+                :key="index"
+              >
+                {{ item }}
+              </v-chip>
+            </v-chip-group>
+          </v-col>
+
+          <v-col cols="12" sm="6" lg="3">
+            <!-- email -->
+            <v-text-field
+              :rules="emailRules"
+              label="Email příjemce"
+              color="primary"
+              class="ma-0 pa-0"
+              v-model="email"
+              :error="errorMessage != ''"
+              :error-messages="errorMessage"
+              @keypress.enter="searchByEmail"
             >
-              {{ item }}
-            </v-chip>
-          </v-chip-group>
-        </v-col>
+              <template v-slot:append>
+                <v-btn
+                  depressed
+                  tile
+                  color="primary"
+                  class="ma-0"
+                  @click="searchByEmail"
+                >
+                  <v-icon class="ma-0 pa-0">mdi-magnify</v-icon>
+                </v-btn>
+              </template>
+            </v-text-field>
+          </v-col>
 
-        <v-col cols="12" sm="6" lg="3">
-          <!-- email -->
-          <v-text-field
-            label="Email příjemce"
-            color="primary"
-            class="ma-0 pa-0"
-            v-model="email"  
-            :error="errorMessage != ''"          
-            :error-messages="errorMessage"
-            @keypress.enter="searchByEmail"
-          >
-            <template v-slot:append>
-              <v-btn depressed tile color="primary" class="ma-0" @click="searchByEmail">
-                <v-icon class="ma-0 pa-0">mdi-magnify</v-icon>
-              </v-btn>
-            </template>
-          </v-text-field>
-        </v-col>
+          <v-col cols="12" sm="6" lg="3">
+            <!-- date picker -->
+            <v-menu
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              class="mb-1 pa-0"
+              max-width="290px"
+              min-width="290px"
+              @input="dateUpdated"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  label="Začátek a konec"
+                  readonly
+                  class="mb-0 pa-0"
+                  prepend-icon="mdi-calendar"
+                  :value="dates"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <!-- /TODO: maximalni rozpeti musi byt 1 mesic -->
+              <v-date-picker
+                locale="cs-in"
+                :min="minDate"
+                :max="maxDate"
+                v-model="dates"
+                range
+                no-title
+                @input="fromDateMenu = false"
+              ></v-date-picker>
+            </v-menu>
+          </v-col>
+        </v-row>
+      </v-form>
+      <v-divider class="mb-5"></v-divider>
 
-        <v-col cols="12" sm="6" lg="3">
-          <!-- date picker -->
-          <v-menu
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            class="mb-1 pa-0"
-            max-width="290px"
-            min-width="290px"
-            @input="dateUpdated"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                label="Začátek a konec"
-                readonly
-                class="mb-0 pa-0"
-                prepend-icon="mdi-calendar"
-                :value="dates"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <!-- /TODO: maximalni rozpeti musi byt 1 mesic -->
-             <v-date-picker  
-              locale="cs-in"
-              :min="minDate"
-              :max="maxDate"
-              v-model="dates"
-              range
-              no-title
-              @input="fromDateMenu = false"
-            ></v-date-picker>
-          </v-menu>
-        </v-col>
-      </v-row>
+      <!---------------------------- SAMOTNE REPORTY EMAILY --------------------------------->
 
-    <v-divider class="mb-5"></v-divider>
-
-    <!---------------------------- SAMOTNE REPORTY EMAILY --------------------------------->
-
-    <v-data-table
-      :loading="!reportComplete" loading-text="Načítám emaily..."
-      :headers="headers"
-      :items="reports"
-      loader-height="6"
-      disable-sort
-      class="elevation-3 row-pointer" 
-      :items-per-page="25"
-      :footer-props="{
-        'showFirstLastPage': true,
-        'items-per-page-text':'Záznamů na stránku',
-        'items-per-page-all-text': 'Vše',
-        'items-per-page-options': [10,25,50,100],
-        'show-current-page': true,
-      }"
-      @click:row="handleClick"
-    >
-      <template slot="no-data">
-          Nenalezen žádný email
-      </template>
-      <template v-slot:[`item.date`]="{ item }">
-        {{printableDate(item.date)}}
-      </template>
-      <template v-slot:[`item.oddil`]="{ item }">
-        {{idToOddil(item.templateId)}}
-      </template>
-      <template v-slot:[`footer.page-text`]="{ pageStart, pageStop , itemsLength}">
-        {{ pageStart }} - {{ pageStop }} z {{itemsLength}}
-      </template>
-    </v-data-table>
-
-
+      <v-data-table
+        :loading="!reportComplete"
+        loading-text="Načítám emaily..."
+        :headers="headers"
+        :items="reports"
+        loader-height="6"
+        disable-sort
+        class="elevation-3 row-pointer"
+        :items-per-page="25"
+        :footer-props="{
+          showFirstLastPage: true,
+          'items-per-page-text': 'Záznamů na stránku',
+          'items-per-page-all-text': 'Vše',
+          'items-per-page-options': [10, 25, 50, 100],
+          'show-current-page': true,
+        }"
+        @click:row="handleClick"
+      >
+        <template slot="no-data"> Nenalezen žádný email </template>
+        <template v-slot:[`item.date`]="{ item }">
+          {{ printableDate(item.date) }}
+        </template>
+        <template v-slot:[`item.oddil`]="{ item }">
+          {{ idToOddil(item.templateId) }}
+        </template>
+        <template
+          v-slot:[`footer.page-text`]="{ pageStart, pageStop, itemsLength }"
+        >
+          {{ pageStart }} - {{ pageStop }} z {{ itemsLength }}
+        </template>
+      </v-data-table>
     </v-card-text>
   </div>
 </template>
@@ -116,12 +123,13 @@
 import axios from "axios";
 // import TableReport from "@/components/Email/TableReport";
 
-
 export default {
   name: "Events",
 
   data() {
     return {
+      valid: false,
+
       oddilyTags: [
         "vlčata",
         "světlušky",
@@ -133,7 +141,14 @@ export default {
       selectedOddils: [0, 1, 2, 3, 4, 5],
 
       email: "",
-      errorMessage:"",
+      errorMessage: "",
+      emailRules: [
+        (v) => {
+          if (v)  {
+            return /.+@.+\..+/.test(v) || "neplatný email"
+          }
+          },
+      ],
 
       dates: [null, null],
 
@@ -145,13 +160,13 @@ export default {
       reportComplete: false,
       headers: [
         { text: "Datum", value: "date" },
-        { text: "Předmět", value: "subject" ,},
-        { text: "Od", value: "from"},
-        { text: "Komu", value: "email" , },
-        { text: "Oddíl", value: "oddil"},
+        { text: "Předmět", value: "subject" },
+        { text: "Od", value: "from" },
+        { text: "Komu", value: "email" },
+        { text: "Oddíl", value: "oddil" },
       ],
 
-      oddily:[],
+      oddily: [],
     };
   },
 
@@ -175,17 +190,17 @@ export default {
 
       daysAgo = yyyy + "-" + mm + "-" + dd;
       return daysAgo;
-    },    
+    },
 
     selectedTemplateIDs() {
       let IDs = [];
-      this.selectedOddils.forEach(index => {
+      this.selectedOddils.forEach((index) => {
         this.oddily.forEach((oddil) => {
-          if (oddil.nazev == this.oddilyTags[index])  {
+          if (oddil.nazev == this.oddilyTags[index]) {
             IDs.push(oddil.sendinblue_templateID);
           }
         });
-      })
+      });
       return IDs;
     },
   },
@@ -200,12 +215,12 @@ export default {
       return this.$store.getters.getOddily;
     },
 
-    handleClick(par)  {
-      console.log("row clicked", par)
+    handleClick(par) {
+      console.log("row clicked", par);
     },
 
-    idToOddil(id)  {     
-      let nazev = ""; 
+    idToOddil(id) {
+      let nazev = "";
       this.oddily.forEach((oddil) => {
         if (oddil.sendinblue_templateID == id) {
           // console.log("yahooo found corresponding nazev:", oddil.nazev);
@@ -214,8 +229,6 @@ export default {
       });
       return nazev;
     },
-
-    
 
     translatedEvent(event) {
       // console.log("finding translation for event " + event);
@@ -243,11 +256,9 @@ export default {
       );
     },
 
-    sortByDate(reports)  {
+    sortByDate(reports) {
       console.log("sorting reports by date", this.reports);
-      reports.sort(function(a,b){
-        // Turn your strings into dates, and then subtract them
-        // to get a value that is either negative, positive, or zero.
+      reports.sort(function (a, b) {
         return new Date(b.date) - new Date(a.date);
       });
       return reports;
@@ -256,16 +267,16 @@ export default {
     searchByEmail() {
       console.log("searching by email");
       this.getSelectedOddilsReport()
-        .then(() =>  {
+        .then(() => {
           // if (response == undefined) {
           //   throw 'No existing report!';
           // }
-          console.log("yahooo, we found some reports by email");          
+          console.log("yahooo, we found some reports by email");
         })
         .catch((e) => {
           console.log("shame on you, there isnt any report for this email", e);
           this.errorMessage = e;
-        })
+        });
     },
 
     dateUpdated() {
@@ -277,35 +288,37 @@ export default {
     },
 
     async getSelectedOddilsReport() {
-      // this.reports = [];
-      let newReports = [];
-      this.reportComplete = false;
-      // let selected_IDs = await this.getTemplateIDs();
-      let selected_IDs = this.selectedTemplateIDs;
-      if (selected_IDs.length == 0) {
-        this.reports = [];
-        this.reportComplete = true;
-      }
-      else  {
-        console.log("received selected_IDs", selected_IDs);
-        selected_IDs.forEach((id, index) => {
-          const templateReport = this.getTemplateReport(id)
-          templateReport.then((res) =>  {
-            console.log("received new report for id " + id + " ...", res);
-            newReports.push(...res);
-            if (index === selected_IDs.length - 1){ 
-              this.reports = this.sortByDate(newReports);
-              console.log("report completed");
-              this.reportComplete = true;
-            }
-          });         
-        })
+      if (this.$refs.filterForm.validate()) {
+        // this.reports = [];
+        let newReports = [];
+        this.reportComplete = false;
+        // let selected_IDs = await this.getTemplateIDs();
+        let selected_IDs = this.selectedTemplateIDs;
+        if (selected_IDs.length == 0) {
+          this.reports = [];
+          this.reportComplete = true;
+        } else {
+          console.log("received selected_IDs", selected_IDs);
+          selected_IDs.forEach((id, index) => {
+            const templateReport = this.getTemplateReport(id);
+            templateReport.then((res) => {
+              console.log("received new report for id " + id + " ...", res);
+              newReports.push(...res);
+              if (index === selected_IDs.length - 1) {
+                this.reports = this.sortByDate(newReports);
+                console.log("report completed");
+                this.reportComplete = true;
+              }
+            });
+          });
+        }
       }
     },
 
     getTemplateReport(templateID) {
-      return new Promise((resolve, reject) =>  {
-        axios.get(
+      return new Promise((resolve, reject) => {
+        axios
+          .get(
             "/email-template-report?templateID=" +
               templateID +
               "&email=" +
@@ -319,17 +332,17 @@ export default {
             // this.reports=[];
             // console.log("received a response for email events", res);
             this.errorMessage = "";
-            if (res.data.transactionalEmails)  { //if not empty
+            if (res.data.transactionalEmails) {
+              //if not empty
               resolve(res.data.transactionalEmails);
-            }
-            else  {
+            } else {
               resolve([]);
             }
           })
           .catch((e) => {
-            this.reports=[];
+            this.reports = [];
             console.log("error while loading event report", e);
-            reject('Neplatný formát emailu');
+            reject("Neplatný formát emailu");
           });
       });
     },
@@ -341,8 +354,10 @@ export default {
     },
 
     dates() {
-      this.getSelectedOddilsReport();
-    }
+      if (this.dates[0] && this.dates[1]) {
+        this.getSelectedOddilsReport();
+      }
+    },
   },
 
   created() {
@@ -350,7 +365,7 @@ export default {
     this.dates[1] = this.today;
     this.maxDate = this.today;
 
-    this.getOddily().then((oddily) =>  {
+    this.getOddily().then((oddily) => {
       this.oddily = oddily;
       this.getSelectedOddilsReport(); //get Report
     });
@@ -358,7 +373,7 @@ export default {
 
   components: {
     // TableReport
-  }
+  },
 };
 </script>
 
