@@ -10,26 +10,17 @@
     absolute
     dark
   >
-    <v-list dense nav class="py-0 ma-0">
-      <v-list-item class="upravy py-0 pl-9 mx-n5">
-        <div class="upravyTitle">Úpravy</div>
-      </v-list-item>
+    <v-list v-for="(itemMenu, index) in adminMenu" :key="index" dense nav class="py-0 ma-0">
+      <div class="upravy py-1 pl-9 mx-n5">
+        <div class="upravyTitle my-0 py-0">{{itemMenu.title}}</div>
+      </div>
 
-      <!-- <v-list-item v-for="item in items" :key="item.title" :to="item.link">
+      <v-list-item v-for="(subitem, subindex) in itemMenu.items" :key="subindex" :to="subitem.link">
         <v-list-item-icon>
-          <v-icon>{{item.icon}}</v-icon>
+          <v-icon>{{ subitem.icon }}</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>{{item.title}}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item> -->
-
-      <v-list-item v-for="item in editItems" :key="item.title" :to="item.link">
-        <v-list-item-icon>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
+          <v-list-item-title>{{ subitem.title }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -55,8 +46,8 @@ export default {
       return this.$store.getters.getAdminMenu.items;
     },
 
-    editItems: function () {
-      return this.$store.getters.getAdminMenu.editItems;
+    adminMenu: function () {
+      return this.$store.getters.getAdminMenu;
     },
   },
 };

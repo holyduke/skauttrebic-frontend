@@ -1,12 +1,16 @@
 <template>
   <div>
-      <div dark class="upravyTitle mx-n5">Úpravy</div>
-      <div class="d-lg-none" v-for="item in editItems" :key="item.title">
-        <v-btn depressed color="#fff" router :to="item.link">
-          <v-icon left>{{ item.icon }}</v-icon>
-          <strong>{{item.title}}</strong>
+    <div v-for="(itemMenu, index) in adminMenu" :key="index">
+      <div dark class="upravyTitle mx-n2">
+        {{itemMenu.title}}
+      </div>
+      <div class="d-lg-none" v-for="(subitem, subindex) in itemMenu.items" :key="subindex">
+        <v-btn depressed color="#fff" router :to="subitem.link">
+          <v-icon left>{{ subitem.icon }}</v-icon>
+          <strong>{{subitem.title}}</strong>
         </v-btn>
       </div>
+    </div>
   </div>
 </template>
 
@@ -24,8 +28,8 @@ export default {
       return this.$store.getters.getAdminMenu.items;
     },
 
-    editItems:  function() {
-      return this.$store.getters.getAdminMenu.editItems;
+    adminMenu:  function() {
+      return this.$store.getters.getAdminMenu;
     }
   },
 

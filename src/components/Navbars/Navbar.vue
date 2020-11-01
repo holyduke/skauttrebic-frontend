@@ -29,7 +29,8 @@
                 v-if="item.subs"
                 @click="item.chosen = true"
                 depressed
-                color="#fff"
+                color="#fff" 
+                class="text-right"               
               >
                 <v-icon>mdi-chevron-down</v-icon>
               </v-btn>
