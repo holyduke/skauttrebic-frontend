@@ -29,10 +29,21 @@ export default {
             pointBorderColor: '#249EBF',
             data: [],
             hidden: false,
+            stack: 'Received'
+          },
+          {
+            label: 'Nedoručené emaily',
+            backgroundColor: '#DB2B39',
+            pointBackgroundColor: 'white',
+            borderWidth: 1,
+            pointBorderColor: '#249EBF',
+            data: [],
+            hidden: false,
+            stack: 'Received'
           },
           {
             label: 'Otevřené emaily',
-            backgroundColor: '#ef5675',
+            backgroundColor: '#ff6672',
             pointBackgroundColor: 'white',
             borderWidth: 1,
             pointBorderColor: '#249EBF',
@@ -47,7 +58,7 @@ export default {
             pointBorderColor: '#249EBF',
             data: [],
             hidden: false,
-          }
+          },
         ]
       },
       options: {
@@ -82,9 +93,10 @@ export default {
       this.chartsLib = google;
     },
 
-    addEmptyDays(reports) {
+    addEmptyDays(reports) {      
       const daysInPast = this.days;
       let today = new Date();
+      console.log("Today date is ", today);
       let weekAgo = new Date();
       weekAgo.setDate(today.getDate()-daysInPast)
       // console.log("today", today);
@@ -93,6 +105,17 @@ export default {
       let dateLater = today;
       let lastDateNotExisting = false;
       let dateEarlier = null;
+
+      //check if today is not present
+      let firstDate = new Date(reports[0].date)
+      if (firstDate.getDate() != today.getDate()) {
+        let emptyDayReport = {
+          date: today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()
+        }
+        reports.push(emptyDayReport);
+      }
+
+
       for (let index = 0; index <= daysInPast-1; index++) {
         try {
           // console.log("resolving with index ", index ," date", reports[index].date)
@@ -102,15 +125,18 @@ export default {
           lastDateNotExisting = true;
         }        
         if (lastDateNotExisting || dateLater - dateEarlier > 86400000) { //there is bigger gap than one days = 86400000ms
+          // console.log("there is bigger gap than one days and so", dateLater - dateEarlier);
           var dayBefore = new Date(dateLater.getTime());
           dayBefore.setDate(dateLater.getDate() - 1);
           let emptyDayReport = {
             date: dayBefore.getFullYear() + "-" + (dayBefore.getMonth() + 1) + "-" + dayBefore.getDate()
           }
           if (index == reports.length) { //last item
+            // console.log("pushing empty day to the end", emptyDayReport)            
             reports.push(emptyDayReport);
           }
           else  { //insert into middle of list
+            // console.log("pushing empty day to the middle", emptyDayReport)
             reports.splice(index, 0, emptyDayReport);
           }          
           dateLater = dayBefore;
@@ -123,6 +149,7 @@ export default {
           break;
         }
       }
+      console.log("after addEmptyDays", reports);
       return reports
     },
 
@@ -141,9 +168,10 @@ export default {
         .get("/smtp-report?days=" + this.days)
         .then((res) => {
           console.log("received a response for graph for last ", this.days ," days.", res);
-          let reports = res.data.reports;  
+          let reportsWithoutEmpty = res.data.reports;  
 
-          reports = this.addEmptyDays(reports);
+          console.log("before reports add empty days", reportsWithoutEmpty);
+          let reports = this.addEmptyDays(new Array(...reportsWithoutEmpty));
 
           //clear old data
           this.datacollection.datasets.forEach((dataset) => {
@@ -155,8 +183,12 @@ export default {
           reports.reverse().forEach((report) => {
             this.datacollection.datasets[0].data.push(report.requests);
             this.datacollection.datasets[1].data.push(report.delivered);
-            this.datacollection.datasets[2].data.push(report.uniqueOpens);
-            this.datacollection.datasets[3].data.push(report.uniqueClicks);
+            this.datacollection.datasets[2].data.push(report.invalid + 
+                                                      report.softBounces +
+                                                      report.hardBounces +
+                                                      report.blocked);
+            this.datacollection.datasets[3].data.push(report.uniqueOpens);
+            this.datacollection.datasets[4].data.push(report.uniqueClicks);
           });          
 
           //update date labels

@@ -4,14 +4,30 @@
     <v-divider class="mb-5"></v-divider>
 
     <!-- graf -->
-    <h2>Události za posledních 10 dnů</h2>
-    <Graph :days="10"/>
-
-    <br>
+    <v-card
+      class="elevation-1"
+    >
+      <v-toolbar
+        color="grey lighten-3"
+        class="elevation-1"
+      >      
+        <v-toolbar-title>Statistika posledních 10 dnů</v-toolbar-title>
+      </v-toolbar>
+      <Graph class="px-2 pt-4 pb-2" :days="10"/>      
+    </v-card>
 
     <!-- detaily -->
-    <h2>Události podrobně</h2>
-    <Events />
+    <v-card
+      class="mx-auto mt-8"
+    >
+      <v-toolbar
+        color="grey lighten-3"
+        class="elevation-1"
+      >      
+        <v-toolbar-title>Podrobný přehled</v-toolbar-title>
+      </v-toolbar>
+      <Events />
+    </v-card>
 
   </v-container>
 </template>

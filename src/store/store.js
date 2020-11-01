@@ -78,7 +78,8 @@ const store = new Vuex.Store({
 							{
 								oddils {
 										nazev,
-										_id
+										_id,
+										sendinblue_templateID
 									}
 									}
 								`
