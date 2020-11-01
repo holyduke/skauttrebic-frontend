@@ -145,8 +145,9 @@ export default {
       emailRules: [
         (v) => {
           if (v)  {
-            return /.+@.+\..+/.test(v) || "neplatný email"
+            return /.+@.+\..+/.test(v) || "Neplatný email"
           }
+          return true;
           },
       ],
 
@@ -299,12 +300,13 @@ export default {
           this.reportComplete = true;
         } else {
           console.log("received selected_IDs", selected_IDs);
-          selected_IDs.forEach((id, index) => {
+          let counter = 0;
+          selected_IDs.forEach((id) => {
             const templateReport = this.getTemplateReport(id);
             templateReport.then((res) => {
               console.log("received new report for id " + id + " ...", res);
               newReports.push(...res);
-              if (index === selected_IDs.length - 1) {
+              if (++counter === selected_IDs.length) {
                 this.reports = this.sortByDate(newReports);
                 console.log("report completed");
                 this.reportComplete = true;
