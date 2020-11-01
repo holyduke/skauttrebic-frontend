@@ -76,7 +76,36 @@
 
     <!---------------------------- SAMOTNE REPORTY EMAILY --------------------------------->
 
-    <TableReport v-if="reportComplete" :reports="reports" />
+    <v-data-table
+      :loading="!reportComplete" loading-text="Načítám emaily..."
+      :headers="headers"
+      :items="reports"
+      loader-height="6"
+      disable-sort
+      class="elevation-3 row-pointer" 
+      :items-per-page="25"
+      :footer-props="{
+        'showFirstLastPage': true,
+        'items-per-page-text':'Záznamů na stránku',
+        'items-per-page-all-text': 'Vše',
+        'items-per-page-options': [10,25,50,100],
+        'show-current-page': true,
+      }"
+      @click:row="handleClick"
+    >
+      <template slot="no-data">
+          Nenalezen žádný email
+      </template>
+      <template v-slot:[`item.date`]="{ item }">
+        {{printableDate(item.date)}}
+      </template>
+      <template v-slot:[`item.oddil`]="{ item }">
+        {{idToOddil(item.templateId)}}
+      </template>
+      <template v-slot:[`footer.page-text`]="{ pageStart, pageStop , itemsLength}">
+        {{ pageStart }} - {{ pageStop }} z {{itemsLength}}
+      </template>
+    </v-data-table>
 
 
     </v-card-text>
@@ -85,7 +114,7 @@
 
 <script>
 import axios from "axios";
-import TableReport from "@/components/Email/TableReport";
+// import TableReport from "@/components/Email/TableReport";
 
 
 export default {
@@ -114,6 +143,15 @@ export default {
 
       reports: [],
       reportComplete: false,
+      headers: [
+        { text: "Datum", value: "date" },
+        { text: "Předmět", value: "subject" ,},
+        { text: "Od", value: "from"},
+        { text: "Komu", value: "email" , },
+        { text: "Oddíl", value: "oddil"},
+      ],
+
+      oddily:[],
     };
   },
 
@@ -138,29 +176,81 @@ export default {
       daysAgo = yyyy + "-" + mm + "-" + dd;
       return daysAgo;
     },    
+
+    selectedTemplateIDs() {
+      let IDs = [];
+      this.selectedOddils.forEach(index => {
+        this.oddily.forEach((oddil) => {
+          if (oddil.nazev == this.oddilyTags[index])  {
+            IDs.push(oddil.sendinblue_templateID);
+          }
+        });
+      })
+      return IDs;
+    },
   },
 
   methods: {
-    getTemplateIDs() {
-      return new Promise((resolve, reject) =>  {
-        let IDs = [];
-        this.$store.getters.getOddily
-          .then((oddily) => {
-            this.selectedOddils.forEach((element) => {
-              oddily.forEach(oddil => {
-                if (oddil.nazev == this.oddilyTags[element])  {
-                  IDs.push(oddil.sendinblue_templateID);
-                }
-              })
-            });
-            console.log("returning these sendinblue_templateIDs", IDs);
-            resolve(IDs);
-          })
-          .catch(e => {
-            console.error(e);
-            reject(e);
-          })
-        })
+    remove(item) {
+      this.chips.splice(this.chips.indexOf(item), 1);
+      this.chips = [...this.chips];
+    },
+
+    getOddily() {
+      return this.$store.getters.getOddily;
+    },
+
+    handleClick(par)  {
+      console.log("row clicked", par)
+    },
+
+    idToOddil(id)  {     
+      let nazev = ""; 
+      this.oddily.forEach((oddil) => {
+        if (oddil.sendinblue_templateID == id) {
+          // console.log("yahooo found corresponding nazev:", oddil.nazev);
+          nazev = oddil.nazev;
+        }
+      });
+      return nazev;
+    },
+
+    
+
+    translatedEvent(event) {
+      // console.log("finding translation for event " + event);
+      let translated = this.events[event.toString()].translation;
+      if (translated) {
+        return translated;
+      } else return event;
+    },
+
+    chipColor(event) {
+      // console.log("finding color for event " + event);
+      let translated = this.events[event.toString()].color;
+      if (translated) {
+        return translated;
+      } else return "primary";
+    },
+
+    printableDate(date) {
+      // console.log("printableDate");
+      date = new Date(date);
+      return (
+        date.toLocaleDateString("cs-CS") +
+        "; " +
+        date.toLocaleTimeString("cs-CS")
+      );
+    },
+
+    sortByDate(reports)  {
+      console.log("sorting reports by date", this.reports);
+      reports.sort(function(a,b){
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return new Date(b.date) - new Date(a.date);
+      });
+      return reports;
     },
 
     searchByEmail() {
@@ -186,36 +276,31 @@ export default {
       }
     },
 
-    remove(item) {
-      this.chips.splice(this.chips.indexOf(item), 1);
-      this.chips = [...this.chips];
-    },
-
-    sortByDate()  {
-      console.log("sorting reports by date", this.reports);
-      this.reports.sort(function(a,b){
-        // Turn your strings into dates, and then subtract them
-        // to get a value that is either negative, positive, or zero.
-        return new Date(b.date) - new Date(a.date);
-      });
-    },
-
     async getSelectedOddilsReport() {
-      this.reports = [];
+      // this.reports = [];
+      let newReports = [];
       this.reportComplete = false;
-      let selected_IDs = await this.getTemplateIDs();
-      console.log("received selected_IDs", selected_IDs);
-      selected_IDs.forEach((id, index) => {
-        const templateReport = this.getTemplateReport(id)
-        templateReport.then((res) =>  {
-          console.log("received new report for id " + id + " ...", res);
-          this.reports.push(...res);
-          if (index === selected_IDs.length - 1){ 
-            this.sortByDate();
-            this.reportComplete = true;
-          }
-        });         
-      });
+      // let selected_IDs = await this.getTemplateIDs();
+      let selected_IDs = this.selectedTemplateIDs;
+      if (selected_IDs.length == 0) {
+        this.reports = [];
+        this.reportComplete = true;
+      }
+      else  {
+        console.log("received selected_IDs", selected_IDs);
+        selected_IDs.forEach((id, index) => {
+          const templateReport = this.getTemplateReport(id)
+          templateReport.then((res) =>  {
+            console.log("received new report for id " + id + " ...", res);
+            newReports.push(...res);
+            if (index === selected_IDs.length - 1){ 
+              this.reports = this.sortByDate(newReports);
+              console.log("report completed");
+              this.reportComplete = true;
+            }
+          });         
+        })
+      }
     },
 
     getTemplateReport(templateID) {
@@ -251,11 +336,11 @@ export default {
   },
 
   watch: {
-    dates: function () {
-      this.dateUpdatedFlag = true;
+    selectedOddils() {
+      this.getSelectedOddilsReport();
     },
 
-    selectedOddils: function()  {
+    dates() {
       this.getSelectedOddilsReport();
     }
   },
@@ -264,18 +349,21 @@ export default {
     this.dates[0] = this.get10DaysAgo;
     this.dates[1] = this.today;
     this.maxDate = this.today;
-    this.getSelectedOddilsReport();
+
+    this.getOddily().then((oddily) =>  {
+      this.oddily = oddily;
+      this.getSelectedOddilsReport(); //get Report
+    });
   },
 
   components: {
-    TableReport
+    // TableReport
   }
 };
 </script>
 
 <style>
-.cardTitle {
-  font-family: "themix";
+.row-pointer tbody:hover {
+  cursor: pointer;
 }
-
 </style>
