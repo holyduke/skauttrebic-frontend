@@ -70,7 +70,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/aktuality/post/:slug?',
+		path: '/aktuality/prispevek/:_id?',
 		name: 'Post',
 		component: () => import(/* webpackChunkName: "Post-lazy-load" */ '../views/Post.vue'),
 		meta: {
@@ -133,7 +133,7 @@ const routes = [
 		}
 	},
 	{
-		path: '/admin/editovat-prispevek/:slug',
+		path: '/admin/editovat-prispevek/:_id',
 		name: 'EditPost',
 		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/EditPostView.vue'),
 		meta: {

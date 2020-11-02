@@ -19,11 +19,11 @@
       </v-chip-group>
       <v-alert dense v-show="showHintLbl" type="error">Zvolte alespoň jeden oddíl</v-alert>
 
-      <h2 class="mt-5 nadpis">Náhledový obrázek</h2>
-      <v-file-input show-size accept="image/*" v-model="post.thumbnail" label="Náhledový obrázek"></v-file-input>
+      <!-- <h2 class="mt-5 nadpis">Náhledový obrázek</h2>
+      <v-file-input show-size accept="image/*" v-model="post.thumbnail" label="Náhledový obrázek"></v-file-input> -->
 
       <h2 class="mt-0 nadpis">Text</h2>
-      <tiptap-vuetify v-model="post.content" :extensions="extensions" />
+      <tiptap-vuetify v-model="post.content" :extensions="extensions" @select-file="selectFile"/>
 
       <template v-if="editView">
         <h2 class="mt-5 nadpis">Nahrát nové přílohy</h2>
@@ -65,6 +65,7 @@
 <script>
 import axios from "axios";
 import FilesToDownload from "@/components/Aktuality/FilesToDownload";
+// import FileSelector from "@/components/Aktuality/FileSelector";
 import Confirm from "@/components/Confirm";
 import router from "@/router";
 
@@ -118,11 +119,13 @@ export default {
     textRules: [
       (v) => {
         if (v) {
-          // eslint-disable-next-line
-          return (
-            !/[.]/g.test(v) ||
-            "Nadpis nesmí obsahovat tečku"
-          );
+          return true;
+
+          // // eslint-disable-next-line
+          // return (
+          //   !/[.]/g.test(v) ||
+          //   "Nadpis nesmí obsahovat tečku"
+          // );
         } else {
           return "Toto pole je povinné";
         }
@@ -162,17 +165,35 @@ export default {
       console.log("------------------------------- publishing ----------------------------------------------");
       this.getSelectedOddily(); //this.post.selectedoddily gets updated
       if (this.validate()) {
+        this.loading = true;
+        this.convertToMarkDown(); //this.post.md gets updated
         if (this.editView) {
           //editing existing post
           console.log("trying to update post", this.post);
-          this.loading = true;
-          this.convertToMarkDown(); //this.post.md gets updated
+          
+          this.uploadFilesInText();
+
+          // const base64Img = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAVCAYAAAC33pUlAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGJSURBVEhL7ZWxisJAEIb/O9AHEFEEEQutBAkIAUtTC5ImCDa+gUVs1FptfAELwVJsbFIKYiVYSSpLkUBQJJ1NLDxmLvHuYNVGLI58EHZ2dnf+/bMb8pHJZK54E59e+xYCsZcQiL0E4XeWSqXQ6XQQi8W4v16v0e/3OSZarRZkWeb4eDyi2+1iv99z/xFCZ7VaDbvdDqqqYjQaIZfLoVwu81i9Xkc6nUaj0eBxmkfxM8iAUIxc+E5M08T5fEY0GuUFxWIRq9WKnVCfhOPxOCRJ4vkEOZ9Op7cNEoqiPD+zfD6PcDiMzWaDSCTC8el04uK9Xg/b7RaXywXJZNJbISaRSDwWo4LVahXL5ZLFfLLZLJrNJiaTCRaLhZf9gd6KpmkwDMPLfHNXjISo4Hw+x3g85pzjOHBdF4VCAYPBgIv5jizL4vYetm2Lxehdt9vtP0IEnRNdiMPhcHNaKpV4E7+di86MxoViVCAUCqFSqWA2m/EzHA75QvgXx88Tuq5z+wgSC/5nL+G/igFf/NycyjKG32MAAAAASUVORK5CYII="
+
+          // // upload base64 file inside text (content)
+          // let file = this.urltoFile(base64Img, 'thisIsTitle.png')
+          //   // .then((file) => { 
+          // console.log("urlToFile result:", file);
+          // this.uploadFile(file)
+          //   .then((res) =>  {
+          //     console.log("base64Img uploaded OK", res);
+          //   })
+          //   .catch((e) => {
+          //     console.error("base64Img upload Error", e)
+          //   })
+          //   // });
+
           this.uploadNewFiles().then(() => {
             axios
               .put("/aktualitas/" + this.post._id, this.getDataObject)
               .then((result) => {
                 this.loading = false;
-                router.push("/aktuality/post/" + result.data.slug);
+                router.push("/aktuality/prispevek/" + result.data._id);
                 console.log("put update successfull", result);
               })
               .catch((e) => {
@@ -183,16 +204,15 @@ export default {
         } else {
           //creating new post
           console.log("trying to publish post");
-          this.loading = true;
-          this.convertToMarkDown(); //this.post.md gets updated
-          this.uploadFiles() //this.post.file_IDs gets updated
+          
+           this.uploadNewFiles()
             .then(() => {
               axios
                 .post("/aktualitas", this.getDataObject)
                 .then((result) => {
                   this.loading = false;
                   console.log(result);
-                  router.push("/aktuality/post/" + result.data.slug);
+                  router.push("/aktuality/prispevek/" + result.data._id);
                 })
                 .catch((e) => {
                   this.loading = false;
@@ -201,6 +221,26 @@ export default {
             });
         }
       }
+    },
+
+    uploadFilesInText() {
+      console.log("parsing text and searching for all files included");
+      var expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi; //eslint-disable-line
+      // var regex = new RegExp(expression);
+
+      let match = expression.exec(this.post.content);
+      while (match != null) {
+        // matched text: match[0]
+        // match start: match.index
+        // capturing group n: match[n]
+        console.log(match)
+        match = expression.exec(this.post.content);
+        alert("Successful match");
+      }
+    },
+
+    selectFile()  {
+      console.log("file selected");
     },
 
     hasSpecialCharacters(str) {
@@ -269,6 +309,7 @@ export default {
                 "deleteFile",
                 this.post.original.thumbnail.id
               );
+              console.log("uploading new thumbnail:", this.post.thumbnail);
               const promise = this.uploadFile(this.post.thumbnail).then(
                 (res) => {
                   this.post.thumbnail_ID = res.id;
@@ -343,8 +384,24 @@ export default {
       });
     },
 
+     //return a promise that resolves with a File instance https://stackoverflow.com/questions/35940290/how-to-convert-base64-string-to-javascript-file-object-like-as-from-file-input-f
+    urltoFile(dataurl, filename) { 
+        var arr = dataurl.split(','),
+            mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), 
+            n = bstr.length, 
+            u8arr = new Uint8Array(n);
+            
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+
+        return new File([u8arr], filename, {type:mime});
+    },
+
     uploadFile(file) {
       let formData = new FormData();
+      console.log("uploading new file -", file);
       formData.append("files", file);
       return new Promise((resolve, reject) => {
         axios
@@ -449,32 +506,32 @@ export default {
     let promise1 = this.getOddily();
     let promise2;
 
-    if (this.$route.params.slug) {
+    if (this.$route.params._id) {
       //loading existing post
       this.editView = true;
-      console.log("getting aktualita with slug", this.$route.params.slug.replace("+", "%2B"));
-      promise2 = axios.get("/aktualitas?slug=" + this.$route.params.slug.replace("+", "%2B"));
+      console.log("getting aktualita with _id", this.$route.params._id);
+      promise2 = axios.get("/aktualitas/" + this.$route.params._id);
     }
 
     Promise.all([promise1, promise2]).then((values) => {
       this.oddily = values[0];
       const response = values[1];
       console.log("post received from axios", response);
-      this.post.nadpis = response.data[0].nadpis;
-      this.post._id = response.data[0]._id;
-      this.post.content = this.markdownToHTML(response.data[0].text);
-      this.post.files = response.data[0].priloha;
+      this.post.nadpis = response.data.nadpis;
+      this.post._id = response.data._id;
+      this.post.content = this.markdownToHTML(response.data.text);
+      this.post.files = response.data.priloha;
       console.log("files", this.post.files);
       this.post.file_IDs = this.post.files.map((file) => {
         return file._id;
       });
       this.post.original.files = this.post.files;
-      this.post.thumbnail = response.data[0].obrazek;
+      this.post.thumbnail = response.data.obrazek;
       if (this.post.thumbnail != null) {
-        this.post.thumbnail_ID = response.data[0].obrazek._id;
+        this.post.thumbnail_ID = response.data.obrazek._id;
         this.post.original.thumbnail = this.post.thumbnail;
       }
-      response.data[0].oddils.forEach((oddil) => {
+      response.data.oddils.forEach((oddil) => {
         const index = this.oddily.findIndex((it) => {
           return it._id == oddil._id;
         });

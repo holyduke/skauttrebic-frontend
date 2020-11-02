@@ -47,14 +47,14 @@
           class="px-4 mx-2 mb-2 white--text"          
           v-if="isContributor"
           color="#174085"
-          :to="{name: 'EditPost', params: {slug: aktualita.slug}}"
+          :to="{name: 'EditPost', params: {_id: aktualita._id}}"
         ><v-icon  class="mr-1">mdi-pencil</v-icon>Upravit</v-btn>
         <v-btn
           large
           class="px-5 mx-2 mb-2"
           dark
           color="#174085"
-          :to="{name: 'Post', params: {slug: aktualita.slug}}"
+          :to="{name: 'Post', params: {_id: aktualita._id}}"
         >Zobrazit</v-btn>
       </v-card-actions>
     </v-card>

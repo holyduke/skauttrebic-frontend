@@ -66,7 +66,7 @@
       class="px-4 mx-2 my-5 white--text float-right"
       v-if="isContributor"
       color="#174085"
-      :to="{name: 'EditPost', params: {slug: aktualita.slug}}"
+      :to="{name: 'EditPost', params: {_id: aktualita._id}}"
     >
       <v-icon class="mr-1">mdi-pencil</v-icon>Upravit
     </v-btn>
@@ -87,7 +87,7 @@ export default {
       loading:false,
       colors: Constants.colors,
       backendAPI: Constants.backendAPI,
-      slug: "",
+      // _id: "",
       aktualita: null,
       text: "",
     };
@@ -144,12 +144,13 @@ export default {
 
   created() {
     this.loading=true;
-    this.slug = this.$route.params.slug.replace("+", "%2B");
-    console.log("getting post with slug = ",this.slug);
+    // this.slug = this.$route.params.slug.replace("+", "%2B");
+    console.log("getting post with _id = " + this.$route.params._id);
     axios
-      .get(`/aktualitas?slug=` + this.slug)
+      .get(`/aktualitas/` + this.$route.params._id)
       .then((response) => {
-        this.aktualita = response.data[0];
+        console.log("received aktualita...", response);
+        this.aktualita = response.data;
         this.convertTimeToCET(this.aktualita);
         this.text = this.convertToHTML(this.aktualita.text);
         document.title = "Skaut" + " - " + this.aktualita.nadpis;
