@@ -93,63 +93,77 @@ export default {
       this.chartsLib = google;
     },
 
-    addEmptyDays(reports) {      
-      const daysInPast = this.days;
+    // addEmptyDays(reports) {      
+    //   const daysInPast = this.days;
+    //   let today = new Date();
+    //   console.log("Today date is ", today);
+    //   // let weekAgo = new Date();
+    //   // weekAgo.setDate(today.getDate()-daysInPast)
+    //   // console.log("today", today);
+    //   // console.log("weekAgo", weekAgo);
+    //   // console.log("adding empty days to reports for daysinpast",daysInPast, reports);
+    //   let dateLater = today;
+    //   let lastDateNotExisting = false;
+    //   let dateEarlier = null;
+
+    //   //check if today is not present
+    //   let firstDate = new Date(reports[0].date)
+    //   if (firstDate.getDate() != today.getDate()) {
+    //     let emptyDayReport = {
+    //       date: today.getFullYear() + "-" + ('0' + (today.getMonth()+1)).slice(-2) + "-" + ('0' + today.getDate()).slice(-2)
+    //     }
+    //     reports.push(emptyDayReport);
+    //     console.log("today should be present in report", reports);
+    //   }
+
+
+    //   for (let index = daysInPast-1; index >= 0; index--) {
+    //     try {
+    //       console.log("resolving with index ", index ," date", reports[index].date)
+    //       dateEarlier = new Date(reports[index].date);
+    //     } catch (error) {
+    //       console.log("catching exception", error);
+    //       lastDateNotExisting = true;
+    //     }        
+    //     if (lastDateNotExisting || dateLater - dateEarlier > 86400000) { //there is bigger gap than two days = 2*86400000ms
+    //       console.log("there is bigger gap than one days and so", dateLater - dateEarlier);
+    //       var dayBefore = new Date(dateLater.getTime());
+    //       dayBefore.setDate(dateLater.getDate() - 1);
+    //       let emptyDayReport = {
+    //         date: dayBefore.getFullYear() + "-" + ('0' + (dayBefore.getMonth()+1)).slice(-2) + "-" + ('0' + dayBefore.getDate()).slice(-2)
+    //       }
+    //       if (index == 0) { //last item
+    //         // console.log("pushing empty day to the end", emptyDayReport)            
+    //         reports.push(emptyDayReport);
+    //       }
+    //       else  { //insert into middle of list
+    //         // console.log("pushing empty day to the middle", emptyDayReport)
+    //         reports.splice(index, 0, emptyDayReport);
+    //       }          
+    //       dateLater = dayBefore;
+    //     }
+    //     else  {
+    //       dateLater = dateEarlier;
+    //     }
+    //     if (reports.length == daysInPast+1) { //we reached the amnount of desired days
+    //       reports.pop();
+    //       break;
+    //     }
+    //   }
+    //   console.log("after addEmptyDays", reports);
+    //   return reports
+    // },
+
+    addToday(reports)  {
       let today = new Date();
-      console.log("Today date is ", today);
-      let weekAgo = new Date();
-      weekAgo.setDate(today.getDate()-daysInPast)
-      // console.log("today", today);
-      // console.log("weekAgo", weekAgo);
-      // console.log("adding empty days to reports for daysinpast",daysInPast, reports);
-      let dateLater = today;
-      let lastDateNotExisting = false;
-      let dateEarlier = null;
-
-      //check if today is not present
-      let firstDate = new Date(reports[0].date)
-      if (firstDate.getDate() != today.getDate()) {
+      if (today.getDate() != new Date(reports[reports.length -1].date))  {
+        console.log("adding today empty day");
         let emptyDayReport = {
-          date: today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate()
+          date: today.getFullYear() + "-" + ('0' + (today.getMonth()+1)).slice(-2) + "-" + ('0' + today.getDate()).slice(-2)
         }
-        reports.push(emptyDayReport);
+        reports.pop();  //remove oldest day - this is strange, because the reports array seems to be reversed, IDK, hopefully no one reads it
+        reports.unshift(emptyDayReport);  //push to last index - this is strange, because the reports array seems to be reversed, IDK, hopefully no one reads it
       }
-
-
-      for (let index = 0; index <= daysInPast-1; index++) {
-        try {
-          // console.log("resolving with index ", index ," date", reports[index].date)
-          dateEarlier = new Date(reports[index].date);
-        } catch (error) {
-          console.log("catching exception", error);
-          lastDateNotExisting = true;
-        }        
-        if (lastDateNotExisting || dateLater - dateEarlier > 86400000) { //there is bigger gap than one days = 86400000ms
-          // console.log("there is bigger gap than one days and so", dateLater - dateEarlier);
-          var dayBefore = new Date(dateLater.getTime());
-          dayBefore.setDate(dateLater.getDate() - 1);
-          let emptyDayReport = {
-            date: dayBefore.getFullYear() + "-" + (dayBefore.getMonth() + 1) + "-" + dayBefore.getDate()
-          }
-          if (index == reports.length) { //last item
-            // console.log("pushing empty day to the end", emptyDayReport)            
-            reports.push(emptyDayReport);
-          }
-          else  { //insert into middle of list
-            // console.log("pushing empty day to the middle", emptyDayReport)
-            reports.splice(index, 0, emptyDayReport);
-          }          
-          dateLater = dayBefore;
-        }
-        else  {
-          dateLater = dateEarlier;
-        }
-        if (reports.length == daysInPast+1) { //we reached the amnount of desired days
-          reports.pop();
-          break;
-        }
-      }
-      console.log("after addEmptyDays", reports);
       return reports
     },
 
@@ -168,10 +182,14 @@ export default {
         .get("/smtp-report?days=" + this.days)
         .then((res) => {
           console.log("received a response for graph for last ", this.days ," days.", res);
-          let reportsWithoutEmpty = res.data.reports;  
+          let reports = res.data.reports;  
 
-          console.log("before reports add empty days", reportsWithoutEmpty);
-          let reports = this.addEmptyDays(new Array(...reportsWithoutEmpty));
+          console.log("before reports add empty days", reports);
+          // let reports = this.addEmptyDays(new Array(...reportsWithoutEmpty));
+
+          reports = this.addToday(reports);
+
+          console.log("after today was added");
 
           //clear old data
           this.datacollection.datasets.forEach((dataset) => {
