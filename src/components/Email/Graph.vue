@@ -51,7 +51,7 @@ export default {
             hidden: false,
           },
           {
-            label: 'Kliknuto na příspěvek poprvé',
+            label: 'Kliknuto na odkaz poprvé',
             backgroundColor: '#ffa600',
             pointBackgroundColor: 'white',
             borderWidth: 1,
@@ -60,7 +60,7 @@ export default {
             hidden: false,
           },
           {
-            label: 'Kliknuto na příspěvek',
+            label: 'Kliknuto na odkaz',
             backgroundColor: '#ff7c43',
             pointBackgroundColor: 'white',
             borderWidth: 1,
