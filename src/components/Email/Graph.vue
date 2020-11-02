@@ -51,13 +51,22 @@ export default {
             hidden: false,
           },
           {
-            label: 'Kliknuto na příspěvek',
+            label: 'Kliknuto na příspěvek poprvé',
             backgroundColor: '#ffa600',
             pointBackgroundColor: 'white',
             borderWidth: 1,
             pointBorderColor: '#249EBF',
             data: [],
             hidden: false,
+          },
+          {
+            label: 'Kliknuto na příspěvek',
+            backgroundColor: '#ff7c43',
+            pointBackgroundColor: 'white',
+            borderWidth: 1,
+            pointBorderColor: '#249EBF',
+            data: [],
+            hidden: true,
           },
         ]
       },
@@ -156,13 +165,14 @@ export default {
 
     addToday(reports)  {
       let today = new Date();
-      if (today.getDate() != new Date(reports[reports.length -1].date))  {
-        console.log("adding today empty day");
+      let lastReport = new Date(reports[0].date)
+      if (today.getDate() != lastReport.getDate())  {
+        console.log("adding today empty day", lastReport.getDate());
         let emptyDayReport = {
           date: today.getFullYear() + "-" + ('0' + (today.getMonth()+1)).slice(-2) + "-" + ('0' + today.getDate()).slice(-2)
         }
-        reports.pop();  //remove oldest day - this is strange, because the reports array seems to be reversed, IDK, hopefully no one reads it
-        reports.unshift(emptyDayReport);  //push to last index - this is strange, because the reports array seems to be reversed, IDK, hopefully no one reads it
+        reports.pop();  //remove oldest day
+        reports.unshift(emptyDayReport);  //push to first index
       }
       return reports
     },
@@ -207,6 +217,7 @@ export default {
                                                       report.blocked);
             this.datacollection.datasets[3].data.push(report.uniqueOpens);
             this.datacollection.datasets[4].data.push(report.uniqueClicks);
+            this.datacollection.datasets[5].data.push(report.clicks);
           });          
 
           //update date labels
