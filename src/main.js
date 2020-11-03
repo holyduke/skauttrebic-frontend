@@ -9,6 +9,13 @@ import "tiptap-vuetify/dist/main.css";
 import i18n from './i18n'
 import cs from 'vuetify/es5/locale/zh-Hans'
 
+//vue-tinymce-editor
+// import tinymce from 'vue-tinymce-editor'
+// Vue.component('tinymce', tinymce)
+
+// import CKEditor from '@ckeditor/ckeditor5-vue';
+// Vue.use( CKEditor );
+
 
 require('@/store/subscriber');
 axios.defaults.baseURL = store.getters.getBackendAPI;

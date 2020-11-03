@@ -4,59 +4,118 @@
       <h1 class="my-5" v-if="editView">Editovat příspěvek</h1>
       <h1 class="my-5" v-else>Vytvořit příspěvek</h1>
       <v-divider></v-divider>
-      <h2 class="mt-5 nadpis">Název</h2>
-      <v-text-field :rules="textRules" required label="Nadpis" v-model="post.nadpis"></v-text-field>
-      <!-- <v-btn color="success" @click="getSelectedOddily">text</v-btn> -->
 
-      <h2 class="mt-2 nadpis">oddíl(y)</h2>
-      <v-chip-group class="mb-4" v-model="post.selectedIndexes" column multiple>
-        <v-chip          
-          filter
-          outlined
-          v-for="(oddil, index) in oddily"
-          :key="index"          
-        >{{oddil.nazev}}</v-chip>
-      </v-chip-group>
-      <v-alert dense v-show="showHintLbl" type="error">Zvolte alespoň jeden oddíl</v-alert>
+      <v-row>
+        <v-col cols="12" sm="6" md="6">
+          <h2 class="mt-2 nadpis">Název</h2>
+          <v-text-field
+            :rules="textRules"
+            required
+            label="Nadpis"
+            v-model="post.nadpis"
+          ></v-text-field>
+        </v-col>
+        <!-- <v-btn color="success" @click="getSelectedOddily">text</v-btn> -->
 
-      <!-- <h2 class="mt-5 nadpis">Náhledový obrázek</h2>
+        <v-col cols="12" sm="6" md="6">
+          <h2 class="mt-2 nadpis">Oddíl(y)</h2>
+          <v-chip-group
+            class="mb-4"
+            v-model="post.selectedIndexes"
+            column
+            multiple
+          >
+            <v-chip
+              filter
+              outlined
+              v-for="(oddil, index) in oddily"
+              :key="index"
+              >{{ oddil.nazev }}</v-chip
+            >
+          </v-chip-group>
+          <v-alert dense v-show="showHintLbl" type="error"
+            >Zvolte alespoň jeden oddíl</v-alert
+          >
+        </v-col>
+        <!-- <h2 class="mt-5 nadpis">Náhledový obrázek</h2>
       <v-file-input show-size accept="image/*" v-model="post.thumbnail" label="Náhledový obrázek"></v-file-input> -->
 
-      <h2 class="mt-0 nadpis">Text</h2>
-      <tiptap-vuetify v-model="post.content" :extensions="extensions" @select-file="selectFile"/>
+        <!-- <h2 class="mt-0 nadpis">Text</h2> -->
+        <!-- all together now, and allow up to 20MB images -->
+        <v-col cols="12">
+          <TextEditor />
+        </v-col>
 
-      <template v-if="editView">
-        <h2 class="mt-5 nadpis">Nahrát nové přílohy</h2>
-        <v-file-input show-size multiple accept="*" v-model="post.newfiles" label="Soubory"></v-file-input>
-      </template>
+        <v-col cols="12">
+          <template v-if="editView">
+            <h2 class="mt-5 nadpis">Nahrát nové přílohy</h2>
+            <v-file-input
+              show-size
+              multiple
+              accept="*"
+              v-model="post.newfiles"
+              label="Soubory"
+            ></v-file-input>
+          </template>
 
-      <template v-else>
-        <h2 class="mt-5 nadpis">Přílohy</h2>
-        <v-file-input show-size multiple accept="*" v-model="post.files" label="Soubory"></v-file-input>
-      </template>
+          <template v-else>
+            <h2 class="mt-5 nadpis">Přílohy</h2>
+            <v-file-input
+              show-size
+              multiple
+              accept="*"
+              v-model="post.files"
+              label="Soubory"
+            ></v-file-input>
+          </template>
 
-      <FilesToDownload v-if="post.files != null" :priloha="post.files" :showDeleteBtn="true" />
+          <FilesToDownload
+            v-if="post.files != null"
+            :priloha="post.files"
+            :showDeleteBtn="true"
+          />
 
-      <v-divider class="my-4"></v-divider>
-      <v-alert
-        dense
-        v-if="editView"
-        border="top"
-        colored-border
-        type="info"
-        elevation="2"
-      >Emaily již byly odeslány a po uložení nebudou poslány znovu.</v-alert>
-      <v-alert
-        dense
-        v-else
-        large
-        border="top"
-        colored-border
-        type="info"
-        elevation="2"
-      >Po uložení příspěvku se odešlou emaily rodičům.</v-alert>
-      <v-btn :loading="loading" :disabled="!valid" color="#174085" class="white--text" @click="publish">Uložit</v-btn>
-      <v-btn color="error" v-if="editView" class="white--text mx-5" @click="deletePost">Smazat</v-btn>
+          <v-divider class="my-4"></v-divider>
+        </v-col>
+
+        <v-col cols="12">
+          <v-alert
+            dense
+            v-if="editView"
+            border="top"
+            colored-border
+            type="info"
+            elevation="2"
+            >Emaily již byly odeslány a po uložení nebudou poslány
+            znovu.</v-alert
+          >
+          <v-alert
+            dense
+            v-else
+            large
+            border="top"
+            colored-border
+            type="info"
+            elevation="2"
+            >Po uložení příspěvku se odešlou emaily rodičům.</v-alert
+          >
+          <v-btn
+            :loading="loading"
+            :disabled="!valid"
+            color="#174085"
+            class="white--text"
+            @click="publish"
+            >Uložit</v-btn
+          >
+          <v-btn
+            color="error"
+            v-if="editView"
+            class="white--text mx-5"
+            @click="deletePost"
+            >Smazat</v-btn
+          >
+        </v-col>
+      </v-row>
     </v-container>
     <Confirm ref="confirm"></Confirm>
   </v-form>
@@ -65,37 +124,39 @@
 <script>
 import axios from "axios";
 import FilesToDownload from "@/components/Aktuality/FilesToDownload";
-// import FileSelector from "@/components/Aktuality/FileSelector";
+import TextEditor from "@/components/Aktuality/TextEditor";
 import Confirm from "@/components/Confirm";
 import router from "@/router";
+// import { Extension } from "tiptap";
 
-import {
-  // component
-  TiptapVuetify,
-  // extensions
-  Heading,
-  Bold,
-  Italic,
-  Strike,
-  Underline,
-  Code,
-  Paragraph,
-  BulletList,
-  OrderedList,
-  ListItem,
-  Link,
-  Blockquote,
-  HardBreak,
-  HorizontalRule,
-  History,
-  Image,
-} from "tiptap-vuetify";
+// import {
+//   // component
+//   TiptapVuetify,
+//   // extensions
+//   Heading,
+//   Bold,
+//   Italic,
+//   Strike,
+//   Underline,
+//   Code,
+//   Paragraph,
+//   BulletList,
+//   OrderedList,
+//   ListItem,
+//   Link,
+//   Blockquote,
+//   HardBreak,
+//   HorizontalRule,
+//   History,
+//   Image,
+// } from "tiptap-vuetify";
 
 export default {
   name: "EditPostView",
 
   data: () => ({
-    loading:false,
+    content: "test",
+    loading: false,
     post: {
       nadpis: "",
       files: null,
@@ -132,37 +193,39 @@ export default {
       },
     ],
 
-    extensions: [
-      [
-        Heading,
-        {
-          // Options that fall into the tiptap's extension
-          options: {
-            levels: [1, 2, 3],
-          },
-        },
-      ],
-      History,
-      Blockquote,
-      Link,
-      Underline,
-      Strike,
-      Bold,
-      Italic,
-      ListItem, // if you need to use a list (BulletList, OrderedList)
-      BulletList,
-      OrderedList,
-      Image,
-      Code,
-      HorizontalRule,
-      Paragraph,
-      HardBreak, // line break on Shift + Ctrl + Enter
-    ],
+    // extensions: [
+    //   [
+    //     Heading,
+    //     {
+    //       // Options that fall into the tiptap's extension
+    //       options: {
+    //         levels: [1, 2, 3],
+    //       },
+    //     },
+    //   ],
+    //   History,
+    //   Blockquote,
+    //   Link,
+    //   Underline,
+    //   Strike,
+    //   Bold,
+    //   Italic,
+    //   ListItem, // if you need to use a list (BulletList, OrderedList)
+    //   BulletList,
+    //   OrderedList,
+    //   Image,
+    //   Code,
+    //   HorizontalRule,
+    //   Paragraph,
+    //   HardBreak, // line break on Shift + Ctrl + Enter
+    // ],
   }),
 
   methods: {
     publish() {
-      console.log("------------------------------- publishing ----------------------------------------------");
+      console.log(
+        "------------------------------- publishing ----------------------------------------------"
+      );
       this.getSelectedOddily(); //this.post.selectedoddily gets updated
       if (this.validate()) {
         this.loading = true;
@@ -170,14 +233,14 @@ export default {
         if (this.editView) {
           //editing existing post
           console.log("trying to update post", this.post);
-          
-          this.uploadFilesInText();
+
+          // this.uploadFilesInText();
 
           // const base64Img = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAVCAYAAAC33pUlAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGJSURBVEhL7ZWxisJAEIb/O9AHEFEEEQutBAkIAUtTC5ImCDa+gUVs1FptfAELwVJsbFIKYiVYSSpLkUBQJJ1NLDxmLvHuYNVGLI58EHZ2dnf+/bMb8pHJZK54E59e+xYCsZcQiL0E4XeWSqXQ6XQQi8W4v16v0e/3OSZarRZkWeb4eDyi2+1iv99z/xFCZ7VaDbvdDqqqYjQaIZfLoVwu81i9Xkc6nUaj0eBxmkfxM8iAUIxc+E5M08T5fEY0GuUFxWIRq9WKnVCfhOPxOCRJ4vkEOZ9Op7cNEoqiPD+zfD6PcDiMzWaDSCTC8el04uK9Xg/b7RaXywXJZNJbISaRSDwWo4LVahXL5ZLFfLLZLJrNJiaTCRaLhZf9gd6KpmkwDMPLfHNXjISo4Hw+x3g85pzjOHBdF4VCAYPBgIv5jizL4vYetm2Lxehdt9vtP0IEnRNdiMPhcHNaKpV4E7+di86MxoViVCAUCqFSqWA2m/EzHA75QvgXx88Tuq5z+wgSC/5nL+G/igFf/NycyjKG32MAAAAASUVORK5CYII="
 
           // // upload base64 file inside text (content)
           // let file = this.urltoFile(base64Img, 'thisIsTitle.png')
-          //   // .then((file) => { 
+          //   // .then((file) => {
           // console.log("urlToFile result:", file);
           // this.uploadFile(file)
           //   .then((res) =>  {
@@ -204,44 +267,43 @@ export default {
         } else {
           //creating new post
           console.log("trying to publish post");
-          
-           this.uploadNewFiles()
-            .then(() => {
-              axios
-                .post("/aktualitas", this.getDataObject)
-                .then((result) => {
-                  this.loading = false;
-                  console.log(result);
-                  router.push("/aktuality/prispevek/" + result.data._id);
-                })
-                .catch((e) => {
-                  this.loading = false;
-                  console.log("post FAILURE", e);
-                });
-            });
+
+          this.uploadNewFiles().then(() => {
+            axios
+              .post("/aktualitas", this.getDataObject)
+              .then((result) => {
+                this.loading = false;
+                console.log(result);
+                router.push("/aktuality/prispevek/" + result.data._id);
+              })
+              .catch((e) => {
+                this.loading = false;
+                console.log("post FAILURE", e);
+              });
+          });
         }
       }
     },
 
-    uploadFilesInText() {
-      console.log("parsing text and searching for all files included");
-      var expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi; //eslint-disable-line
-      // var regex = new RegExp(expression);
+    // uploadFilesInText() {
+    //   console.log("parsing text and searching for all files included");
+    //   var expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi; //eslint-disable-line
+    //   // var regex = new RegExp(expression);
 
-      let match = expression.exec(this.post.content);
-      while (match != null) {
-        // matched text: match[0]
-        // match start: match.index
-        // capturing group n: match[n]
-        console.log(match)
-        match = expression.exec(this.post.content);
-        alert("Successful match");
-      }
-    },
+    //   let match = expression.exec(this.post.content);
+    //   while (match != null) {
+    //     // matched text: match[0]
+    //     // match start: match.index
+    //     // capturing group n: match[n]
+    //     console.log(match);
+    //     match = expression.exec(this.post.content);
+    //     alert("Successful match");
+    //   }
+    // },
 
-    selectFile()  {
-      console.log("file selected");
-    },
+    // selectFile() {
+    //   console.log("file selected");
+    // },
 
     hasSpecialCharacters(str) {
       // eslint-disable-next-line
@@ -262,8 +324,8 @@ export default {
     },
 
     // selectOddil() {
-      // console.log("selecting oddil:", this.post.selectedIndexes);
-      // this.showHintLbl = false;
+    // console.log("selecting oddil:", this.post.selectedIndexes);
+    // this.showHintLbl = false;
     // },
 
     deletePost() {
@@ -384,19 +446,19 @@ export default {
       });
     },
 
-     //return a promise that resolves with a File instance https://stackoverflow.com/questions/35940290/how-to-convert-base64-string-to-javascript-file-object-like-as-from-file-input-f
-    urltoFile(dataurl, filename) { 
-        var arr = dataurl.split(','),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]), 
-            n = bstr.length, 
-            u8arr = new Uint8Array(n);
-            
-        while(n--){
-            u8arr[n] = bstr.charCodeAt(n);
-        }
+    //return a promise that resolves with a File instance https://stackoverflow.com/questions/35940290/how-to-convert-base64-string-to-javascript-file-object-like-as-from-file-input-f
+    urltoFile(dataurl, filename) {
+      var arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
 
-        return new File([u8arr], filename, {type:mime});
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+
+      return new File([u8arr], filename, { type: mime });
     },
 
     uploadFile(file) {
@@ -432,8 +494,11 @@ export default {
 
     getSelectedOddily() {
       console.log("------------------------");
-      console.log("Oddily:", this.oddily.map(a => a.nazev));
-      console.log("selectedIndexes: ", this.post.selectedIndexes);      
+      console.log(
+        "Oddily:",
+        this.oddily.map((a) => a.nazev)
+      );
+      console.log("selectedIndexes: ", this.post.selectedIndexes);
       this.post.selectedOddily = [];
       for (const ind in this.post.selectedIndexes) {
         this.post.selectedOddily.push(
@@ -477,7 +542,7 @@ export default {
     },
 
     // setLoading: function (value) {
-      // this.$store.commit("setLoading", value);
+    // this.$store.commit("setLoading", value);
     // },
 
     markdownToHTML: function (markdown) {
@@ -549,8 +614,9 @@ export default {
   },
 
   components: {
-    TiptapVuetify,
+    // TiptapVuetify,
     FilesToDownload,
+    TextEditor,
     Confirm,
   },
 };
