@@ -215,6 +215,7 @@ h4 {
   border-radius: 7px;
   margin-left: -1px;
   margin-right: -1px;
+  word-wrap: break-word;
 }
 
 .zprava:hover {
