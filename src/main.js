@@ -26,7 +26,7 @@ else  {
   delete axios.defaults.headers.common['Authorization'];
 }
 
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+// axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 
 const vuetify = new Vuetify({
