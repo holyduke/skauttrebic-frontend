@@ -54,7 +54,7 @@
         </v-flex>
       </v-layout>
       <div class="pa-5 mt-2 zprava">
-        <div v-html="text"></div>
+        <div v-html="aktualita.text"></div>
         <FilesToDownload
           v-if="aktualita.priloha.length"
           :priloha="aktualita.priloha"
@@ -87,7 +87,6 @@ export default {
       loading:false,
       colors: Constants.colors,
       backendAPI: Constants.backendAPI,
-      // _id: "",
       aktualita: null,
       text: "",
     };
@@ -105,12 +104,12 @@ export default {
       aktualita.createdAtCET = new Date(aktualita.createdAt);
     },
 
-    convertToHTML: function (markdown) {
-      var showdown = require("showdown");
-      var converter = new showdown.Converter();
-      converter.setOption("simpleLineBreaks", true); // makes sure that line end will make <br> tag
-      return converter.makeHtml(markdown);
-    },
+    // convertToHTML: function (markdown) {
+    //   var showdown = require("showdown");
+    //   var converter = new showdown.Converter();
+    //   converter.setOption("simpleLineBreaks", true); // makes sure that line end will make <br> tag
+    //   return converter.makeHtml(markdown);
+    // },
   },
 
   computed: {
@@ -152,7 +151,7 @@ export default {
         console.log("received aktualita...", response);
         this.aktualita = response.data;
         this.convertTimeToCET(this.aktualita);
-        this.text = this.convertToHTML(this.aktualita.text);
+        // this.text = this.convertToHTML(this.aktualita.text);
         document.title = "Skaut" + " - " + this.aktualita.nadpis;
         console.log("response post",response);
         this.loading=false;

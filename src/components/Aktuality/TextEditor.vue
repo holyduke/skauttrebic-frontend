@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="store">
-    <ckeditor :editor="editor" v-model="form.content" :config="editorConfig" />
+    <ckeditor :editor="editor" v-model="content" :config="editorConfig" />
   </form>
 </template>
 
@@ -17,9 +17,8 @@ import "@ckeditor/ckeditor5-build-classic/build/translations/cs";
 export default {
   data() {
     return {
-      form: {
-        content: "<p>ahoj</p>",
-      },
+      initialPhase: true,
+      //   content: "<p></p>",
       editor: ClassicEditor,
       // plugins: [Image, ImageResize],
       editorConfig: {
@@ -50,6 +49,8 @@ export default {
     };
   },
 
+  props: ["contentInitial"],
+
   methods: {
     store() {
       // Some code
@@ -63,8 +64,23 @@ export default {
     },
   },
 
+  computed: {
+    content: {
+      set(value) {
+        this.$store.dispatch("setPostContent", value);
+      },
+      get() {
+        return this.$store.getters.getPostContent;
+      },
+    },
+  },
+
   components: {
     ckeditor: CKEditor.component,
   },
+
+  watch: {},
+
+  created() {},
 };
 </script>

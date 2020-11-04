@@ -127,35 +127,11 @@ import FilesToDownload from "@/components/Aktuality/FilesToDownload";
 import TextEditor from "@/components/Aktuality/TextEditor";
 import Confirm from "@/components/Confirm";
 import router from "@/router";
-// import { Extension } from "tiptap";
-
-// import {
-//   // component
-//   TiptapVuetify,
-//   // extensions
-//   Heading,
-//   Bold,
-//   Italic,
-//   Strike,
-//   Underline,
-//   Code,
-//   Paragraph,
-//   BulletList,
-//   OrderedList,
-//   ListItem,
-//   Link,
-//   Blockquote,
-//   HardBreak,
-//   HorizontalRule,
-//   History,
-//   Image,
-// } from "tiptap-vuetify";
 
 export default {
   name: "EditPostView",
 
   data: () => ({
-    content: "test",
     loading: false,
     post: {
       nadpis: "",
@@ -181,44 +157,11 @@ export default {
       (v) => {
         if (v) {
           return true;
-
-          // // eslint-disable-next-line
-          // return (
-          //   !/[.]/g.test(v) ||
-          //   "Nadpis nesmí obsahovat tečku"
-          // );
         } else {
           return "Toto pole je povinné";
         }
       },
     ],
-
-    // extensions: [
-    //   [
-    //     Heading,
-    //     {
-    //       // Options that fall into the tiptap's extension
-    //       options: {
-    //         levels: [1, 2, 3],
-    //       },
-    //     },
-    //   ],
-    //   History,
-    //   Blockquote,
-    //   Link,
-    //   Underline,
-    //   Strike,
-    //   Bold,
-    //   Italic,
-    //   ListItem, // if you need to use a list (BulletList, OrderedList)
-    //   BulletList,
-    //   OrderedList,
-    //   Image,
-    //   Code,
-    //   HorizontalRule,
-    //   Paragraph,
-    //   HardBreak, // line break on Shift + Ctrl + Enter
-    // ],
   }),
 
   methods: {
@@ -226,10 +169,12 @@ export default {
       console.log(
         "------------------------------- publishing ----------------------------------------------"
       );
+      this.post.content = this.$store.getters.getPostContent;
+      console.log("data read from Vuex store successfully", this.post.content);
       this.getSelectedOddily(); //this.post.selectedoddily gets updated
       if (this.validate()) {
         this.loading = true;
-        this.convertToMarkDown(); //this.post.md gets updated
+        // this.convertToMarkDown(); //this.post.md gets updated
         if (this.editView) {
           //editing existing post
           console.log("trying to update post", this.post);
@@ -285,6 +230,11 @@ export default {
       }
     },
 
+    // contentChanged(content)  {
+    //   console.log("content changed, inside EditPostView", content);
+    //   this.post.content = content;
+    // },
+
     // uploadFilesInText() {
     //   console.log("parsing text and searching for all files included");
     //   var expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi; //eslint-disable-line
@@ -305,10 +255,10 @@ export default {
     //   console.log("file selected");
     // },
 
-    hasSpecialCharacters(str) {
-      // eslint-disable-next-line
-      return /[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
-    },
+    // hasSpecialCharacters(str) {
+    //   // eslint-disable-next-line
+    //   return /[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
+    // },
 
     validate() {
       //validate nadpis
@@ -555,7 +505,7 @@ export default {
     getDataObject() {
       const header = {
         nadpis: this.post.nadpis,
-        text: this.post.md,
+        text: this.post.content,
         oddils: this.generateOddilyObj(),
         priloha: this.generatePrilohaObj(),
         autor: {
@@ -584,7 +534,8 @@ export default {
       console.log("post received from axios", response);
       this.post.nadpis = response.data.nadpis;
       this.post._id = response.data._id;
-      this.post.content = this.markdownToHTML(response.data.text);
+      this.post.content = response.data.text;
+      this.$store.dispatch("setPostContent", this.post.content);
       this.post.files = response.data.priloha;
       console.log("files", this.post.files);
       this.post.file_IDs = this.post.files.map((file) => {

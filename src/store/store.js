@@ -24,6 +24,9 @@ const store = new Vuex.Store({
 			username: null,
 			password: null
 		},
+		post:	{	//used only for editing
+			content:"",
+		},
 		adminMenu: {
 			edit: {
 				items:	[
@@ -155,6 +158,9 @@ const store = new Vuex.Store({
 		getLoginDialogLoader: (state) => {
 			return state.login.loginDialogLoader;
 		},
+		getPostContent: (state) => {
+			return state.post.content;
+		},
 		getSaveSnackbar: (state) => {
 			return state.saveSnackbar;
 		},
@@ -239,6 +245,11 @@ const store = new Vuex.Store({
 			console.log('_id = ', state.login._id);
 		},
 
+		setPostContent: (state, newValue) => {
+			state.post.content = newValue;
+			console.log('post content inside Vuex store = ', state.post.content);
+		},
+
 		saveJwt: (state, jwt) => {
 			console.log('I am logged in...');
 			state.login.justLoggedIn = true;
@@ -309,6 +320,10 @@ const store = new Vuex.Store({
 
 		set_id: (context, _id) => {
 			context.commit('set_id', _id);
+		},
+		
+		setPostContent: (context, content) => {
+			context.commit('setPostContent', content);
 		},
 
 		setBreadcrumbs: (context, newValue) => {

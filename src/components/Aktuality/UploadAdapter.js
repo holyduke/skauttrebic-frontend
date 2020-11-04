@@ -16,7 +16,10 @@ export default class UploadAdapter {
                 axios.post("/upload", formData, {"Content-Type": "multipart/form-data",})
                     .then((response) => {
                         console.log("file upload successfull", response);
-                        resolve(response.data[0]);
+                        // resolve(response.data[0].url);
+                        resolve( {
+                            default: response.data[0].url
+                        } );
                     })
                     .catch(function (e) {
                         console.log("upload image FAILURE!!");
