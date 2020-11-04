@@ -12,6 +12,7 @@
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import UploadAdapter from "@/components/Aktuality/UploadAdapter";
+import "@ckeditor/ckeditor5-build-classic/build/translations/cs";
 
 export default {
   data() {
@@ -38,7 +39,7 @@ export default {
         table: {
           toolbar: ["tableColumn", "tableRow", "mergeTableCells"],
         },
-        extraPlugin: [this.uploader],
+        extraPlugins: [this.uploader],
         language: "cs",
       },
     };
