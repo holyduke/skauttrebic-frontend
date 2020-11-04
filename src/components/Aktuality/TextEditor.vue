@@ -1,26 +1,22 @@
 <template>
   <form @submit.prevent="store">
-    <ckeditor :editor="editor" v-model="content" :config="editorConfig" />
+    <ckeditor
+      :editor="editor"
+      v-model="content"
+      :config="editorConfig"
+    />
   </form>
 </template>
 
 <script>
 import CKEditor from "@ckeditor/ckeditor5-vue";
-import ClassicEditor from "@/plugins/ckeditor5-build-classic";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import UploadAdapter from "@/components/Aktuality/UploadAdapter";
-// import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
-// import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
-// import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
-// import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
-import "@ckeditor/ckeditor5-build-classic/build/translations/cs";
 
 export default {
   data() {
     return {
-      initialPhase: true,
-      //   content: "<p></p>",
       editor: ClassicEditor,
-      // plugins: [Image, ImageResize],
       editorConfig: {
         toolbar: [
           "heading",
@@ -42,14 +38,11 @@ export default {
         table: {
           toolbar: ["tableColumn", "tableRow", "mergeTableCells"],
         },
-        extraPlugins: [this.uploader],
+        extraPlugin: [this.uploader],
         language: "cs",
-        // plugins: [Bold, Italic],
       },
     };
   },
-
-  props: ["contentInitial"],
 
   methods: {
     store() {
@@ -58,7 +51,6 @@ export default {
 
     uploader(editor) {
       editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-        console.log(loader);
         return new UploadAdapter(loader);
       };
     },
@@ -78,9 +70,7 @@ export default {
   components: {
     ckeditor: CKEditor.component,
   },
-
-  watch: {},
-
-  created() {},
 };
 </script>
+
+
