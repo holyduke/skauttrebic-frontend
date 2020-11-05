@@ -16,7 +16,7 @@
       }"
       v-else
     >
-      <v-layout row wrap justify-space-around class="heading">
+      <v-layout row wrap justify-space-around class="heading mx-0">
         <v-flex xs12 sm8 md9 lg10 xl10>
           <div class="outer ml-5">
             <div>
@@ -63,7 +63,7 @@
           ></v-img>
         </v-flex>
       </v-layout>
-      <div class="pa-5 mt-2 zprava">
+      <div class="pa-6 mt-2 zprava">
         <div v-html="aktualita.text"></div>
         <FilesToDownload
           v-if="aktualita.priloha.length"
@@ -267,6 +267,10 @@ h4 {
 
 @media only screen and (max-width: 600px) {
   /* display images on mobile fullscreen */
+  .zprava {
+    padding: 20px 5px !important;
+  }
+
   .zprava >>> .image {  
     width: 100% !important;
   }
@@ -283,7 +287,7 @@ h4 {
   border-spacing: 0;
   border-collapse: collapse;
   /* text-align: center; */
-  margin: auto;
+  margin: 15px auto;
 }
 
 .zprava >>> .table th {
