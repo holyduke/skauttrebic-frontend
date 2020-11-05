@@ -26,8 +26,6 @@
               color="primary"
               class="ma-0 pa-0"
               v-model="email"
-              :error="errorMessage != ''"
-              :error-messages="errorMessage"
               @keypress.enter="searchByEmail"
             >
               <template v-slot:append>
@@ -59,6 +57,8 @@
               <template v-slot:activator="{ on }">
                 <v-text-field
                   label="Začátek a konec"
+                  :error="errorMessage != ''"
+                  :error-messages="errorMessage"
                   readonly
                   class="mb-0 pa-0"
                   prepend-icon="mdi-calendar"
@@ -144,11 +144,11 @@ export default {
       errorMessage: "",
       emailRules: [
         (v) => {
-          if (v)  {
-            return /.+@.+\..+/.test(v) || "Neplatný email"
+          if (v) {
+            return /.+@.+\..+/.test(v) || "Neplatný email";
           }
           return true;
-          },
+        },
       ],
 
       dates: [null, null],
@@ -357,7 +357,15 @@ export default {
 
     dates() {
       if (this.dates[0] && this.dates[1]) {
-        this.getSelectedOddilsReport();
+        let dateLater = new Date(this.dates[1]);
+        let dateEarlier = new Date(this.dates[0]);
+        if (dateLater - dateEarlier <= 30 * 86400000) {
+          this.errorMessage = "";
+          this.getSelectedOddilsReport();
+        } else {
+          console.log("invalid time range = ", dateLater - dateEarlier);
+          this.errorMessage = "Časový interval musí být menší než 30 dní";
+        }
       }
     },
   },
