@@ -174,7 +174,6 @@ export default {
       this.getSelectedOddily(); //this.post.selectedoddily gets updated
       if (this.validate()) {
         this.loading = true;
-        // this.convertToMarkDown(); //this.post.md gets updated
         if (this.editView) {
           //editing existing post
           console.log("trying to update post", this.post);
@@ -388,11 +387,6 @@ export default {
       });
     },
 
-    convertToMarkDown() {
-      var TurndownService = require("turndown").default;
-      var turndownService = new TurndownService();
-      this.post.md = turndownService.turndown(this.post.content);
-    },
 
     getSelectedOddily() {
       console.log("------------------------");
@@ -441,15 +435,6 @@ export default {
       if (this.post.thumbnail == null) {
         return null;
       } else return { _id: this.post.thumbnail_ID };
-    },
-
-    // setLoading: function (value) {
-    // this.$store.commit("setLoading", value);
-    // },
-
-    markdownToHTML: function (markdown) {
-      const marked = require("marked");
-      return marked(markdown);
     },
   },
 

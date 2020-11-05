@@ -205,7 +205,7 @@ export default {
 }
 
 .heading:hover {
-  background-color: rgb(247, 244, 244);
+  background-color: rgb(249, 245, 245);
 }
 
 h1 {
@@ -245,8 +245,9 @@ h4 {
   color: lightgray;
 }
 
-.zprava >>> .image  {
-  padding-bottom: 30px;
+/* Images */
+.zprava >>> .image {
+  margin: 0 auto 0.55em;
 }
 
 .zprava >>> .image img {
@@ -254,14 +255,29 @@ h4 {
 }
 
 .zprava >>> .image-style-side {
+  clear: left;
   float: right;
-  margin: 10px;
-  max-width: 50% !important;
+  margin: 15px;
+  max-width: 50%;
 }
 
 .zprava >>> figcaption {
   text-align: center;
 }
+
+@media only screen and (max-width: 600px) {
+  /* display images on mobile fullscreen */
+  .zprava >>> .image {  
+    width: 100% !important;
+  }
+
+  .zprava >>> .image-style-side {
+    margin: 5px;
+    max-width: 60% !important;
+  }
+}
+
+/* Tables */
 
 .zprava >>> .table table {
   border-spacing: 0;
@@ -284,7 +300,65 @@ h4 {
   background: hsla(0, 0%, 0%, 5%);
 }
 
-.zprava >>> .media  {
-  padding-top: 100px;
+
+
+/* Media */
+
+.zprava >>> .media {
+  padding: 10px;
+  /* padding-bottom: 10px; */
+}
+
+/* Marker - disable default behaviour */
+.zprava >>> mark  { 
+  background-color: white;
+
+}
+
+.zprava >>> .marker-yellow {
+  background-color: yellow;
+}
+
+.zprava >>> .marker-green {
+  background-color: green !important;
+}
+
+.zprava >>> .marker-red {
+  background-color: red;
+}
+
+.zprava >>> .marker-pink {
+  background-color: pink;
+}
+
+.zprava >>> .marker-blue {
+  background-color: blue;
+}
+
+.zprava >>> .pen-red {
+  background-color: white;
+  color: red;
+}
+
+.zprava >>> .pen-green {
+  background-color: white;
+  color: green;
+}
+
+/* Font size */
+.zprava >>> .text-tiny  {
+  font-size: 0.5rem;
+}
+
+.zprava >>> .text-small  {
+  font-size: 0.75rem;
+}
+
+.zprava >>> .text-big  {
+  font-size: 1.5rem;
+}
+
+.zprava >>> .text-huge  {
+  font-size: 2.5rem;
 }
 </style>

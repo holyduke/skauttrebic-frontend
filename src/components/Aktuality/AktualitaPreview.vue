@@ -32,7 +32,7 @@
               >({{aktualita.autor.prezdivka}})</span>
             </v-chip>
           </div>
-          <v-list-item-subtitle class="text mt-5">{{text}}</v-list-item-subtitle>
+          <v-list-item-subtitle class="text mt-5" v-html="aktualita.text"></v-list-item-subtitle>
         </v-list-item-content>
 
         <v-list-item-avatar v-if="aktualita.obrazek" tile size="160" class="d-none d-sm-flex" color="grey">
@@ -84,11 +84,6 @@ export default {
         aktualita.createdAtCET.getMinutes()
       );
     },
-
-    _removeMarkDown: function (markdown)  {
-      const removeMd = require('remove-markdown');
-      return removeMd(markdown);
-    }
   },
 
   computed: {
@@ -102,7 +97,6 @@ export default {
   },
 
   created() {
-    this.text = this._removeMarkDown(this.aktualita.text);
   }
 };
 </script>
@@ -129,6 +123,10 @@ export default {
 .rubrika .chip {
   margin-bottom: 3px;
   margin-right: 5px;
+}
+
+.text >>> .image  {
+  display: none;
 }
 
 </style>
