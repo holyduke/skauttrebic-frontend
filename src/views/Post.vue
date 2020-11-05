@@ -256,6 +256,7 @@ h4 {
 .zprava >>> .image-style-side {
   float: right;
   margin: 10px;
+  max-width: 50% !important;
 }
 
 .zprava >>> figcaption {
@@ -265,7 +266,7 @@ h4 {
 .zprava >>> .table table {
   border-spacing: 0;
   border-collapse: collapse;
-  text-align: center;
+  /* text-align: center; */
   margin: auto;
 }
 
@@ -281,5 +282,9 @@ h4 {
 
 .zprava >>> .table table th {
   background: hsla(0, 0%, 0%, 5%);
+}
+
+.zprava >>> .media  {
+  padding-top: 100px;
 }
 </style>
