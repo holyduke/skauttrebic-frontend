@@ -39,6 +39,10 @@ export default {
         table: {
           toolbar: ["tableColumn", "tableRow", "mergeTableCells"],
         },
+        mediaEmbed: {
+            previewsInData: true,
+        },
+        // plugins: [Alignment],
         extraPlugins: [this.uploader],
         language: "cs",
       },

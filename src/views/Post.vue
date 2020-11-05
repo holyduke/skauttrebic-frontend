@@ -1,38 +1,43 @@
 <template>
   <v-container v-if="aktualita" grid-list-xs class="my-5">
-    <div
-      v-if="loading"
-      class="text-center"
-    >
+    <div v-if="loading" class="text-center">
       <v-progress-circular
-      :size="100"
-      :width="10"
-      color="primary"
-      indeterminate
+        :size="100"
+        :width="10"
+        color="primary"
+        indeterminate
       ></v-progress-circular>
     </div>
     <div
-      :class="{'ma-0': $vuetify.breakpoint.mdAndDown, 'marginlg': $vuetify.breakpoint.lg, 'marginxl': $vuetify.breakpoint.xl}"
+      :class="{
+        'ma-0': $vuetify.breakpoint.mdAndDown,
+        marginlg: $vuetify.breakpoint.lg,
+        marginxl: $vuetify.breakpoint.xl,
+      }"
       v-else
     >
       <v-layout row wrap justify-space-around class="heading">
         <v-flex xs12 sm8 md9 lg10 xl10>
           <div class="outer ml-5">
             <div>
-              <h1>{{aktualita.nadpis}}</h1>
+              <h1>{{ aktualita.nadpis }}</h1>
               <v-divider class="mb-2"></v-divider>
-              <h4>Publikováno: {{getCETDate}}</h4>
+              <h4>Publikováno: {{ getCETDate }}</h4>
               <h4>
                 Autor:
-                <v-chip class="ml-1 autorChip" color="default" text-color="#555" small>
+                <v-chip
+                  class="ml-1 autorChip"
+                  color="default"
+                  text-color="#555"
+                  small
+                >
                   <v-avatar left>
                     <v-icon>mdi-account-circle</v-icon>
                   </v-avatar>
-                  {{aktualita.autor.jmeno}}
-                  <span
-                    class="ml-2"
-                    v-show="aktualita.autor.prezdivka"
-                  >({{aktualita.autor.prezdivka}})</span>
+                  {{ aktualita.autor.jmeno }}
+                  <span class="ml-2" v-show="aktualita.autor.prezdivka"
+                    >({{ aktualita.autor.prezdivka }})</span
+                  >
                 </v-chip>
               </h4>
               <h4>
@@ -44,13 +49,18 @@
                   dark
                   class="chip ml-1"
                   small
-                >{{oddil.nazev}}</v-chip>
+                  >{{ oddil.nazev }}</v-chip
+                >
               </h4>
             </div>
           </div>
         </v-flex>
         <v-flex xs12 sm4 md3 lg2 xl2>
-          <v-img class="cover" v-if="aktualita.obrazek" :src="aktualita.obrazek.url"></v-img>
+          <v-img
+            class="cover"
+            v-if="aktualita.obrazek"
+            :src="aktualita.obrazek.url"
+          ></v-img>
         </v-flex>
       </v-layout>
       <div class="pa-5 mt-2 zprava">
@@ -61,15 +71,15 @@
           :showDeleteBtn="false"
         />
       </div>
-    <v-btn
-      large
-      class="px-4 mx-2 my-5 white--text float-right"
-      v-if="isContributor"
-      color="#174085"
-      :to="{name: 'EditPost', params: {_id: aktualita._id}}"
-    >
-      <v-icon class="mr-1">mdi-pencil</v-icon>Upravit
-    </v-btn>
+      <v-btn
+        large
+        class="px-4 mx-2 my-5 white--text float-right"
+        v-if="isContributor"
+        color="#174085"
+        :to="{ name: 'EditPost', params: { _id: aktualita._id } }"
+      >
+        <v-icon class="mr-1">mdi-pencil</v-icon>Upravit
+      </v-btn>
     </div>
   </v-container>
 </template>
@@ -84,7 +94,7 @@ export default {
 
   data() {
     return {
-      loading:false,
+      loading: false,
       colors: Constants.colors,
       backendAPI: Constants.backendAPI,
       aktualita: null,
@@ -142,7 +152,7 @@ export default {
   },
 
   created() {
-    this.loading=true;
+    this.loading = true;
     // this.slug = this.$route.params.slug.replace("+", "%2B");
     console.log("getting post with _id = " + this.$route.params._id);
     axios
@@ -153,12 +163,12 @@ export default {
         this.convertTimeToCET(this.aktualita);
         // this.text = this.convertToHTML(this.aktualita.text);
         document.title = "Skaut" + " - " + this.aktualita.nadpis;
-        console.log("response post",response);
-        this.loading=false;
+        console.log("response post", response);
+        this.loading = false;
       })
       .catch((e) => {
         console.log(e);
-        this.loading=false;
+        this.loading = false;
       });
   },
 
@@ -233,5 +243,43 @@ h4 {
 
 .size {
   color: lightgray;
+}
+
+.zprava >>> .image  {
+  padding-bottom: 30px;
+}
+
+.zprava >>> .image img {
+  max-width: 100%;
+}
+
+.zprava >>> .image-style-side {
+  float: right;
+  margin: 10px;
+}
+
+.zprava >>> figcaption {
+  text-align: center;
+}
+
+.zprava >>> .table table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  text-align: center;
+  margin: auto;
+}
+
+.zprava >>> .table th {
+  border: solid;
+  padding: 6.5px;
+}
+
+.zprava >>> .table td {
+  padding: 6.5px;
+  border: solid thin;
+}
+
+.zprava >>> .table table th {
+  background: hsla(0, 0%, 0%, 5%);
 }
 </style>
