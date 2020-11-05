@@ -125,7 +125,11 @@ export default {
   margin-right: 5px;
 }
 
-.text >>> .image, .media {
+.text >>> .image {
+  display: none;
+}
+
+.text >>> .media {
   display: none;
 }
 
