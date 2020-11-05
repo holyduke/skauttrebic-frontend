@@ -1,6 +1,7 @@
 <template>
   <v-container grid-list-xs> 
     <h1 class="mb-0">Přehled odeslaných emailů</h1>
+    <div class="reloadInfo">Pokud se obsah nenačte, aktualizujte stránku.</div>
     <v-divider class="mb-5"></v-divider>
 
     <!-- graf -->
@@ -95,5 +96,9 @@ h1 {
   font-family: "skautbold";
   margin: 20px 0 20px 0;
   font-size: 2.5rem;
+}
+
+.reloadInfo  {
+  font-size: 0.75rem;
 }
 </style>
