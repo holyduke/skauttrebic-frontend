@@ -73,7 +73,8 @@ h2 {
 }
 
 .card:hover .brambora img {
-  transform: translate(-50%, 20%);
+  transform: translate(-50%, 20%) rotate(80deg);
+  /* transform: ; */
 }
 
 .logo img {
