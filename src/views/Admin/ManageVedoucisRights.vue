@@ -180,6 +180,12 @@ export default {
             
             //variable for usecase in v-model 
             user.activeAccount = !user.blocked;
+
+            //approvedBy
+            if (user.approvedBy == null)  {
+              console.log("Unknown contributor to approve user", user.jmeno);
+              user.approvedBy = {jmeno: "'Administrátor webu - Šíša'"}
+            }
           });
           this.loading = false;        
         })
