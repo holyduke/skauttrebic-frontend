@@ -32,7 +32,7 @@
               >({{aktualita.autor.prezdivka}})</span>
             </v-chip>
           </div>
-          <v-list-item-subtitle class="text mt-5" v-html="aktualita.text"></v-list-item-subtitle>
+          <v-list-item-subtitle class="text mt-5">{{aktualita.text}}</v-list-item-subtitle>
         </v-list-item-content>
 
         <v-list-item-avatar v-if="aktualita.obrazek" tile size="160" class="d-none d-sm-flex" color="grey">
