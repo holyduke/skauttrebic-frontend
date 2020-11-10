@@ -32,7 +32,7 @@
               >({{aktualita.autor.prezdivka}})</span>
             </v-chip>
           </div>
-          <v-list-item-subtitle class="text mt-5">{{aktualita.text}}</v-list-item-subtitle>
+          <v-list-item-subtitle class="text mt-5" v-html="aktualita.text"></v-list-item-subtitle>
         </v-list-item-content>
 
         <v-list-item-avatar v-if="aktualita.obrazek" tile size="160" class="d-none d-sm-flex" color="grey">
@@ -87,9 +87,19 @@ export default {
   },
 
   computed: {
-    // getBackendAPI()  {
-    //   return this.$store.getters.getBackendAPI;
-    // },
+    thumbnail_url() {
+      var xss = require("xss");
+      var list = [];
+      xss(this.aktualita.text, {
+        onTagAttr: function (tag, name, value) {
+          if (tag === 'img' && name === 'src') {
+            list.push(xss.friendlyAttrValue(value));
+          }
+        }
+      });
+      console.log("filtered image from html text for aktualita", this.aktualita.nadpis, list );
+      return list[0];
+    },
 
     isContributor() {
       return this.$store.getters.isContributor;
@@ -97,6 +107,9 @@ export default {
   },
 
   created() {
+    while (!this.aktualita.text)  {console.log("waiting")}
+    console.log("this.aktualita.text available",this.aktualita.text);
+    console.log(this.thumbnail_url);
   }
 };
 </script>

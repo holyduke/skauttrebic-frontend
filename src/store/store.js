@@ -25,7 +25,8 @@ const store = new Vuex.Store({
 			password: null
 		},
 		post:	{	//used only for editing
-			content:"",
+			content: "",
+			images: [],
 		},
 		adminMenu: {
 			edit: {
@@ -45,22 +46,6 @@ const store = new Vuex.Store({
 			},
 		},
 		saveSnackbar: false,
-		// breadcrumbs: [
-		// 	{
-		// 		text: 'Emaily',
-		// 		disabled: true,
-		// 	},
-		// 	{
-		// 		text: 'Statistika',
-		// 		disabled: false,
-		// 		link: 'EmailStatistics'
-		// 	},
-		// 	{
-		// 		text: 'Statistika2',
-		// 		disabled: false,
-		// 		link: 'EmailStatistics'
-		// 	}
-		// ],
 	},
 
 	getters: {
@@ -161,6 +146,9 @@ const store = new Vuex.Store({
 		getPostContent: (state) => {
 			return state.post.content;
 		},
+		getPostImages: (state) => {
+			return state.post.images;
+		},
 		getSaveSnackbar: (state) => {
 			return state.saveSnackbar;
 		},
@@ -258,9 +246,9 @@ const store = new Vuex.Store({
 			axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt;
 		},
 
-		setBreadcrumbs: (state, newValue) => {
-			console.log('Setting new breacdcrumbs in store...');
-			state.breadcrumbs = newValue;
+		appendPostImages: (state, newFile) => {
+			console.log('Setting new post images in store...');
+			state.post.images.push(newFile);
 		},
 
 		logout: (state) => {
@@ -324,6 +312,10 @@ const store = new Vuex.Store({
 		
 		setPostContent: (context, content) => {
 			context.commit('setPostContent', content);
+		},
+
+		appendPostImages: (context, file) => {
+			context.commit('appendPostImages', file);
 		},
 
 		setBreadcrumbs: (context, newValue) => {

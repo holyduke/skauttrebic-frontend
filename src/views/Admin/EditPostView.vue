@@ -43,7 +43,7 @@
         <!-- <h2 class="mt-0 nadpis">Text</h2> -->
         <!-- all together now, and allow up to 20MB images -->
         <v-col cols="12">
-          <TextEditor />
+          <TextEditor @fileUpload="fileUpload"/>
         </v-col>
 
         <v-col cols="12">
@@ -165,6 +165,10 @@ export default {
   }),
 
   methods: {
+    fileUpload()  {
+      console.log("file was uploaded and an event was emited -----------")
+    },
+
     publish() {
       console.log(
         "------------------------------- publishing ----------------------------------------------"
@@ -243,8 +247,11 @@ export default {
                 this.$store.dispatch("deleteFile", file.id);
               });
             }
-            if (this.post.thumbnail) {
-              this.$store.dispatch("deleteFile", this.post.thumbnail.id);
+            if (this.images_ID.length) {
+              console.log("deleting all images inside a post....")
+              this.images_ID.forEach((image_ID) =>  {
+                this.$store.dispatch("deleteFile", image_ID);
+              });
             }
             this.$store.dispatch("deletePost", this.post._id).then(() => {
               router.push("/aktuality");
@@ -420,6 +427,16 @@ export default {
       return arrayOfIDs;
     },
 
+    generateObrazkyObj() {
+      let arrayOfIDs = [];
+      console.log("this.images_ID", this.images_ID);
+      this.images_ID.forEach((image_id) => {
+        console.log("image_id", image_id);
+        arrayOfIDs.push({ _id: image_id });
+      });
+      return arrayOfIDs;
+    },
+
     generateOddilyObj() {
       let arrayOfOddils = [];
       this.post.selectedOddily.forEach((oddil) => {
@@ -439,6 +456,10 @@ export default {
   },
 
   computed: {
+    images_ID() {
+      return this.$store.getters.getPostImages;
+    },
+
     getDataObject() {
       const header = {
         nadpis: this.post.nadpis,
@@ -448,7 +469,7 @@ export default {
         autor: {
           _id: this.$store.getters.get_id,
         },
-        obrazek: this.generateObrazek(),
+        obrazky: this.generateObrazkyObj(),
       };
       return header;
     },
