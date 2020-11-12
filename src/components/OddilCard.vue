@@ -60,7 +60,7 @@ h2 {
   position: relative;
   min-height: 260px;
   text-align: center;
-  border-radius: 24px;
+  border-radius: 15px;
 
 }
 

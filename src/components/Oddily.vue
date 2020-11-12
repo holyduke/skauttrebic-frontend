@@ -4,7 +4,7 @@
     <h1>Oddíly</h1>
     <h3>Patříme pod středisko Srdíčko Třebíč.</h3>
     <v-layout row wrap justify-space-around align-center temporary>
-      <v-flex xl4 lg4 md6 sm6 xs12 mt-1 v-for="oddil in oddily" :key="oddil._id">
+      <v-flex xl4 lg4 md6 sm6 xs12 mt-1 class="px-2" v-for="oddil in oddily" :key="oddil._id">
         <OddilCard :oddil="oddil" />
       </v-flex>
     </v-layout>
