@@ -1,12 +1,19 @@
 <template>
   <v-hover v-slot:default="{hover}">
-    <v-card class="mx-auto" outlined :elevation="hover ? 8 : 4" raised>
-      <v-list-item three-line>
+    <v-card class="mx-auto" outlined :elevation="hover ? 3 : 1" raised max-width="350px">
+      <v-img
+      v-if="thumbnail_url"
+      height="250"
+      :src="thumbnail_url"
+      ></v-img>
+
+      <v-list-item two-line>
         <v-list-item-content>
-          <v-list-item-avatar v-if="aktualita.obrazek" tile max-height="150px" max-width="150px" size="150" color="grey" class="hidden-sm-and-up">
+          <!-- <v-list-item-avatar v-if="aktualita.obrazek" tile max-height="150px" max-width="150px" size="150" color="grey" class="hidden-sm-and-up">
             <v-img :src="aktualita.obrazek.url"></v-img>
-          </v-list-item-avatar>
-          <div class="mb-4 rubrika">            
+          </v-list-item-avatar> -->
+          
+          <div class="rubrika">            
             <v-chip
               v-for="(oddil, index) in aktualita.oddils"
               :key="index"
@@ -16,8 +23,8 @@
               small
             >{{oddil.nazev}}</v-chip>
           </div>
-          <div class="nadpis headline">{{aktualita.nadpis}}</div>
-          <div class="infoBox mt-2">
+          <div class="nadpis headline mt-1">{{aktualita.nadpis}}</div>
+          <div class="infoBox">
             <span
               class="datum mb-4"
             >{{aktualita.createdAtCET.getDate()}}. {{aktualita.createdAtCET.getMonth()}}. {{aktualita.createdAtCET.getFullYear()}}, {{aktualita.createdAtCET.getHours()}}:{{getMinutes(aktualita)}}</span>
@@ -32,7 +39,7 @@
               >({{aktualita.autor.prezdivka}})</span>
             </v-chip>
           </div>
-          <v-list-item-subtitle class="text mt-5" v-html="aktualita.text"></v-list-item-subtitle>
+          <!-- <v-list-item-subtitle class="text mt-5" v-html="aktualita.text"></v-list-item-subtitle> -->
         </v-list-item-content>
 
         <v-list-item-avatar v-if="aktualita.obrazek" tile size="160" class="d-none d-sm-flex" color="grey">

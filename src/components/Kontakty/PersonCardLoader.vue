@@ -11,4 +11,7 @@ export default {
 </script>
 
 <style scoped>
+.card {
+  border-radius: 24px;
+}
 </style>
