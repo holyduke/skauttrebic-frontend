@@ -98,7 +98,10 @@ export default {
         }
       });
       console.log("filtered image from html text for aktualita", this.aktualita.nadpis, list );
-      return list[0];
+      //https://stackoverflow.com/questions/8376525/get-value-of-a-string-after-last-slash-in-javascript
+      var n = list[0].lastIndexOf('/');
+      return list[0].slice(0, n+1) + "small_" + list[0].substring(n + 1);
+      // return list[0];
     },
 
     isContributor() {
@@ -107,9 +110,9 @@ export default {
   },
 
   created() {
-    while (!this.aktualita.text)  {console.log("waiting")}
-    console.log("this.aktualita.text available",this.aktualita.text);
-    console.log(this.thumbnail_url);
+    // while (!this.aktualita.text)  {console.log("waiting")}
+    // console.log("this.aktualita.text available",this.aktualita.text);
+    // console.log(this.thumbnail_url);
   }
 };
 </script>
