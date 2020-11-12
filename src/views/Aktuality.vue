@@ -2,7 +2,7 @@
   <v-container grid-list-xs class="my-3">
     <h1 class="mb-0" id="Aktuality">Aktuality</h1>
     <v-divider class="mb-2"></v-divider>
-    <v-btn color="#174085" :to="{ name: 'CreatePost' }" class="my-3 white--text"><v-icon class="pr-2">mdi-message-draw</v-icon>Vytvořit příspěvek</v-btn>
+    <v-btn color="#174085" :to="{ name: 'CreatePost' }" v-if="isContributor" class="my-3 white--text"><v-icon class="pr-2">mdi-message-draw</v-icon>Vytvořit příspěvek</v-btn>
     <v-container grid-list-xs class="subtitle">
       <v-row>
         <v-layout row wrap>
@@ -10,7 +10,7 @@
           <v-flex xs12 sm12 md8 lg9 xl9>
             <v-row justify="space-around" class="mb-2 mx-2 checkboxes">
               <v-checkbox
-                class="black--text mx-2"
+                class="black--text mx-1"
                 :color="colors['skauti']"
                 v-model="selected"
                 label="skauti"
@@ -18,7 +18,7 @@
                 @change="checkBoxChange()"                
               ></v-checkbox>
               <v-checkbox
-                class="black--text mx-2"
+                class="black--text mx-1"
                 :color="colors['skautky']"
                 v-model="selected"
                 label="skautky"
@@ -26,7 +26,7 @@
                 @change="checkBoxChange()"
               ></v-checkbox>
               <v-checkbox
-                class="black--text mx-2"
+                class="black--text mx-1"
                 :color="colors['vlčata']"
                 v-model="selected"
                 label="vlčata"
@@ -34,7 +34,7 @@
                 @change="checkBoxChange()"
               ></v-checkbox>
               <v-checkbox
-                class="black--text mx-2"
+                class="black--text mx-1"
                 :color="colors['světlušky']"
                 v-model="selected"
                 label="světlušky"
@@ -42,7 +42,7 @@
                 @change="checkBoxChange()"
               ></v-checkbox>
               <v-checkbox
-                class="black--text mx-2"
+                class="black--text mx-1"
                 :color="colors['roveři']"
                 v-model="selected"
                 label="roveři"
@@ -50,7 +50,7 @@
                 @change="checkBoxChange()"
               ></v-checkbox>
               <v-checkbox
-                class="black--text mx-2"
+                class="black--text mx-1"
                 :color="colors['oldskauti']"
                 v-model="selected"
                 label="oldskauti"
@@ -64,18 +64,20 @@
        
     </v-container>
 
-    <v-layout row wrap justify-space-around align-center temporary v-show="!loaded" >
-      <v-flex xl12 lg12 md12 sm12 xs12 mt-2 mb-5 v-for="i in Array(5)" :key="i">
+    <!-- previews skeleton loaders -->
+    <v-row justify="center">
+      <v-col v-show="!loaded" cols="12" xs="12" sm="6" md="4" lg="3" xl="3" class="mb-3" v-for="i in Array(aktualityPerPage)" :key="i">
         <AktualitaPreviewLoader />
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
     <!-- previews -->
-    <v-layout row wrap justify-space-around align-center temporary v-show="loaded">
-      <v-flex xl12 lg12 md12 sm12 xs12 mt-1 v-for="aktualita in aktuality" :key="aktualita._id">
+    <v-row justify="center">
+      <v-col v-show="loaded" cols="12" xs="12" sm="6" md="4" lg="3" xl="3" class="mb-3" v-for="aktualita in aktuality" :key="aktualita._id">
         <AktualitaPreview :aktualita="aktualita" :selected="selected" :colors="colors" class="my-3"></AktualitaPreview>
-      </v-flex>
-      <v-pagination v-model="page" :length="pagesCount" :total-visible="9" color="#174085"></v-pagination>
-    </v-layout>
+      </v-col>
+    </v-row>
+    <v-pagination v-model="page" :length="pagesCount" :total-visible="9" color="#174085"></v-pagination>
+
   </v-container>
 </template>
 
@@ -108,12 +110,16 @@ export default {
       aktuality: [],
       aktualityTotalCount: 0,
       page: 1,
-      aktualityPerPage: 6,
+      aktualityPerPage: 8,
       //aktualityPerPage defined in computed
     };
   },
 
   computed: {
+    isContributor() {
+      return this.$store.getters.isContributor
+    },
+
     queryStringGeneral: function () {
       let query = "";
       this.selected.forEach((element) => {

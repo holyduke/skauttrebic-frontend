@@ -1,9 +1,11 @@
 import axios from "axios";
+import store from '@/store/store'
 
 export default class UploadAdapter {
     constructor( loader ) {
         // The file loader instance to use during the upload.
         this.loader = loader;
+        this._id = "";
     }
 
     // Starts the upload process.
@@ -16,7 +18,8 @@ export default class UploadAdapter {
                 axios.post("/upload", formData, {"Content-Type": "multipart/form-data",})
                     .then((response) => {
                         console.log("file upload successfull", response);
-                        // resolve(response.data[0].url);
+                        this._id = response.data[0]._id;
+                        store.dispatch("appendPostImages", this._id);
                         resolve( {
                             default: response.data[0].url
                         } );
@@ -27,20 +30,9 @@ export default class UploadAdapter {
                         console.log(e);
                     });
             }));
-        // Update the loader's progress.
-        // server.onUploadProgress( data => {
-        //     loader.uploadTotal = data.total;
-        //     loader.uploaded = data.uploaded;
-        // } );
-
-        // Return a promise that will be resolved when the file is uploaded.
-        // return loader.file
-            // .then( file => server.upload( file ) );
     }
 
-    // Aborts the upload process.
     abort() {
-        // Reject the promise returned from the upload() method.
-        // server.abortUpload();
+        console.log("aborting............");
     }
 }

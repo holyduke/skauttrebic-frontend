@@ -1,6 +1,6 @@
 <template>
   <v-hover v-slot:default="{hover}">
-    <v-card  class="my-5 mx-auto pt-3 card" max-width="344" :elevation="hover ? 12 : 7" raised>
+    <v-card  class="my-5 mx-auto pt-3 card" max-width="344" :elevation="hover ? 3 : 1" raised>
       <div class="brambora">
         <img src="https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/static/brambora.svg" alt="brambora" />
       </div>
@@ -60,6 +60,8 @@ h2 {
   position: relative;
   min-height: 260px;
   text-align: center;
+  border-radius: 15px;
+
 }
 
 .brambora img {

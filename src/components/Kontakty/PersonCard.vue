@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-hover v-slot:default="{hover}">
-      <v-card class="my-5 mx-auto card" max-width="344" :elevation="hover ? 12 : 7" raised>
+      <v-card class="my-5 mx-auto card" max-width="344" :elevation="hover ? 3 : 1" raised>
         <v-img
           v-if="local_img"
           v-show="fotkaUrl"
@@ -189,6 +189,9 @@ export default {
 </script>
 
 <style scoped>
+.card {
+  border-radius: 15px;
+}
 
 .jmeno {
   display: block;
