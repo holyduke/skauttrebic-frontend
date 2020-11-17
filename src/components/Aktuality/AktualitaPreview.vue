@@ -121,7 +121,7 @@ export default {
   computed: {
     thumbnail_url() {
       if (this.aktualita.obrazky.length)  {
-        return this.getImageUrlFormatOrLower(this.aktualita.obrazky[0], "small");
+        return this.getImageUrlFormatOrLower(this.aktualita.obrazky[0], "medium");
       }
       return null;
     },

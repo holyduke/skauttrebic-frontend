@@ -1,20 +1,25 @@
 <template>
   <div>
-    <v-hover v-slot:default="{hover}">
-      <v-card class="my-5 mx-auto card" max-width="344" :elevation="hover ? 5 : 3" raised>
+    <v-hover v-slot:default="{ hover }">
+      <v-card
+        class="my-5 mx-auto card"
+        max-width="344"
+        :elevation="hover ? 5 : 3"
+        raised
+      >
         <v-img
           v-if="local_img"
-          v-show="fotkaUrl"
+          v-show="fotka"
           class="white--text align-end fotka"
           height="300px"
-          :src="fotkaUrl"
+          :src="fotka"
         ></v-img>
         <v-img
           v-else
-          v-show="fotkaUrl"
+          v-show="fotka"
           class="white--text align-end fotka"
           height="300px"
-          :src="getFotkaLargeUrl"
+          :src="getFotkaUrl"
         >
         </v-img>
         <v-card-title v-show="jmeno" class="jmeno">
@@ -23,29 +28,33 @@
             <span v-if="prezdivka">({{ prezdivka }})</span>
           </div>
         </v-card-title>
-        <v-card-subtitle v-show="funkce" class="fce">{{ funkce }}</v-card-subtitle>
-        <div v-show="isContributor && showPossibleEditBtn" class="text-xs-center">
+        <v-card-subtitle v-show="funkce" class="fce">{{
+          funkce
+        }}</v-card-subtitle>
+        <div
+          v-show="isContributor && showPossibleEditBtn"
+          class="text-xs-center"
+        >
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn                
+              <v-btn
                 class="mb-2 mt-n2 mx-2 editBtn"
                 fab
                 dark
                 v-bind="attrs"
                 v-on="on"
                 color="#174085"
-                :to="{name: 'EditVedouciView', params: {_id: _id}}"
+                :to="{ name: 'EditVedouciView', params: { _id: _id } }"
               >
                 <v-icon dark>mdi-pencil</v-icon>
               </v-btn>
-            </template>   
+            </template>
             <span>Upravit</span>
-
           </v-tooltip>
 
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn                
+              <v-btn
                 class="mb-2 mt-n2 mx-2 editBtn"
                 fab
                 dark
@@ -57,13 +66,13 @@
                 <v-icon dark>mdi-delete</v-icon>
               </v-btn>
             </template>
-            <span>Odstranit</span>          
+            <span>Odstranit</span>
           </v-tooltip>
 
-          <v-tooltip bottom >
+          <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn       
-                v-show="showRemoveBtn"         
+              <v-btn
+                v-show="showRemoveBtn"
                 class="mb-2 mt-n2 mx-2 editBtn"
                 fab
                 dark
@@ -75,7 +84,7 @@
                 <v-icon dark>mdi-account-remove</v-icon>
               </v-btn>
             </template>
-            <span>Odebrat</span>          
+            <span>Odebrat</span>
           </v-tooltip>
         </div>
 
@@ -105,9 +114,18 @@
 
           <!-- arrow for controling description -->
           <v-tooltip bottom>
-            <template v-slot:activator="{on, attrs}">
-              <v-btn v-show="popis" large icon v-bind="attrs" v-on="on" @click="show = !show">
-                <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                v-show="popis"
+                large
+                icon
+                v-bind="attrs"
+                v-on="on"
+                @click="show = !show"
+              >
+                <v-icon>{{
+                  show ? "mdi-chevron-up" : "mdi-chevron-down"
+                }}</v-icon>
               </v-btn>
             </template>
             <span v-if="!show">Zobrazit popis</span>
@@ -124,20 +142,17 @@
         </v-expand-transition>
       </v-card>
     </v-hover>
-
-    
   </div>
 </template>
 
 <script>
 import FetchImagesMixin from "@/mixins/FetchImagesMixin";
 
-
 export default {
   name: "PersonCard",
 
   props: [
-    "fotkaUrl",
+    "fotka",
     "jmeno",
     "prezdivka",
     "email",
@@ -148,7 +163,7 @@ export default {
     "_id",
     "showPossibleEditBtn",
     "local_img",
-    "showRemoveBtn"
+    "showRemoveBtn",
   ],
 
   data: () => {
@@ -160,14 +175,14 @@ export default {
 
   mixins: [FetchImagesMixin],
 
-  methods:  {
-    deleteItem()  {
-      this.$emit('deleteItem');      
+  methods: {
+    deleteItem() {
+      this.$emit("deleteItem");
     },
 
-    removeItem()  {
-      this.$emit('removeItem');      
-    }
+    removeItem() {
+      this.$emit("removeItem");
+    },
   },
 
   computed: {
@@ -176,8 +191,8 @@ export default {
       return this.telefon.replace(/(\d{3})/g, "$1 ").replace(/(^\s+|\s+$)/, "");
     },
 
-    getFotkaLargeUrl() {
-       return this.getImageLargeUrl(this.fotkaUrl);
+    getFotkaUrl() {
+      return this.getImageUrlFormatOrLower(this.fotka, "large");
     },
 
     isContributor() {

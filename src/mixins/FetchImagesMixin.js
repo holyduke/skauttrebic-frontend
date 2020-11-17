@@ -2,30 +2,37 @@ export default {
    methods: {
       getImageUrlFormatOrLower(image, desiredFormat) {
          if (desiredFormat == "large") {
-            if (image.formats[desiredFormat].url) {
+            try {
                return image.formats[desiredFormat].url;
             }
-            else desiredFormat = "medium";
+            catch {
+               return image.url;   //default image without size adjustment
+            }
          }
          if (desiredFormat == "medium") {
-            if (image.formats[desiredFormat].url) {
+            try {
                return image.formats[desiredFormat].url;
             }
-            else desiredFormat = "small";
+            catch {
+               return image.url;   //default image without size adjustment
+            }
          }
          if (desiredFormat == "small") {
-            if (image.formats[desiredFormat].url) {
+            try {
                return image.formats[desiredFormat].url;
             }
-            else desiredFormat = "thumbnail";
+            catch {
+               return image.url;   //default image without size adjustment
+            }
          }
          if (desiredFormat == "thumbnail") {
-            if (image.formats[desiredFormat].url) {
+            try {
                return image.formats[desiredFormat].url;
             }
-         }
-
-         return image.url;   //default image without size adjustment
+            catch {
+               return image.url;   //default image without size adjustment
+            }
+         }         
       }
    },
 };

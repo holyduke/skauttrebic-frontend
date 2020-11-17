@@ -31,7 +31,7 @@
         <template v-else>
           <v-flex xl3 lg4 md6 sm6 xs12 mt-1 v-for="person in vedouci" :key="person._id">
             <PersonCard
-              :fotkaUrl="person.fotka[0] ? person.fotka[0].url : ''"
+              :fotka="person.fotka[0] ? person.fotka[0] : ''"
               :jmeno="person.jmeno"
               :prezdivka="person.prezdivka ? person.prezdivka : ''"
               :funkce="person.funkce ? person.funkce : ''"

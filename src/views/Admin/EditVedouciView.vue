@@ -43,7 +43,7 @@
           <v-col cols="12" md="6">
             <h1 class="text-center">Náhled</h1>
             <PersonCard
-              :fotkaUrl="editedPerson.fotka[0] ? editedPerson.fotka[0].url : ''"
+              :fotka="editedPerson.fotka[0]"
               :jmeno="editedPerson.jmeno"
               :prezdivka="editedPerson.prezdivka ? editedPerson.prezdivka : ''"
               :funkce="editedPerson.funkce ? editedPerson.funkce : ''"
