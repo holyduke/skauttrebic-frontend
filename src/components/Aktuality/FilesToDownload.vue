@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="priloha.length">
     <v-divider class="mb-5"></v-divider>
     <strong>Soubory ke stažení:</strong>
     <div class="downloadItem py-1 my-3" v-for="(item, index2) in priloha" :key="index2">

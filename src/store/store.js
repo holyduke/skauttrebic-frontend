@@ -24,20 +24,20 @@ const store = new Vuex.Store({
 			username: null,
 			password: null
 		},
-		post:	{	//used only for editing
+		post: {	//used only for editing
 			content: "",
 			images: [],
 		},
 		adminMenu: {
 			edit: {
-				items:	[
+				items: [
 					{ title: 'Nástěnka', icon: 'mdi-bulletin-board', link: { name: 'Noticeboard' } },
-					{ title: 'Vytvořit příspěvek', icon: 'mdi-message-draw', link: { name: 'CreatePost' } },				
+					{ title: 'Vytvořit příspěvek', icon: 'mdi-message-draw', link: { name: 'CreatePost' } },
 					{ title: 'Schválení registrace', icon: 'mdi-clipboard-account', link: { name: 'ManageVedoucisRights' } },
 				],
 				title: "Úpravy"
 			},
-			emails:{
+			emails: {
 				items: [
 					{ title: 'Spravovat emaily', icon: 'mdi-comment-account-outline', link: { name: 'EmailList' } },
 					{ title: 'Přehled', icon: 'mdi-email', link: { name: 'EmailOverview' } },
@@ -157,7 +157,7 @@ const store = new Vuex.Store({
 		},
 		isContributor: (state) => {
 			return state.login.roleName == 'Contributor';
-		}
+		},
 	},
 
 	mutations: {
@@ -233,11 +233,6 @@ const store = new Vuex.Store({
 			console.log('_id = ', state.login._id);
 		},
 
-		setPostContent: (state, newValue) => {
-			state.post.content = newValue;
-			console.log('post content inside Vuex store = ', state.post.content);
-		},
-
 		saveJwt: (state, jwt) => {
 			console.log('I am logged in...');
 			state.login.justLoggedIn = true;
@@ -246,9 +241,29 @@ const store = new Vuex.Store({
 			axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt;
 		},
 
+		setPostContent: (state, newValue) => {
+			state.post.content = newValue;
+			console.log('post content inside Vuex store = ', state.post.content);
+		},
+
 		appendPostImages: (state, newFile) => {
 			console.log('Setting new post images in store...');
 			state.post.images.push(newFile);
+		},
+
+		setPostImages: (state, images) => {
+			console.log('Setting post images in store...');
+			state.post.images = images;
+		},
+
+		removePostImage: (state, image_id) => {
+			console.log('Removing post image in store...',state.post.images);
+			//https://stackoverflow.com/questions/16491758/remove-objects-from-array-by-object-property
+			var index = state.post.images.findIndex(function(o){
+				return o.id === image_id;
+			})
+			if (index !== -1) state.post.images.splice(index, 1);
+			console.log('Removed post image in store...',state.post.images);
 		},
 
 		logout: (state) => {
@@ -259,7 +274,7 @@ const store = new Vuex.Store({
 				localStorage.removeItem('name');
 				localStorage.removeItem('prezdivka');
 				localStorage.removeItem('roleName');
-				router.push({ name: 'Home' }).catch(() => {});
+				router.push({ name: 'Home' }).catch(() => { });
 				delete axios.defaults.headers.common['Authorization'];
 			}
 		}
@@ -281,7 +296,7 @@ const store = new Vuex.Store({
 			context.commit('setLoginDialogLoader', value);
 		},
 
-		logout: function(context) {
+		logout: function (context) {
 			console.log('inside actions logout');
 			context.commit('logout');
 		},
@@ -309,13 +324,21 @@ const store = new Vuex.Store({
 		set_id: (context, _id) => {
 			context.commit('set_id', _id);
 		},
-		
+
 		setPostContent: (context, content) => {
 			context.commit('setPostContent', content);
 		},
 
 		appendPostImages: (context, file) => {
 			context.commit('appendPostImages', file);
+		},
+
+		setPostImages: (context, images) => {
+			context.commit('setPostImages', images);
+		},
+
+		removePostImage: (context, image_id) => {
+			context.commit('removePostImage', image_id);
 		},
 
 		setBreadcrumbs: (context, newValue) => {
@@ -355,7 +378,7 @@ const store = new Vuex.Store({
 				.then((response) => {
 					console.log('File was deleted', response);
 				})
-				.catch(function(e) {
+				.catch(function (e) {
 					console.log('Failed to delete file with _id', _id);
 					console.log(e);
 				});
@@ -369,12 +392,12 @@ const store = new Vuex.Store({
 						console.log('Post was deleted', response);
 						resolve();
 					})
-					.catch(function(e) {
+					.catch(function (e) {
 						console.log('Failed to delete post with _id', _id);
 						console.log(e);
 					});
 			});
-		}
+		},
 	}
 });
 

@@ -343,7 +343,7 @@ export default {
           })
           .catch((e) => {
             this.reports = [];
-            console.log("error while loading event report", e);
+            console.log("error while loading event report", e.reponse);
             reject("Neplatný formát emailu");
           });
       });

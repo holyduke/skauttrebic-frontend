@@ -56,12 +56,10 @@
                 >({{ aktualita.autor.prezdivka }})</span
               >
             </v-chip>
-            <!-- <span class="datum mb-4">
-              {{ getDateText() }}
-            </span> -->
             <v-chip
               outlined
               small
+              class="my-2"
             >
               {{ getDateText() }}
             </v-chip>
@@ -80,31 +78,12 @@
           <v-img :src="aktualita.obrazek.url"></v-img>
         </v-list-item-avatar>
       </v-list-item>
-      <!-- <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn
-          large
-          class="px-4 mx-2 mb-2 white--text"
-          v-if="isContributor"
-          color="#174085"
-          :to="{ name: 'EditPost', params: { _id: aktualita._id } }"
-          ><v-icon class="mr-1">mdi-pencil</v-icon>Upravit</v-btn
-        >
-        <v-btn
-          large
-          class="px-5 mx-2 mb-2"
-          dark
-          color="#174085"
-          :to="{ name: 'Post', params: { _id: aktualita._id } }"
-          >Zobrazit</v-btn
-        >
-      </v-card-actions> -->
     </v-card>
   </v-hover>
 </template>
 
 <script>
-// import backendAPI from "@/constants";
+import FetchImagesMixin from "@/mixins/FetchImagesMixin";
 
 export default {
   data: () => {
@@ -112,6 +91,9 @@ export default {
       // backendAPI: backendAPI.backendAPI,
     };
   },
+
+  mixins: [FetchImagesMixin],
+
   name: "AktualitaPreview",
   props: ["aktualita", "selected", "colors"],
 
@@ -127,47 +109,21 @@ export default {
       for (let index = 0; index < dayNamings.length; index++) {
         let compareDate = new Date();
         compareDate.setDate(compareDate.getDate() - index); 
-        console.log("checking if post was published on date", compareDate);
+        // console.log("checking if post was published on date", compareDate);
         if (createdAt.getYear() == compareDate.getYear() && createdAt.getMonth() == compareDate.getMonth() && createdAt.getDate() == compareDate.getDate()) {
           return dayNamings[index];
         }        
       }      
-
-      // if (compareDate.getTime() - createdAt.getTime() < 86400000*1) {  //86400000 is 1 day in milliseconds
-      //   return "je mensi";
-      // }
-      // if (0)  {return null}
        return String(this.aktualita.createdAtCET.getDate()) + ". " + String(this.aktualita.createdAtCET.getMonth()+1) + ". " + String(this.aktualita.createdAtCET.getFullYear());
     }
   },
 
   computed: {
     thumbnail_url() {
-      var xss = require("xss");
-      var list = [];
-      xss(this.aktualita.text, {
-        onTagAttr: function (tag, name, value) {
-          if (tag === "img" && name === "src") {
-            list.push(xss.friendlyAttrValue(value));
-          }
-        },
-      });
-      if (list.length) {
-        console.log(
-          "filtered image from html text for aktualita",
-          this.aktualita.nadpis,
-          list
-        );
-        //https://stackoverflow.com/questions/8376525/get-value-of-a-string-after-last-slash-in-javascript
-
-        if (list[0].includes("skauttrebic")) {
-          //if uploaded image hosted on amazon
-          var n = list[0].lastIndexOf("/");
-          return list[0].slice(0, n + 1) + "small_" + list[0].substring(n + 1);
-        } else {
-          return list[0];
-        }
-      } else return null;
+      if (this.aktualita.obrazky.length)  {
+        return this.getImageUrlFormatOrLower(this.aktualita.obrazky[0], "small");
+      }
+      return null;
     },
 
     isContributor() {

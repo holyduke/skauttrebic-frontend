@@ -7,7 +7,7 @@
 
       <v-flex xs12 md6 text-center class="popis">
         <p>
-          Jsme uskupení 6 skautských oddílů, které spolu úzce spolupracují, proto máme všichni shodné označení oddílu '2'.
+          Jsme uskupení 6 skautských oddílů, které spolu úzce spolupracují, proto máme všichni shodné označení oddílu - 2. Patříme pod středisko Srdíčko Třebíč.
           Každý oddíl se schází jednou týdně, jezdí na výpravy, skautské závody a tábor.
           Jsme katolické oddíly, proto se na schůzkách modlíme a snažíme se dbát na duchovní rozvoj dětí.
         </p>

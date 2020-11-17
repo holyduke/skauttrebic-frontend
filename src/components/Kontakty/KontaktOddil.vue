@@ -59,6 +59,7 @@ import Constants from "@/constants.js";
 import Confirm from "../Confirm";
 
 
+
 export default {
   name: "Kontakt",
 
@@ -115,7 +116,8 @@ export default {
             let promises = [];       
 
             //delete photo
-            if (vedouci.fotka[0].url) {
+            if (vedouci.fotka.length) {
+              console.log("deleting photo")
               promises.push(
                 axios.delete('/upload/files/' + vedouci.fotka[0]._id)
                   .then((response) => {
@@ -123,6 +125,7 @@ export default {
                   })
                   .catch(function(e){
                     console.log('error while deleting photo of vedouci',e);
+                    this.setLoading(false); 
                   }));
             }
             
@@ -135,6 +138,7 @@ export default {
               })
               .catch(function(e){
                 console.log('error while deleting vedouci',e);
+                this.setLoading(false); 
               }));
 
             Promise.all(promises)

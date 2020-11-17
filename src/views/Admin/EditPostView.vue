@@ -37,13 +37,9 @@
             >Zvolte alespoň jeden oddíl</v-alert
           >
         </v-col>
-        <!-- <h2 class="mt-5 nadpis">Náhledový obrázek</h2>
-      <v-file-input show-size accept="image/*" v-model="post.thumbnail" label="Náhledový obrázek"></v-file-input> -->
 
-        <!-- <h2 class="mt-0 nadpis">Text</h2> -->
-        <!-- all together now, and allow up to 20MB images -->
         <v-col cols="12">
-          <TextEditor @fileUpload="fileUpload"/>
+          <TextEditor />
         </v-col>
 
         <v-col cols="12">
@@ -137,11 +133,8 @@ export default {
       nadpis: "",
       files: null,
       file_IDs: [],
-      thumbnail: null,
-      thumbnail_ID: "",
       original: {
         files: [],
-        thumbnail: "",
       },
       selectedOddily: [],
       selectedIndexes: [],
@@ -165,10 +158,6 @@ export default {
   }),
 
   methods: {
-    fileUpload()  {
-      console.log("file was uploaded and an event was emited -----------")
-    },
-
     publish() {
       console.log(
         "------------------------------- publishing ----------------------------------------------"
@@ -178,12 +167,12 @@ export default {
       this.getSelectedOddily(); //this.post.selectedoddily gets updated
       if (this.validate()) {
         this.loading = true;
-        if (this.editView) {
-          //editing existing post
-          console.log("trying to update post", this.post);
-          this.uploadNewFiles().then(() => {
-            axios
-              .put("/aktualitas/" + this.post._id, this.getDataObject)
+        this.deleteUnusedImages();
+        this.uploadNewFiles().then(() => {
+          if (this.editView) {
+            //editing existing post
+            console.log("trying to update post", this.post);
+            axios.put("/aktualitas/" + this.post._id, this.getDataObject)
               .then((result) => {
                 this.loading = false;
                 router.push("/aktuality/prispevek/" + result.data._id);
@@ -193,14 +182,10 @@ export default {
                 this.loading = false;
                 console.log("put update FAILURE", e);
               });
-          });
-        } else {
-          //creating new post
-          console.log("trying to publish post");
-
-          this.uploadNewFiles().then(() => {
-            axios
-              .post("/aktualitas", this.getDataObject)
+          } else {
+            //creating new post
+            console.log("trying to publish post");
+            axios.post("/aktualitas", this.getDataObject)
               .then((result) => {
                 this.loading = false;
                 console.log(result);
@@ -210,9 +195,41 @@ export default {
                 this.loading = false;
                 console.log("post FAILURE", e);
               });
-          });
-        }
+          }
+        });
       }
+    },
+
+    deleteUnusedImages()  {
+      const images_in_text = this.findImagesInPost();
+      console.log(images_in_text);
+      this.$store.getters.getPostImages.forEach((image) =>  {
+        let doNotDelete = false;
+        for (const [format, obj] of Object.entries(image.formats)) {
+          console.log(`${format}: ${obj.url}`);
+          if (images_in_text.includes(obj.url)) {
+            doNotDelete = true;
+          }
+        }
+        if (!doNotDelete) { //no match found -> will delete img and remove from post.obrazky
+          this.$store.dispatch("deleteFile", image.id);
+          // image will be automatically removed from post.obrazky (cool thing)
+        }
+      })
+    },
+
+    findImagesInPost()  {
+      var xss = require("xss");
+      var list = [];
+      xss(this.post.content, {
+        onTagAttr: function (tag, name, value) {
+          if (tag === "img" && name === "src") {
+            list.push(xss.friendlyAttrValue(value));
+          }
+        },
+      });
+      console.log("found all images which are used in text:", list);
+      return list;
     },
 
     validate() {
@@ -228,11 +245,6 @@ export default {
       } else return false;
     },
 
-    // selectOddil() {
-    // console.log("selecting oddil:", this.post.selectedIndexes);
-    // this.showHintLbl = false;
-    // },
-
     deletePost() {
       this.$refs.confirm
         .open(
@@ -247,9 +259,14 @@ export default {
                 this.$store.dispatch("deleteFile", file.id);
               });
             }
+            if (this.$store.getters.getPostImages) {
+              this.$store.getters.getPostImages.forEach((file) => {
+                this.$store.dispatch("deleteFile", file.id);
+              });
+            }
             if (this.images_ID.length) {
-              console.log("deleting all images inside a post....")
-              this.images_ID.forEach((image_ID) =>  {
+              console.log("deleting all images inside a post....");
+              this.images_ID.forEach((image_ID) => {
                 this.$store.dispatch("deleteFile", image_ID);
               });
             }
@@ -263,40 +280,8 @@ export default {
     uploadNewFiles() {
       return new Promise((resolve) => {
         let promises = [];
-        //resolve new thumbnail
-        if (this.post.thumbnail == undefined) {
-          //deleting thumbnail
-          if (this.post.original.thumbnail != "") {
-            this.$store.dispatch("deleteFile", this.post.original.thumbnail.id);
-            this.post.thumbnail_ID = null;
-          }
-        } else {
-          if (this.post.original.thumbnail != "") {
-            //there was previously already a thumbnail
-            if (this.post.original.thumbnail.id != this.post.thumbnail.id) {
-              //only if new thumbnail is different from previous -> delete and upload new
-              this.$store.dispatch(
-                "deleteFile",
-                this.post.original.thumbnail.id
-              );
-              console.log("uploading new thumbnail:", this.post.thumbnail);
-              const promise = this.uploadFile(this.post.thumbnail).then(
-                (res) => {
-                  this.post.thumbnail_ID = res.id;
-                }
-              );
-              promises.push(promise);
-            }
-          } else {
-            //uploading new thumbnail
-            const promise = this.uploadFile(this.post.thumbnail).then((res) => {
-              this.post.thumbnail_ID = res.id;
-            });
-            promises.push(promise);
-          }
-        }
 
-        //upload new files
+        //upload new files (attachments)
         if (this.post.newfiles) {
           this.post.newfiles.forEach((file) => {
             console.log("trying to upload new file", file);
@@ -320,19 +305,6 @@ export default {
       return new Promise((resolve) => {
         let promises = [];
 
-        //thumbnail
-        if (this.post.thumbnail != null) {
-          console.log("publishing thumbnail", this.post.thumbnail);
-          // let formData = new FormData();
-          // formData.append("files", this.post.thumbnail);
-          const promise = this.uploadFile(this.post.thumbnail).then((res) => {
-            console.log("res", res);
-            this.post.thumbnail_ID = res.id;
-            console.log("thumbnail_ID", this.thumbnail_ID);
-          });
-          promises.push(promise);
-        }
-
         // attachments
         if (this.post.files != null) {
           this.post.files.forEach((element) => {
@@ -354,21 +326,6 @@ export default {
       });
     },
 
-    //return a promise that resolves with a File instance https://stackoverflow.com/questions/35940290/how-to-convert-base64-string-to-javascript-file-object-like-as-from-file-input-f
-    urltoFile(dataurl, filename) {
-      var arr = dataurl.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-
-      return new File([u8arr], filename, { type: mime });
-    },
-
     uploadFile(file) {
       let formData = new FormData();
       console.log("uploading new file -", file);
@@ -380,11 +337,7 @@ export default {
           })
           .then((response) => {
             console.log("file upload successfull", response);
-            // this.post.file_IDs.push(response.data[0].id);
             resolve(response.data[0]);
-            // this.file_id = response.data[0]._id;
-            // console.log('editedPerson',this.editedPerson);
-            // console.log('file_id',this.file_id);
           })
           .catch(function (e) {
             console.log("upload image FAILURE!!");
@@ -394,13 +347,7 @@ export default {
       });
     },
 
-
     getSelectedOddily() {
-      console.log("------------------------");
-      console.log(
-        "Oddily:",
-        this.oddily.map((a) => a.nazev)
-      );
       console.log("selectedIndexes: ", this.post.selectedIndexes);
       this.post.selectedOddily = [];
       for (const ind in this.post.selectedIndexes) {
@@ -408,8 +355,6 @@ export default {
           this.oddily[this.post.selectedIndexes[ind]]
         );
       }
-      console.log("vybrane oddily = ", this.post.selectedOddily);
-      console.log("------------------------");
     },
 
     getOddily() {
@@ -427,15 +372,6 @@ export default {
       return arrayOfIDs;
     },
 
-    generateObrazkyObj() {
-      let arrayOfIDs = [];
-      console.log("this.images_ID", this.images_ID);
-      this.images_ID.forEach((image_id) => {
-        console.log("image_id", image_id);
-        arrayOfIDs.push({ _id: image_id });
-      });
-      return arrayOfIDs;
-    },
 
     generateOddilyObj() {
       let arrayOfOddils = [];
@@ -445,13 +381,6 @@ export default {
       });
       console.log("arrayOfOddils", arrayOfOddils);
       return arrayOfOddils;
-    },
-
-    generateObrazek() {
-      console.log("generating obrazek");
-      if (this.post.thumbnail == null) {
-        return null;
-      } else return { _id: this.post.thumbnail_ID };
     },
   },
 
@@ -469,52 +398,54 @@ export default {
         autor: {
           _id: this.$store.getters.get_id,
         },
-        obrazky: this.generateObrazkyObj(),
+        obrazky: this.$store.getters.getPostImages,
       };
       return header;
     },
   },
 
   created() {
+    //Promise 1 - load oddily
     let promise1 = this.getOddily();
-    let promise2;
+    let promise2 = null;
 
-    if (this.$route.params._id) { //loading existing post
+    //Promise 2 - load aktualita
+    if (this.$route.params._id) {
+      //loading existing post
       this.editView = true;
       console.log("getting aktualita with _id", this.$route.params._id);
       promise2 = axios.get("/aktualitas/" + this.$route.params._id);
-    }
-
-    else  { //creating fresh new post
+    } else {
+      //creating fresh new post
       this.$store.dispatch("setPostContent", "");
+      this.$store.dispatch("setPostImages", []);
     }
 
     Promise.all([promise1, promise2]).then((values) => {
       this.oddily = values[0];
-      const response = values[1];
-      console.log("post received from axios", response);
-      this.post.nadpis = response.data.nadpis;
-      this.post._id = response.data._id;
-      this.post.content = response.data.text;
-      this.$store.dispatch("setPostContent", this.post.content);
-      this.post.files = response.data.priloha;
-      console.log("files", this.post.files);
-      this.post.file_IDs = this.post.files.map((file) => {
-        return file._id;
-      });
-      this.post.original.files = this.post.files;
-      this.post.thumbnail = response.data.obrazek;
-      if (this.post.thumbnail != null) {
-        this.post.thumbnail_ID = response.data.obrazek._id;
-        this.post.original.thumbnail = this.post.thumbnail;
-      }
-      response.data.oddils.forEach((oddil) => {
-        const index = this.oddily.findIndex((it) => {
-          return it._id == oddil._id;
+      if (promise2) { //if loading existing post
+        const response = values[1];
+        console.log("post received from axios", response);
+        this.post.nadpis = response.data.nadpis;
+        this.post._id = response.data._id;
+        this.post.content = response.data.text;
+        this.post.obrazky = response.data.obrazky;
+        this.$store.dispatch("setPostContent", this.post.content);
+        this.$store.dispatch("setPostImages", this.post.obrazky);
+        this.post.files = response.data.priloha;
+        console.log("files", this.post.files);
+        this.post.file_IDs = this.post.files.map((file) => {
+          return file._id;
         });
-        console.log("index of selected oddil is", index);
-        this.post.selectedIndexes.push(index);
-      });
+        this.post.original.files = this.post.files;
+        response.data.oddils.forEach((oddil) => {
+          const index = this.oddily.findIndex((it) => {
+            return it._id == oddil._id;
+          });
+          console.log("index of selected oddil is", index);
+          this.post.selectedIndexes.push(index);
+        });
+      }
     });
   },
 

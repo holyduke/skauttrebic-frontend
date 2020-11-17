@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-hover v-slot:default="{hover}">
-      <v-card class="my-5 mx-auto card" max-width="344" :elevation="hover ? 3 : 1" raised>
+      <v-card class="my-5 mx-auto card" max-width="344" :elevation="hover ? 5 : 3" raised>
         <v-img
           v-if="local_img"
           v-show="fotkaUrl"
@@ -14,7 +14,7 @@
           v-show="fotkaUrl"
           class="white--text align-end fotka"
           height="300px"
-          :src="fotkaUrl"
+          :src="getFotkaLargeUrl"
         >
         </v-img>
         <v-card-title v-show="jmeno" class="jmeno">
@@ -130,7 +130,8 @@
 </template>
 
 <script>
-// import Confirm from "@/components/Confirm";
+import FetchImagesMixin from "@/mixins/FetchImagesMixin";
+
 
 export default {
   name: "PersonCard",
@@ -157,6 +158,8 @@ export default {
     };
   },
 
+  mixins: [FetchImagesMixin],
+
   methods:  {
     deleteItem()  {
       this.$emit('deleteItem');      
@@ -173,18 +176,14 @@ export default {
       return this.telefon.replace(/(\d{3})/g, "$1 ").replace(/(^\s+|\s+$)/, "");
     },
 
-    // getBackendAPI() {
-    //   return this.$store.getters.getBackendAPI;
-    // },
+    getFotkaLargeUrl() {
+       return this.getImageLargeUrl(this.fotkaUrl);
+    },
 
     isContributor() {
       return this.$store.getters.isContributor;
     },
   },
-
-  // components: {
-  //   Confirm
-  // }
 };
 </script>
 
