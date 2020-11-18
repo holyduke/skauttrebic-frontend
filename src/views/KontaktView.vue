@@ -1,7 +1,7 @@
 <template>
   <v-container class="my-3" grid-list-xs text-center>
     <div v-if="id">
-      <h1 class="mb-0" id="Aktuality">Kontakty na hlavní vedoucí</h1>  
+      <h1 class="mb-0" id="Aktuality">Vedoucí</h1>  
       <v-divider class="mb-2"></v-divider>    
       <KontaktOddil :oddil="id" />
     </div>

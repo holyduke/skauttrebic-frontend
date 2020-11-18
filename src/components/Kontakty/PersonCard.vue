@@ -9,15 +9,13 @@
       >
         <v-img
           v-if="local_img"
-          v-show="fotka"
-          class="white--text align-end fotka"
+          v-show="localFotkaUrlAvailable"
           height="300px"
-          :src="fotka"
+          :src="getLocalFotkaUrl"
         ></v-img>
         <v-img
           v-else
           v-show="fotka"
-          class="white--text align-end fotka"
           height="300px"
           :src="getFotkaUrl"
         >
@@ -191,8 +189,27 @@ export default {
       return this.telefon.replace(/(\d{3})/g, "$1 ").replace(/(^\s+|\s+$)/, "");
     },
 
-    getFotkaUrl() {
-      return this.getImageUrlFormatOrLower(this.fotka, "large");
+    localFotkaUrlAvailable()  {
+      try {
+        if (this.fotka.url) return true;
+      } catch (error) {
+        return false;
+      }
+      return false;
+    },
+
+    getLocalFotkaUrl()  {
+      if (this.fotka == null) {
+        return null;
+      }
+      return this.fotka.url;
+    },
+
+    getFotkaUrl() {  
+      if (this.fotka) {
+        return this.getImageUrlFormatOrLower(this.fotka, "large");
+      }    
+      else return null;
     },
 
     isContributor() {

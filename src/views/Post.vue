@@ -1,85 +1,97 @@
 <template>
-  <v-container v-if="aktualita" grid-list-xs class="my-5">
-    <div v-if="loading" class="text-center">
-      <v-progress-circular
-        :size="100"
-        :width="10"
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
-    </div>
-    <div
-      :class="{
-        'ma-0': $vuetify.breakpoint.mdAndDown,
-        marginlg: $vuetify.breakpoint.lg,
-        marginxl: $vuetify.breakpoint.xl,
-      }"
-      v-else
-    >
-      <v-layout row wrap justify-space-around class="heading mx-0">
-        <v-flex xs12 sm8 md9 lg10 xl10>
-          <div class="outer ml-5">
-            <div>
-              <h1>{{ aktualita.nadpis }}</h1>
-              <v-divider class="mb-2"></v-divider>
-              <h4>Publikováno: {{ getCETDate }}</h4>
-              <h4>
-                Autor:
-                <v-chip
-                  class="ml-1 autorChip"
-                  color="default"
-                  text-color="#555"
-                  small
-                >
-                  <v-avatar left>
-                    <v-icon>mdi-account-circle</v-icon>
-                  </v-avatar>
-                  {{ aktualita.autor.jmeno }}
-                  <span class="ml-2" v-show="aktualita.autor.prezdivka"
-                    >({{ aktualita.autor.prezdivka }})</span
-                  >
-                </v-chip>
-              </h4>
-              <h4>
-                Oddíly:
-                <v-chip
-                  v-for="(oddil, index) in aktualita.oddils"
-                  :key="index"
-                  :color="colors[oddil.nazev]"
-                  dark
-                  class="chip ml-1"
-                  small
-                  >{{ oddil.nazev }}</v-chip
-                >
-              </h4>
-            </div>
-          </div>
-        </v-flex>
-        <v-flex xs12 sm4 md3 lg2 xl2>
-          <v-img
-            class="cover"
-            v-if="aktualita.obrazek"
-            :src="aktualita.obrazek.url"
-          ></v-img>
-        </v-flex>
-      </v-layout>
-      <div class="pa-6 mt-2 zprava">
-        <div v-html="aktualita.text"></div>
-        <FilesToDownload
-          v-if="aktualita.priloha.length"
-          :priloha="aktualita.priloha"
-          :showDeleteBtn="false"
-        />
+  <v-container grid-list-xs class="my-5">
+    <div v-if="aktualita">
+      <div v-if="loading" class="text-center">
+        <v-progress-circular
+          :size="100"
+          :width="10"
+          color="primary"
+          indeterminate
+        ></v-progress-circular>
       </div>
-      <v-btn
-        large
-        class="px-4 mx-2 my-5 white--text float-right"
-        v-if="isContributor"
-        color="#174085"
-        :to="{ name: 'EditPost', params: { _id: aktualita._id } }"
+      <div
+        :class="{
+          'ma-0': $vuetify.breakpoint.mdAndDown,
+          marginlg: $vuetify.breakpoint.lg,
+          marginxl: $vuetify.breakpoint.xl,
+        }"
+        v-else
       >
-        <v-icon class="mr-1">mdi-pencil</v-icon>Upravit
-      </v-btn>
+        <v-layout row wrap justify-space-around class="heading mx-0">
+          <v-flex xs12 sm8 md9 lg10 xl10>
+            <div class="outer ml-5">
+              <div>
+                <h1>{{ aktualita.nadpis }}</h1>
+                <v-divider class="mb-2"></v-divider>
+                <h4>Publikováno: {{ getCETDate }}</h4>
+                <h4>
+                  Autor:
+                  <v-chip
+                    class="ml-1 autorChip"
+                    color="default"
+                    text-color="#555"
+                    small
+                  >
+                    <v-avatar left>
+                      <v-icon>mdi-account-circle</v-icon>
+                    </v-avatar>
+                    {{ aktualita.autor.jmeno }}
+                    <span class="ml-2" v-show="aktualita.autor.prezdivka"
+                      >({{ aktualita.autor.prezdivka }})</span
+                    >
+                  </v-chip>
+                </h4>
+                <h4>
+                  Oddíly:
+                  <v-chip
+                    v-for="(oddil, index) in aktualita.oddils"
+                    :key="index"
+                    :color="colors[oddil.nazev]"
+                    dark
+                    class="chip ml-1"
+                    small
+                    >{{ oddil.nazev }}</v-chip
+                  >
+                </h4>
+              </div>
+            </div>
+          </v-flex>
+          <v-flex xs12 sm4 md3 lg2 xl2>
+            <v-img
+              class="cover"
+              v-if="aktualita.obrazek"
+              :src="aktualita.obrazek.url"
+            ></v-img>
+          </v-flex>
+        </v-layout>
+        <div class="pa-6 mt-2 zprava">
+          <div v-html="aktualita.text"></div>
+          <FilesToDownload
+            v-if="aktualita.priloha.length"
+            :priloha="aktualita.priloha"
+            :showDeleteBtn="false"
+          />
+        </div>
+        <v-btn
+          large
+          class="px-4 mx-2 my-5 white--text float-right"
+          v-if="isContributor"
+          color="#174085"
+          :to="{ name: 'EditPost', params: { _id: aktualita._id } }"
+        >
+          <v-icon class="mr-1">mdi-pencil</v-icon>Upravit
+        </v-btn>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div v-else class="text-center grey--text align-center justify-center"> 
+      <p>Načítám aktualitu...</p>
+      <v-progress-circular
+      :size="80"
+      color="primary"
+      indeterminate
+    ></v-progress-circular>
     </div>
   </v-container>
 </template>
@@ -271,7 +283,7 @@ h4 {
     padding: 20px 5px !important;
   }
 
-  .zprava >>> .image {  
+  .zprava >>> .image {
     width: 100% !important;
   }
 
@@ -304,8 +316,6 @@ h4 {
   background: hsla(0, 0%, 0%, 5%);
 }
 
-
-
 /* Media */
 
 .zprava >>> .media {
@@ -314,9 +324,8 @@ h4 {
 }
 
 /* Marker - disable default behaviour */
-.zprava >>> mark  { 
+.zprava >>> mark {
   background-color: white;
-
 }
 
 .zprava >>> .marker-yellow {
@@ -350,19 +359,19 @@ h4 {
 }
 
 /* Font size */
-.zprava >>> .text-tiny  {
+.zprava >>> .text-tiny {
   font-size: 0.5rem;
 }
 
-.zprava >>> .text-small  {
+.zprava >>> .text-small {
   font-size: 0.75rem;
 }
 
-.zprava >>> .text-big  {
+.zprava >>> .text-big {
   font-size: 1.5rem;
 }
 
-.zprava >>> .text-huge  {
+.zprava >>> .text-huge {
   font-size: 2.5rem;
 }
 </style>

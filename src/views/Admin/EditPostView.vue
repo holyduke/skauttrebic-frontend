@@ -172,7 +172,8 @@ export default {
           if (this.editView) {
             //editing existing post
             console.log("trying to update post", this.post);
-            axios.put("/aktualitas/" + this.post._id, this.getDataObject)
+            axios
+              .put("/aktualitas/" + this.post._id, this.getDataObject)
               .then((result) => {
                 this.loading = false;
                 router.push("/aktuality/prispevek/" + result.data._id);
@@ -185,7 +186,8 @@ export default {
           } else {
             //creating new post
             console.log("trying to publish post");
-            axios.post("/aktualitas", this.getDataObject)
+            axios
+              .post("/aktualitas", this.getDataObject)
               .then((result) => {
                 this.loading = false;
                 console.log(result);
@@ -200,25 +202,35 @@ export default {
       }
     },
 
-    deleteUnusedImages()  {
+    deleteUnusedImages() {
       const images_in_text = this.findImagesInPost();
       console.log(images_in_text);
-      this.$store.getters.getPostImages.forEach((image) =>  {
+      this.$store.getters.getPostImages.forEach((image) => {
         let doNotDelete = false;
-        for (const [format, obj] of Object.entries(image.formats)) {
-          console.log(`${format}: ${obj.url}`);
-          if (images_in_text.includes(obj.url)) {
-            doNotDelete = true;
+        if (image.formats) {
+          for (const [format, obj] of Object.entries(image.formats)) {
+            //sometimes, there might be empty <img bracket>
+            console.log(`${format}: ${obj.url}`);
+            if (images_in_text.includes(obj.url)) {
+              doNotDelete = true;
+            }
           }
         }
-        if (!doNotDelete) { //no match found -> will delete img and remove from post.obrazky
+
+        //default url in text?
+        if (images_in_text.includes(image.url)) {
+          doNotDelete = true;
+        }
+
+        if (!doNotDelete) {
+          //no match found -> will delete img and remove from post.obrazky
           this.$store.dispatch("deleteFile", image.id);
           // image will be automatically removed from post.obrazky (cool thing)
         }
-      })
+      });
     },
 
-    findImagesInPost()  {
+    findImagesInPost() {
       var xss = require("xss");
       var list = [];
       xss(this.post.content, {
@@ -372,7 +384,6 @@ export default {
       return arrayOfIDs;
     },
 
-
     generateOddilyObj() {
       let arrayOfOddils = [];
       this.post.selectedOddily.forEach((oddil) => {
@@ -423,7 +434,8 @@ export default {
 
     Promise.all([promise1, promise2]).then((values) => {
       this.oddily = values[0];
-      if (promise2) { //if loading existing post
+      if (promise2) {
+        //if loading existing post
         const response = values[1];
         console.log("post received from axios", response);
         this.post.nadpis = response.data.nadpis;
