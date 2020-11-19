@@ -9,7 +9,7 @@
       :to="{ name: 'Post', params: { _id: aktualita._id } }"
     >
       <div
-      v-if="thumbnail_url"
+        v-if="thumbnail_url"
         class="rubrika"
         :style="{ backgroundImage: 'url(' + thumbnail_url + ')' }"
       >
@@ -115,13 +115,29 @@ export default {
         }        
       }      
        return String(this.aktualita.createdAtCET.getDate()) + ". " + String(this.aktualita.createdAtCET.getMonth()+1) + ". " + String(this.aktualita.createdAtCET.getFullYear());
-    }
+    },    
+
+    findFirstImageInPost() {
+      var xss = require("xss");
+      var list = [];
+      xss(this.aktualita.text, {
+        onTagAttr: function (tag, name, value) {
+          if (tag === "img" && name === "src") {
+            list.push(xss.friendlyAttrValue(value));
+          }
+        },
+      });
+      console.log("images which are used in text:", list);
+      return list[0];
+    },
+    
   },
 
-  computed: {
+  computed: {       
     thumbnail_url() {
-      if (this.aktualita.obrazky.length)  {
-        return this.getImageUrlFormatOrLower(this.aktualita.obrazky[0], "medium");
+      const thumbnail_url = this.findFirstImageInPost();
+      if (thumbnail_url != null)  {
+        return thumbnail_url
       }
       return null;
     },
