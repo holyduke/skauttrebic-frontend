@@ -466,6 +466,8 @@ export default {
         next(false);
       }
     } else {
+      this.$store.dispatch("setPostContent", "");
+      this.$store.dispatch("setPostImages", []);
       next();
     }
   },
