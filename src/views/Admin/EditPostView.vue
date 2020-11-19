@@ -96,7 +96,7 @@
             v-if="editView"
             class="white--text mx-5"
             @click="deletePost"
-            >Smazat</v-btn
+            >Smazat příspěvek</v-btn
           >
         </v-col>
       </v-row>
