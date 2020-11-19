@@ -27,6 +27,7 @@ const store = new Vuex.Store({
 		post: {	//used only for editing
 			content: "",
 			images: [],
+			uploadingImage:false,
 		},
 		adminMenu: {
 			edit: {
@@ -149,6 +150,9 @@ const store = new Vuex.Store({
 		getPostImages: (state) => {
 			return state.post.images;
 		},
+		getUploadingImageFlag: (state) => {
+			return state.post.uploadingImage;
+		},
 		getSaveSnackbar: (state) => {
 			return state.saveSnackbar;
 		},
@@ -251,6 +255,11 @@ const store = new Vuex.Store({
 			state.post.images.push(newFile);
 		},
 
+		setUploadingImageFlag: (state, newFlag) => {
+			console.log('Uploading new image to the post (I am logging this from Vuex store)...');
+			state.post.uploadingImage = newFlag;
+		},
+
 		setPostImages: (state, images) => {
 			console.log('Setting post images in store...');
 			state.post.images = images;
@@ -331,6 +340,10 @@ const store = new Vuex.Store({
 
 		appendPostImages: (context, file) => {
 			context.commit('appendPostImages', file);
+		},
+
+		setUploadingImageFlag: (context, flag) => {
+			context.commit('setUploadingImageFlag', flag);
 		},
 
 		setPostImages: (context, images) => {

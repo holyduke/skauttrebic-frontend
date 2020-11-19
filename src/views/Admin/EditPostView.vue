@@ -97,7 +97,7 @@
           >
           <v-btn
             :loading="loading"
-            :disabled="!valid"
+            :disabled="!valid || uploadingImage"
             color="#174085"
             class="white--text"
             @click="publish"
@@ -398,6 +398,10 @@ export default {
   computed: {
     images_ID() {
       return this.$store.getters.getPostImages;
+    },
+
+    uploadingImage()  {
+      return this.$store.getters.getUploadingImageFlag;
     },
 
     getDataObject() {

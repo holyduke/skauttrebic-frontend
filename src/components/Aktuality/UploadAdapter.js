@@ -12,6 +12,7 @@ export default class UploadAdapter {
     upload() {
         return this.loader.file
             .then( file => new Promise( ( resolve, reject ) => {
+                store.dispatch("setUploadingImageFlag", true);  //prevent from hitting "upload post" button while image is loading
                 let formData = new FormData();
                 console.log("uploading new file -", file);
                 formData.append("files", file);
@@ -19,6 +20,7 @@ export default class UploadAdapter {
                     .then((response) => {
                         console.log("file upload successfull", response);
                         store.dispatch("appendPostImages", response.data[0]);
+                        store.dispatch("setUploadingImageFlag", false);
                         const image_url = FetchImagesMixin.methods.getImageUrlFormatOrLower(response.data[0], "large");
                         console.log("desired image url", image_url);
                         resolve( {
@@ -27,6 +29,7 @@ export default class UploadAdapter {
                     })
                     .catch(function (e) {
                         console.log("upload image FAILURE!!");
+                        store.dispatch("setUploadingImageFlag", false);
                         reject("image reject");
                         console.log(e);
                     });
