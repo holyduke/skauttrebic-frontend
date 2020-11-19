@@ -40,13 +40,13 @@ export default {
   methods: {
     printFileSize: function (s) {
       if (s) {
-        if (s<1000) { //data from Strapi are in bytes while from local are in kB
-          s*=1000;
+        if (s>1000) { //MB
+          return (s/1000).toFixed(1) + " MB";
         }
-        let unit = s < 1000000 ? "kB" : "MB";
-        s = s > 1000000 ? Math.ceil(s / 1000000) : Math.ceil(s/1000);
-        return s + " " + unit;
-      } else return "";
+        else  {
+          return s.toFixed(0) + " kB";
+        }
+      }
     },
 
     deleteFile(_id) {

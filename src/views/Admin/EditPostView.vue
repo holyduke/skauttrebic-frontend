@@ -9,6 +9,7 @@
         <v-col cols="12" sm="6" md="6">
           <h2 class="mt-2 nadpis">Název</h2>
           <v-text-field
+            @keyup="editedFlag = true"
             :rules="textRules"
             required
             label="Nadpis"
@@ -39,11 +40,10 @@
         </v-col>
 
         <v-col cols="12">
-          <TextEditor />
+          <TextEditor @contentChanged="editedFlag = true"/>
         </v-col>
 
         <v-col cols="12">
-          <template v-if="editView">
             <h2 class="mt-5 nadpis">Nahrát nové přílohy</h2>
             <v-file-input
               show-size
@@ -52,18 +52,6 @@
               v-model="post.newfiles"
               label="Soubory"
             ></v-file-input>
-          </template>
-
-          <template v-else>
-            <h2 class="mt-5 nadpis">Přílohy</h2>
-            <v-file-input
-              show-size
-              multiple
-              accept="*"
-              v-model="post.files"
-              label="Soubory"
-            ></v-file-input>
-          </template>
 
           <FilesToDownload
             v-if="post.files != null"
@@ -129,6 +117,7 @@ export default {
 
   data: () => ({
     loading: false,
+    editedFlag: false,
     post: {
       nadpis: "",
       files: null,
@@ -166,6 +155,7 @@ export default {
       console.log("data read from Vuex store successfully", this.post.content);
       this.getSelectedOddily(); //this.post.selectedoddily gets updated
       if (this.validate()) {
+        this.editedFlag = false; // allow to redirect to new post
         this.loading = true;
         this.deleteUnusedImages();
         this.uploadNewFiles().then(() => {
@@ -463,6 +453,21 @@ export default {
         });
       }
     });
+  },
+
+  beforeRouteLeave(to, from, next) {
+    if (this.editedFlag) {
+      const answer = window.confirm(
+        "Opravdu chcete odejít? Veškeré neuložené změny nebudou uloženy."
+      );
+      if (answer) {
+        next();
+      } else {
+        next(false);
+      }
+    } else {
+      next();
+    }
   },
 
   watch: {

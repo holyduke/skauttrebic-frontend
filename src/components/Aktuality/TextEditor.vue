@@ -71,6 +71,7 @@ export default {
     content: {
       set(value) {
         this.$store.dispatch("setPostContent", value);
+        this.$emit('contentChanged') ;
       },
       get() {
         return this.$store.getters.getPostContent;
