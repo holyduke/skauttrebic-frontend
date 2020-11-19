@@ -260,6 +260,7 @@ h4 {
 /* Images */
 .zprava >>> .image {
   margin: 0 auto 0.55em;
+  text-align: center;
 }
 
 .zprava >>> .image img {
