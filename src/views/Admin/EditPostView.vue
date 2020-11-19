@@ -273,6 +273,7 @@ export default {
               });
             }
             this.$store.dispatch("deletePost", this.post._id).then(() => {
+              this.editedFlag = false; // dont inform that we are leaving page
               router.push("/aktuality");
             });
           }
