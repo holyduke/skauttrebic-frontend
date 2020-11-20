@@ -107,6 +107,7 @@ export default {
           this.$store.dispatch('setRoleName',response.data.user.role.name);
           this.$store.dispatch('set_id',response.data.user._id);
           this.$store.dispatch("closeLoginDialog");
+          this.passwordVisible = false;
           const redirect_url = this.$route.query.redirect || "/aktuality";
           if (!this.doNotApplyRedirect) {
             this.$router.replace(redirect_url).catch(()=>{});
