@@ -7,7 +7,7 @@
         <iframe
           class="px-2"
           src="https://www.zonerama.com/Embed/Account/246290?color=gray-dark&autoplay=false&vertical=false"
-          style="width: 100%; height: 330px"
+          style="width: 100%; height: 350px"
           scrolling="no"
           frameborder="0"
           allowTransparency="true"

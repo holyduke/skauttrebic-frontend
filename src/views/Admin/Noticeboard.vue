@@ -16,7 +16,7 @@
             V tomto videu najdete všechny základní funkce týkající se skautského webu. 
           </p>
           <section class="video-container">
-            <iframe class="video" src="https://www.youtube.com/embed/SBjQ9tuuTJQ" frameborder="0" height="200px" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe> 
+            <iframe class="video" src="https://youtu.be/RcIg3_yEX7Y" frameborder="0" height="200px" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe> 
           </section>
         </v-card>
         <v-card
