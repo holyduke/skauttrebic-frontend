@@ -118,6 +118,12 @@
           style="cursor: pointer"
           class="title"
         >2. KATOLICKÝ ODDÍL TŘEBÍČ</router-link>
+        <span v-if="staging" class="ml-2 red--text">
+          STAGING
+        </span>
+        <span v-if="development" class="ml-2 red--text">
+          DEVELOPEMENT
+        </span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-md-and-down">
@@ -318,6 +324,18 @@ export default {
   },
 
   computed: {
+    development() {
+      return process.env.NODE_ENV === 'development';
+    },
+
+    staging() {
+      return process.env.NODE_ENV === 'staging';
+    },
+
+    production() {
+      return process.env.NODE_ENV === 'production';
+    },
+
     isContributor() {
       return this.$store.getters.isContributor
     },
