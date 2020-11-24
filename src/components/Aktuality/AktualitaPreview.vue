@@ -47,6 +47,7 @@
               color="default"
               text-color="#555"
               small
+              v-if="authorAvailable"
             >
               <v-avatar left>
                 <v-icon>mdi-account-circle</v-icon>
@@ -133,7 +134,16 @@ export default {
     
   },
 
-  computed: {       
+  computed: { 
+    authorAvailable() {
+      try {
+        return this.aktualita.autor.jmeno;
+      }
+      catch {
+        return false;
+      } 
+    },
+
     thumbnail_url() {
       const thumbnail_url = this.findFirstImageInPost();
       if (thumbnail_url != null)  {
