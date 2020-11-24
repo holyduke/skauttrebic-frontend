@@ -24,7 +24,7 @@
                 <h1>{{ aktualita.nadpis }}</h1>
                 <v-divider class="mb-2"></v-divider>
                 <h4>Publikováno: {{ getCETDate }}</h4>
-                <h4>
+                <h4 v-if="authorAvailable">
                   Autor:
                   <v-chip
                     class="ml-1 autorChip"
@@ -135,6 +135,15 @@ export default {
   },
 
   computed: {
+    authorAvailable() {
+      try {
+        return this.aktualita.autor.jmeno;
+      }
+      catch {
+        return false;
+      } 
+    },
+
     getCETDate: function () {
       try {
         // because of asynchronnous programming - it would require object which doesn´t exist yet
