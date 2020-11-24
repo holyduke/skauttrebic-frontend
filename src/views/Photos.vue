@@ -4,15 +4,26 @@
       <h1 class="mb-0" id="Aktuality">Fotografie</h1>
       <v-divider class="mb-2"></v-divider>
       <div class="zonerama">
-        <iframe
-          class="px-2"
-          src="https://www.zonerama.com/Embed/Account/246290?color=gray-dark&autoplay=false&vertical=false"
+        <iframe          
+          src="https://www.zonerama.com/Embed/Account/246290?color=blue&autoplay=false&vertical=false"
           style="width: 100%; height: 350px"
           scrolling="no"
           frameborder="0"
           allowTransparency="true"
         ></iframe>
       </div>
+      <div class="zonerama">
+        <iframe
+          src="https://www.zonerama.com/Embed/Account/24898?color=orange&autoplay=false&vertical=false"
+          style="width: 100%; height: 350px"
+          scrolling="no"
+          frameborder="0"
+          allowTransparency="true"
+        ></iframe>
+      </div>
+      <!-- <div class="zonerama">
+        <iframe src="https://www.zonerama.com/Embed/Account/260312?color=green&autoplay=false&vertical=false" style="width: 720px; height: 330px;" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+      </div> -->
     </div>
   </v-container>
 </template>
@@ -50,6 +61,7 @@ h1 {
 
 .zonerama {
   margin-top: 5px;
+  padding: 0 15px;
 }
 
 .main-container >>> .pull-menu {
