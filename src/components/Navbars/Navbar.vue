@@ -463,12 +463,7 @@ export default {
 }
 
 .navigation {
-  position: fixed;
-  top: 20px;
   z-index: 100 !important;
 }
 
-.mobileView {
-  position: sticky;
-}
 </style>

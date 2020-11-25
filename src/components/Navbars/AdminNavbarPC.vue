@@ -55,10 +55,10 @@ export default {
 
 <style scoped>
 .adminNavbar {
-  margin-top: 84px;
+  margin-top: 64px;
   position: fixed;
   z-index: 2;
-  /* top: 0; */
+  top: 0;
 }
 
 
