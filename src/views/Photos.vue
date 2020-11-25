@@ -4,7 +4,7 @@
       <h1 class="mb-0" id="Aktuality">Fotografie</h1>
       <v-divider class="mb-2"></v-divider>
       <div class="zonerama">
-        <iframe          
+        <iframe
           src="https://www.zonerama.com/Embed/Account/246290?color=blue&autoplay=false&vertical=false"
           style="width: 100%; height: 350px"
           scrolling="no"
@@ -20,6 +20,16 @@
           frameborder="0"
           allowTransparency="true"
         ></iframe>
+      </div>
+      <div class="mt-2 zonerama">
+        <v-btn
+          class="white--text"
+          color="#d12121"
+          target="_blank"
+          href="https://www.zonerama.com/RR2oddil/796874?secret=tPo6kX1lgW019pxPY8LkoYx92&fbclid=IwAR2dDjDAMN-WM4jGyY0AZ4N8rdGvEmEajokDc9ADja2BiCXn4ZCjQu5nXoI"
+        >
+          <strong>Roveři & Rangers</strong>
+        </v-btn>
       </div>
       <!-- <div class="zonerama">
         <iframe src="https://www.zonerama.com/Embed/Account/260312?color=green&autoplay=false&vertical=false" style="width: 720px; height: 330px;" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
