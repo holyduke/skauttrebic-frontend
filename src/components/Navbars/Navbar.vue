@@ -141,9 +141,7 @@
           >2. KATOLICKÝ ODDÍL TŘEBÍČ</router-link
         >
       </v-toolbar-title>
-      <v-chip v-if="staging()" class="ml-2 black--text" color="yellow"> <strong>STAGING</strong> </v-chip>
-      <v-chip v-if="development()" class="ml-2 white--text"  color="purple darken-1"> <strong>DEVELOPMENT</strong> </v-chip>
-      <v-chip v-if="pullrequest()" class="ml-2 white--text"  color="blue darken-3"> <strong>PULL REQUEST</strong> </v-chip>
+      <v-chip v-if="development()" class="ml-1 white--text"  color="purple darken-1"> <strong>DEVELOPMENT</strong> </v-chip>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-md-and-down">
         <v-menu
