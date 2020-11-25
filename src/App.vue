@@ -1,5 +1,5 @@
 <template>
-  <v-app>    
+  <v-app> 
     <Navbar />
     <v-main>
       <div :class="{ contributor: isContributor }">
@@ -15,7 +15,6 @@
 import Navbar from "./components/Navbars/Navbar";
 import Footer from "./components/Footer";
 import LoadingScreen from "./components/LoadingScreen";
-// import SwitchIconsGroups from "./SwitchIconsGroups";
 
 export default {
   name: "App",

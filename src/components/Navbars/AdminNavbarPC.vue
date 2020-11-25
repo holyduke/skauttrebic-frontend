@@ -55,11 +55,12 @@ export default {
 
 <style scoped>
 .adminNavbar {
-  margin-top: 64px;
+  margin-top: 84px;
   position: fixed;
   z-index: 2;
-  top: 0;
+  /* top: 0; */
 }
+
 
 .upravy {
   background-color: #222;

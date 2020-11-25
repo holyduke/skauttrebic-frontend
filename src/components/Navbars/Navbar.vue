@@ -21,7 +21,7 @@
             <div>
               <v-btn depressed color="#fff" router :to="item.link">
                 <v-icon left>{{ item.icon }}</v-icon>
-                <strong>{{item.title}}</strong>
+                <strong>{{ item.title }}</strong>
               </v-btn>
               <v-btn
                 v-bind="attrs"
@@ -29,8 +29,8 @@
                 v-if="item.subs"
                 @click="item.chosen = true"
                 depressed
-                color="#fff" 
-                class="text-right"               
+                color="#fff"
+                class="text-right"
               >
                 <v-icon>mdi-chevron-down</v-icon>
               </v-btn>
@@ -49,15 +49,21 @@
             </v-list-item>
           </v-list>
         </v-menu>
-        <AdminNavbarPhone v-if="isContributor"/>
+        <AdminNavbarPhone v-if="isContributor" />
       </v-list>
 
       <!-- add login button  -->
       <template v-if="!isLoggedIn" v-slot:append>
         <div class="my-7">
-          <v-btn dark large block color="#174085" @click.stop="setLoginDialogForm(true)">
+          <v-btn
+            dark
+            large
+            block
+            color="#174085"
+            @click.stop="setLoginDialogForm(true)"
+          >
             <v-icon left>{{ loginButton.icon }}</v-icon>
-            <strong>{{loginButton.title}}</strong>
+            <strong>{{ loginButton.title }}</strong>
           </v-btn>
         </div>
       </template>
@@ -68,7 +74,13 @@
           <p class="ml-1">Přihlášen jako:</p>
         </div>
 
-        <v-menu top open-on-hover transition="scale-transition" origin="top" offset-y>
+        <v-menu
+          top
+          open-on-hover
+          transition="scale-transition"
+          origin="top"
+          offset-y
+        >
           <template v-slot:activator="{ on, attrs }">
             <v-chip
               color="#174085"
@@ -80,8 +92,10 @@
               <v-avatar left>
                 <v-icon>mdi-account-circle</v-icon>
               </v-avatar>
-              {{getName}}
-              <span class="ml-1" v-show="getPrezdivka">({{getPrezdivka}})</span>
+              {{ getName }}
+              <span class="ml-1" v-show="getPrezdivka"
+                >({{ getPrezdivka }})</span
+              >
               <v-avatar right>
                 <v-icon>mdi-chevron-down</v-icon>
               </v-avatar>
@@ -91,7 +105,7 @@
             <v-list-item @click.stop="logout()">
               <v-list-item-title>
                 <v-icon left>{{ logoutButton.icon }}</v-icon>
-                {{logoutButton.title}}
+                {{ logoutButton.title }}
               </v-list-item-title>
             </v-list-item>
           </v-list>
@@ -100,8 +114,15 @@
     </v-navigation-drawer>
 
     <!-- -------------normal top navbar------------------------------------------------------------------------- -->
-    <v-app-bar app color="#f6a800" height="64px" :hide-on-scroll="$vuetify.breakpoint.mdAndDown ? true : false" class="navigation">
-      <router-link :to="{name: 'Home'}" tag="span" style="cursor: pointer">
+    <v-app-bar
+      app
+      color="#f6a800"
+      height="64px"
+      :hide-on-scroll="$vuetify.breakpoint.mdAndDown ? true : false"
+      class="navigation"
+      :class="{ mobileView: $vuetify.breakpoint.mdAndDown }"
+    >
+      <router-link :to="{ name: 'Home' }" tag="span" style="cursor: pointer">
         <v-img
           alt="Skautské logo"
           class="shrink mr-3"
@@ -113,18 +134,16 @@
       </router-link>
       <v-toolbar-title>
         <router-link
-          :to="{name: 'Home'}"
+          :to="{ name: 'Home' }"
           tag="span"
           style="cursor: pointer"
           class="title"
-        >2. KATOLICKÝ ODDÍL TŘEBÍČ</router-link>
-        <span v-if="staging" class="ml-2 red--text">
-          STAGING
-        </span>
-        <span v-if="development" class="ml-2 red--text">
-          DEVELOPEMENT
-        </span>
+          >2. KATOLICKÝ ODDÍL TŘEBÍČ</router-link
+        >
       </v-toolbar-title>
+      <v-chip v-if="staging()" class="ml-2 black--text" color="yellow"> <strong>STAGING</strong> </v-chip>
+      <v-chip v-if="development()" class="ml-2 white--text"  color="purple darken-1"> <strong>DEVELOPMENT</strong> </v-chip>
+      <v-chip v-if="pullrequest()" class="ml-2 white--text"  color="blue darken-3"> <strong>PULL REQUEST</strong> </v-chip>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-md-and-down">
         <v-menu
@@ -136,9 +155,16 @@
           :key="item.title"
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-btn depressed color="#f6a800" v-bind="attrs" v-on="on" router :to="item.link">
+            <v-btn
+              depressed
+              color="#f6a800"
+              v-bind="attrs"
+              v-on="on"
+              router
+              :to="item.link"
+            >
               <v-icon left>{{ item.icon }}</v-icon>
-              <strong>{{item.title}}</strong>
+              <strong>{{ item.title }}</strong>
             </v-btn>
           </template>
           <v-list v-if="item.subs">
@@ -162,20 +188,33 @@
             @click.stop="setLoginDialogForm(true)"
           >
             <v-icon left>{{ loginButton.icon }}</v-icon>
-            <strong>{{loginButton.title}}</strong>
+            <strong>{{ loginButton.title }}</strong>
           </v-btn>
         </template>
 
         <!-- add log out button -->
         <template v-if="isLoggedIn">
-          <v-menu open-on-hover transition="scale-transition" origin="top" offset-y>
+          <v-menu
+            open-on-hover
+            transition="scale-transition"
+            origin="top"
+            offset-y
+          >
             <template v-slot:activator="{ on, attrs }">
-              <v-chip color="#222" v-bind="attrs" v-on="on" dark class="align-self-center ml-4">
+              <v-chip
+                color="#222"
+                v-bind="attrs"
+                v-on="on"
+                dark
+                class="align-self-center ml-4"
+              >
                 <v-avatar left>
                   <v-icon>mdi-account-circle</v-icon>
                 </v-avatar>
-                {{getName}}
-                <span class="ml-1" v-show="getPrezdivka">({{getPrezdivka}})</span>
+                {{ getName }}
+                <span class="ml-1" v-show="getPrezdivka"
+                  >({{ getPrezdivka }})</span
+                >
                 <v-avatar right>
                   <v-icon>mdi-chevron-down</v-icon>
                 </v-avatar>
@@ -185,29 +224,39 @@
               <v-list-item @click.stop="logout()">
                 <v-list-item-title>
                   <v-icon left>{{ logoutButton.icon }}</v-icon>
-                  {{logoutButton.title}}
+                  {{ logoutButton.title }}
                 </v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
         </template>
       </v-toolbar-items>
-      <v-app-bar-nav-icon @click.stop="resetSideNav" class="hidden-lg-and-up"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon
+        @click.stop="resetSideNav"
+        class="hidden-lg-and-up"
+      ></v-app-bar-nav-icon>
     </v-app-bar>
 
-    
-    <AdminNavbarPC v-if="isContributor"/>
-    
+    <AdminNavbarPC v-if="isContributor" />
 
     <Login />
 
-    <v-snackbar v-model="isLoggedIn" v-if="getJustLoggedIn" :timeout="2500">Byli jste úspěšně přihlášeni.</v-snackbar>
-    <v-snackbar v-model="isLoggedOut" :timeout="2500">Byli jste úspěšně odhlášeni.</v-snackbar>
+    <v-snackbar v-model="isLoggedIn" v-if="getJustLoggedIn" :timeout="2500"
+      >Byli jste úspěšně přihlášeni.</v-snackbar
+    >
+    <v-snackbar v-model="isLoggedOut" :timeout="2500"
+      >Byli jste úspěšně odhlášeni.</v-snackbar
+    >
 
     <v-snackbar v-model="saveSnackbar" :timeout="2100">
       Změny byly úspěšně uloženy
       <template v-slot:action="{ attrs }">
-        <v-btn color="blue" text v-bind="attrs" @click="$store.commit('setSaveSnackbar',false)" >
+        <v-btn
+          color="blue"
+          text
+          v-bind="attrs"
+          @click="$store.commit('setSaveSnackbar', false)"
+        >
           Close
         </v-btn>
       </template>
@@ -220,6 +269,7 @@ import Login from "../Login/Login";
 import AdminNavbarPhone from "./AdminNavbarPhone";
 import AdminNavbarPC from "./AdminNavbarPC";
 import { mapActions } from "vuex";
+import Env from "@/mixins/Env";
 
 export default {
   data: () => ({
@@ -312,6 +362,9 @@ export default {
     },
   }),
 
+  mixins: [Env],
+
+
   methods: {
     resetSideNav: function () {
       this.sideNav = !this.sideNav;
@@ -323,21 +376,10 @@ export default {
     ...mapActions(["setLoginDialogForm", "logout"]),
   },
 
-  computed: {
-    development() {
-      return process.env.NODE_ENV === 'development';
-    },
-
-    staging() {
-      return process.env.NODE_ENV === 'staging';
-    },
-
-    production() {
-      return process.env.NODE_ENV === 'production';
-    },
+  computed: {    
 
     isContributor() {
-      return this.$store.getters.isContributor
+      return this.$store.getters.isContributor;
     },
     isLoggedIn: {
       set() {},
@@ -374,12 +416,12 @@ export default {
 
     saveSnackbar: {
       set(value) {
-        this.$store.commit('setSaveSnackbar',value);
+        this.$store.commit("setSaveSnackbar", value);
       },
       get() {
         return this.$store.getters.getSaveSnackbar;
-      }
-    }
+      },
+    },
   },
 
   components: {
@@ -421,7 +463,12 @@ export default {
 }
 
 .navigation {
-  /* position:static !important; */
+  position: fixed;
+  top: 20px;
   z-index: 100 !important;
+}
+
+.mobileView {
+  position: sticky;
 }
 </style>
