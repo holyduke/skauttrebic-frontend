@@ -16,7 +16,9 @@
     >
       <template v-slot:top>
         <v-toolbar flat color="white">
-          <v-toolbar-title>Emaily pro zasílání příspěvků</v-toolbar-title>
+          <v-toolbar-title
+            >Emaily bla bla pro zasílání příspěvků</v-toolbar-title
+          >
           <v-spacer></v-spacer>
           <v-text-field
             class="d-none d-md-flex mdAndUp"
