@@ -35,6 +35,14 @@ const routes = [
 		}
 	},
 	{
+		path: '/klubovna',
+		name: 'Klubovna',
+		component: () => import(/* webpackChunkName: "KontaktView-lazy-load" */ '../views/Klubovna.vue'),
+		meta: {
+			title: 'Skaut Třebíč - Klubovna'
+		}
+	},
+	{
 		path: '/kontakt/:oddil',
 		name: 'Kontakt',
 		component: () => import(/* webpackChunkName: "KontaktView-lazy-load" */ '../views/KontaktView.vue'),
