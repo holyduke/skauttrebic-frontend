@@ -3,7 +3,15 @@
     <h1 class="mb-0">Stavba nové klubovny</h1>
     <v-divider class="mb-5"></v-divider>
     <div>
-      Klubovna
+      <div class="heading">
+        Skauti v Třebíči mají kolem 300 dětí a 50 dospělých členů
+      </div>
+      <div>
+        <p>
+          Skauti v Třebíči působí od roku 1923, kdy byl založen první chlapecký oddíl pod vedením Antonína Hobzy přezdívaného Srdíčko. Podle něj bylo později pojmenováno celé středisko, které bylo oficiálně založeno v roce 1938 a v té době mělo osm oddílů.
+          Dnes už má středisko oddílů dvanáct. Dohromady má celé středisko kolem 350 členů. Nechybí v něm oddíly chlapecké i dívčí, smíšené, oddíl benjamínků (předškolních dětí), nebo oddíl oldskautů (dospělých členů).
+        </p>
+      </div>
     </div>
     <img class="image" v-for="(image, i) in images" :src="image" :key="i" @click="index = i">
     <vue-gallery-slideshow :images="images" :index="index" @close="index = null"></vue-gallery-slideshow>
@@ -42,6 +50,13 @@ export default {
 </script>
 
 <style>
+
+.heading  {
+  font-family: "skautbold" !important;
+  font-size: 1.9rem !important;
+  margin: 10px 0px;
+}
+
 .image {
   width: 100px;
   height: 100px;
