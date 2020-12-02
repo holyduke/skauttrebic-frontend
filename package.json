@@ -20,6 +20,7 @@
     "heroku-ssl-redirect": "0.0.4",
     "vue": "^2.6.12",
     "vue-chartjs": "^3.5.1",
+    "vue-gallery-slideshow": "^1.5.2",
     "vue-i18n": "^8.22.1",
     "vue-router": "^3.4.8",
     "vuetify": "^2.3.16",
