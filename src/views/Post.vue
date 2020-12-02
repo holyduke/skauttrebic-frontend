@@ -1,13 +1,14 @@
 <template>
   <v-container grid-list-xs class="my-5">
     <div v-if="aktualita">
-      <div v-if="loading" class="text-center">
+      <!-- Loading -->
+      <div v-if="loading" class="text-center grey--text align-center justify-center"> 
+        <p>Načítám aktualitu...</p>
         <v-progress-circular
-          :size="100"
-          :width="10"
-          color="primary"
-          indeterminate
-        ></v-progress-circular>
+        :size="80"
+        color="primary"
+        indeterminate
+      ></v-progress-circular>
       </div>
       <div
         :class="{
@@ -82,17 +83,7 @@
           <v-icon class="mr-1">mdi-pencil</v-icon>Upravit
         </v-btn>
       </div>
-    </div>
-
-    <!-- Loading -->
-    <div v-else class="text-center grey--text align-center justify-center"> 
-      <p>Načítám aktualitu...</p>
-      <v-progress-circular
-      :size="80"
-      color="primary"
-      indeterminate
-    ></v-progress-circular>
-    </div>
+    </div>    
   </v-container>
 </template>
 
@@ -188,8 +179,9 @@ export default {
         this.loading = false;
       })
       .catch((e) => {
-        console.log(e);
+        console.log("aktualita not found",e);
         this.loading = false;
+        return this.$router.push('/404');
       });
   },
 

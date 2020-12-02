@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-xs class="my-3">
-    <h1 class="mb-0" id="Aktuality">Schválení registrace vedoucích</h1>
+    <h1 class="mb-0" id="Aktuality">Registrovaní vedoucí</h1>
     <v-divider class="mb-4"></v-divider>
     <p>Zde můžete schválit registraci jiných vedoucích, kteří se zaregistrovali na web. Schválení proveďte až po <strong>důkladném ověření</strong> totožnosti zaregistrovaného účtu. (jméno, email, přihlašovací jméno musí patřit skutečně danému vedoucímu). Pokud náhodou schválíte nesprávnou registraci, ihned kontaktujte správce webu.</p>
 

@@ -3,24 +3,42 @@
     <div class="main-container">
       <h1 class="mb-0" id="Aktuality">Fotografie</h1>
       <v-divider class="mb-2"></v-divider>
-      <div class="zonerama">
+      <div v-if="skautZoneramaLoading" class="zonerama">
+        <v-skeleton-loader
+          class="mx-auto"
+          style="width: 100%; height: 400px"
+          type="card"
+        ></v-skeleton-loader>
+      </div>
+      <div v-show="!skautZoneramaLoading" class="zonerama">
         <iframe
           src="https://www.zonerama.com/Embed/Account/246290?color=blue&autoplay=false&vertical=false"
           style="width: 100%; height: 350px"
           scrolling="no"
+          @load="skautLoaded()"
           frameborder="0"
           allowTransparency="true"
         ></iframe>
       </div>
-      <div class="zonerama">
+
+      <div v-if="vlcataZoneramaLoading" class="zonerama">
+        <v-skeleton-loader
+          class="mx-auto"
+          style="width: 100%; height: 370px"
+          type="card"
+        ></v-skeleton-loader>
+      </div>
+      <div v-show="!vlcataZoneramaLoading" class="zonerama">
         <iframe
           src="https://www.zonerama.com/Embed/Account/24898?color=orange&autoplay=false&vertical=false"
           style="width: 100%; height: 350px"
           scrolling="no"
+          @load="vlcataLoaded()"
           frameborder="0"
           allowTransparency="true"
         ></iframe>
       </div>
+
       <div class="mt-2 zonerama">
         <v-btn
           class="white--text"
@@ -47,17 +65,21 @@ export default {
   data() {
     return {
       colors: Constants.colors,
+      skautZoneramaLoading: true,
+      vlcataZoneramaLoading: true,
     };
   },
 
   methods: {
-    iframeStyles() {
-      this.frame = this.$refs.iframeContent.contentWindow;
-
-      const style =
-        ".pull-menu {display: none;} " + "body {color:" + this.text + ";} ";
-      this.frame.postMessage(style, "*");
+    skautLoaded() {
+      this.skautZoneramaLoading = false;
+      console.log("skaut loaded");
     },
+
+    vlcataLoaded() {
+      this.vlcataZoneramaLoading = false;
+      console.log("vlcata loaded");
+    }
   },
 };
 </script>
