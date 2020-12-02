@@ -7,6 +7,7 @@
       raised
       max-width="350px"
       :to="{ name: 'Post', params: { _id: aktualita._id } }"
+      target='_blank'
     >
       <div
         v-if="thumbnail_url"
