@@ -2,7 +2,7 @@
   <v-app> 
     <Navbar />
     <v-main >
-      <div class="main" :class="{ contributor: isContributor }">
+      <div :class="{ contributor: isContributor }">
         <router-view></router-view>
       </div>
     </v-main>
@@ -131,7 +131,7 @@ h1 {
   }
 }
 
-.main {
+.main-center-limitwidth {
   margin: auto;
   max-width: 1500px;
 }

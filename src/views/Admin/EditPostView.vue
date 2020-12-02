@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation>
+  <v-form ref="form" v-model="valid" lazy-validation class="main-center-limitwidth">
     <v-container grid-list-xs>
       <h1 class="my-5" v-if="editView">Editovat příspěvek</h1>
       <h1 class="my-5" v-else>Vytvořit příspěvek</h1>

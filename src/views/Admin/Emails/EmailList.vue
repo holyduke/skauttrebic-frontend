@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs>
+  <v-container grid-list-xs class="main-center-limitwidth">
     <v-data-table
       item-key="name"
       loading

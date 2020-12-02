@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs align-center class="mt-3">
+  <v-container grid-list-xs align-center class="mt-3 main-center-limitwidth">
     <h1 class="mb-0">Registrace pro vedoucí</h1>
     <v-divider class="mb-5"></v-divider>
     <p>Následující formulář slouží k umožnění přístupu vedoucím pro administraci webu. Registrace slouží <strong>pouze pro vedoucí</strong>, nikoliv pro rodiče a členy. Každá registrace je manuálně ověřena správcem webu.</p>
