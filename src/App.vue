@@ -1,8 +1,8 @@
 <template>
   <v-app> 
     <Navbar />
-    <v-main>
-      <div :class="{ contributor: isContributor }">
+    <v-main >
+      <div class="main" :class="{ contributor: isContributor }">
         <router-view></router-view>
       </div>
     </v-main>
@@ -129,5 +129,10 @@ h1 {
   .contributor  {
     padding-left: 250px;
   }
+}
+
+.main {
+  margin: auto;
+  max-width: 1500px;
 }
 </style>

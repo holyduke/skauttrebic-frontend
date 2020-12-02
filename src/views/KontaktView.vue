@@ -1,12 +1,12 @@
 <template>
   <v-container class="my-3" grid-list-xs text-center>
     <div v-if="id">
-      <h1 class="mb-0" id="Aktuality">Vedoucí</h1>  
+      <h1 class="heading mb-0" id="Aktuality">Vedoucí</h1>  
       <v-divider class="mb-2"></v-divider>    
       <KontaktOddil :oddil="id" />
     </div>
     <div v-else>
-      <h1>Kontakty na hlavní vedoucí</h1>
+      <h1 class="heading mb-0">Kontakty na hlavní vedoucí</h1>
       <v-divider class="mb-2"></v-divider>
       <KontaktVudci py-5 />
     </div>    
@@ -50,6 +50,10 @@ export default {
 </script>
 
 <style scoped>
+.heading {
+  text-align: left;
+}
+
 h1 {
   font-family: "skautbold";
   font-size: 2.5rem;

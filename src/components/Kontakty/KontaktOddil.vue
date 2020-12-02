@@ -29,7 +29,7 @@
         </template>        
 
         <template v-else>
-          <v-flex xl3 lg4 md6 sm6 xs12 mt-1 v-for="person in vedouci" :key="person._id">
+          <v-flex xl4 lg4 md6 sm6 xs12 mt-1 v-for="person in vedouci" :key="person._id">
             <PersonCard
               :fotka="person.fotka[0] ? person.fotka[0] : ''"
               :jmeno="person.jmeno"
@@ -183,7 +183,7 @@ export default {
 
 <style scoped>
 h2 {
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   text-transform: uppercase;
   font-family: "skautbold";
 }

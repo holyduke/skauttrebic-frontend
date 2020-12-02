@@ -27,7 +27,7 @@
           </template>   
 
         <template v-else>        
-          <v-flex xl3 lg4 md6 sm6 xs12 mt-1 v-for="person in main_contacts" :key="person._id">
+          <v-flex xl4 lg4 md6 sm6 xs12 mt-1 v-for="person in main_contacts" :key="person._id">
             <PersonCard
               :fotka="person.vedouci.fotka[0] ? person.vedouci.fotka[0] : ''"
               :jmeno="person.vedouci.jmeno"
