@@ -34,7 +34,7 @@ const store = new Vuex.Store({
 				items: [
 					{ title: 'Nástěnka', icon: 'mdi-bulletin-board', link: { name: 'Noticeboard' } },
 					{ title: 'Vytvořit příspěvek', icon: 'mdi-message-draw', link: { name: 'CreatePost' } },
-					{ title: 'Schválení registrace', icon: 'mdi-clipboard-account', link: { name: 'ManageVedoucisRights' } },
+					{ title: 'Registrovaní vedoucí', icon: 'mdi-clipboard-account', link: { name: 'ManageVedoucisRights' } },
 				],
 				title: "Úpravy"
 			},
