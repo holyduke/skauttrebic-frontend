@@ -167,13 +167,17 @@ const routes = [
 			title: 'Skaut Třebíč - Registrace'
 		}
 	},
-	{
-		path: '*',
+	{ 
+		path: '/404', 
 		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Missing.vue'),
 		meta: {
 			title: 'Skaut Třebíč - Stránka neexistuje'
 		}
-	},
+	},  
+  { 
+		path: '*', 
+		redirect: '/404' 
+	},  
 
 	// ------------------------------------------------------- REDIRECTS -------------------------------------------------------
 	{ 
