@@ -66,7 +66,6 @@
                   v-on="on"
                 ></v-text-field>
               </template>
-              <!-- /TODO: maximalni rozpeti musi byt 1 mesic -->
               <v-date-picker
                 locale="cs-in"
                 :min="minDate"
