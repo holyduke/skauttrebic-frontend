@@ -37,7 +37,7 @@
           <v-card-subtitle>
             <v-text-field
             v-model="newFeatureText"
-            counter="100"
+            counter="250"
             label="Požadavek na novou funkci"
             @keydown.enter="saveNewFeature"
           ></v-text-field>
