@@ -17,7 +17,7 @@
       :items-per-page="25"
       :footer-props="{
         showFirstLastPage: true,
-        'items-per-page-text': 'Záznamů na stránku',
+        'items-per-page-text': 'Položek na stránku',
         'items-per-page-all-text': 'Vše',
         'items-per-page-options': [25, 50, 100, 200],
         'show-current-page': true,
