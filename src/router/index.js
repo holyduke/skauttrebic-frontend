@@ -138,7 +138,7 @@ const routes = [
 		component: () => import(/* webpackChunkName: "Aktuality-lazy-load" */ '../views/Admin/EditPostView.vue'),
 		meta: {
 			requiresContributor: true,
-			title: 'Skaut Třebíč Edit - Editovat příspěvek'
+			title: 'Skaut Třebíč - Editovat příspěvek'
 		}
 	},
 	{
