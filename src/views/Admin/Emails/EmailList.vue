@@ -1,5 +1,11 @@
 <template>
   <v-container grid-list-xs class="main-center-limitwidth mt-3">
+    <h1 class="mb-0" id="Aktuality">Spravovat emaily</h1>
+    <v-divider class="mb-4"></v-divider>
+    <p>Každý člen oddílu by měl mít zde vytvořenou kartu, ve které budou uvedené kontaktní emaily na rodiče (případně na něj). Na tyto emaily budou odeslány notifikační emaily při zveřejnění nového příspěvku.</p>
+
+    <br>
+    
     <v-data-table
       :loading="loading" loading-text="Načítám členy..."
       :search="search"
