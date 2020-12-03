@@ -237,6 +237,7 @@ h4 {
   margin-left: -1px;
   margin-right: -1px;
   word-wrap: break-word;
+  min-height: 500px;
 }
 
 .zprava:hover {
