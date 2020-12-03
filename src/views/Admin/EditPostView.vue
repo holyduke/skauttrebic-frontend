@@ -1,8 +1,8 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="main-center-limitwidth">
+  <v-form ref="form" v-model="valid" lazy-validation class="my-3 main-center-limitwidth">
     <v-container grid-list-xs>
-      <h1 class="my-5" v-if="editView">Editovat příspěvek</h1>
-      <h1 class="my-5" v-else>Vytvořit příspěvek</h1>
+      <h1 class="mb-0" v-if="editView">Editovat příspěvek</h1>
+      <h1 class="mb-0" v-else>Vytvořit příspěvek</h1>
       <v-divider></v-divider>
 
       <v-row>
@@ -497,8 +497,8 @@ export default {
 }
 
 h1 {
-  font-size: 1.9rem !important;
-  text-transform: uppercase;
   font-family: "skautbold";
+  margin: 20px 0 20px 0;
+  font-size: 2.5rem;
 }
 </style>
