@@ -14,8 +14,21 @@
       loader-height="6"
       sort-by="id"
       class="elevation-3"
-      hide-default-footer
+      :items-per-page="50"
+      :footer-props="{
+        showFirstLastPage: true,
+        'items-per-page-text': 'Záznamů na stránku',
+        'items-per-page-all-text': 'Vše',
+        'items-per-page-options': [10, 50, 100],
+        'show-current-page': true,
+      }"
     >   
+      <!-- translate of -->
+      <template
+          v-slot:[`footer.page-text`]="{ pageStart, pageStop, itemsLength }"
+        >
+          {{ pageStart }} - {{ pageStop }} z {{ itemsLength }}
+      </template>
       <template v-slot:[`item.createdAt`]="{ item }">
         <span>{{ item.createdAtFormated }}</span>
       </template>
