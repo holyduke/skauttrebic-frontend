@@ -163,7 +163,7 @@ export default {
             //editing existing post
             console.log("trying to update post", this.post);
             axios
-              .put("/aktualitas/" + this.post._id, this.getDataObject)
+              .put("/aktualitas/" + this.post._id, this.getDataObjectWithoutAuthor)
               .then((result) => {
                 this.loading = false;
                 router.push("/aktuality/prispevek/" + result.data._id);
@@ -404,6 +404,17 @@ export default {
         autor: {
           _id: this.$store.getters.get_id,
         },
+        obrazky: this.$store.getters.getPostImages,
+      };
+      return header;
+    },
+
+    getDataObjectWithoutAuthor() {
+      const header = {
+        nadpis: this.post.nadpis,
+        text: this.post.content,
+        oddils: this.generateOddilyObj(),
+        priloha: this.generatePrilohaObj(),
         obrazky: this.$store.getters.getPostImages,
       };
       return header;
