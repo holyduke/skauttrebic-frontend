@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs class="main-center-limitwidth"> 
+  <v-container grid-list-xs class="my-3 main-center-limitwidth"> 
     <h1 class="mb-0">Přehled odeslaných emailů</h1>
     <div class="reloadInfo">Pokud se obsah nenačte, aktualizujte stránku.</div>
     <v-divider class="mb-5"></v-divider>
