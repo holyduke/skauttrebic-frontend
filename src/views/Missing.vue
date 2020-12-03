@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-5">
+  <v-container class="mt-5 main-center-limitwidth">
     <h1>
       Chybička se vloudila. Tato stránka neexistuje.
     </h1>

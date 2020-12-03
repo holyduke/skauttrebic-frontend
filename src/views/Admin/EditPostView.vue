@@ -1,8 +1,8 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation>
+  <v-form ref="form" v-model="valid" lazy-validation class="my-3 main-center-limitwidth">
     <v-container grid-list-xs>
-      <h1 class="my-5" v-if="editView">Editovat příspěvek</h1>
-      <h1 class="my-5" v-else>Vytvořit příspěvek</h1>
+      <h1 class="mb-0" v-if="editView">Editovat příspěvek</h1>
+      <h1 class="mb-0" v-else>Vytvořit příspěvek</h1>
       <v-divider></v-divider>
 
       <v-row>
@@ -163,7 +163,7 @@ export default {
             //editing existing post
             console.log("trying to update post", this.post);
             axios
-              .put("/aktualitas/" + this.post._id, this.getDataObject)
+              .put("/aktualitas/" + this.post._id, this.getDataObjectWithoutAuthor)
               .then((result) => {
                 this.loading = false;
                 router.push("/aktuality/prispevek/" + result.data._id);
@@ -408,6 +408,17 @@ export default {
       };
       return header;
     },
+
+    getDataObjectWithoutAuthor() {
+      const header = {
+        nadpis: this.post.nadpis,
+        text: this.post.content,
+        oddils: this.generateOddilyObj(),
+        priloha: this.generatePrilohaObj(),
+        obrazky: this.$store.getters.getPostImages,
+      };
+      return header;
+    },
   },
 
   created() {
@@ -497,8 +508,8 @@ export default {
 }
 
 h1 {
-  font-size: 1.9rem !important;
-  text-transform: uppercase;
   font-family: "skautbold";
+  margin: 20px 0 20px 0;
+  font-size: 2.5rem;
 }
 </style>

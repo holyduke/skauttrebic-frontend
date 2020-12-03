@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs align-center class="my-15 cont">
+  <v-container grid-list-xs align-center class="my-15 cont main-center-limitwidth">
     <h2>Tento obsah je přístupný pouze pro členy našich oddílů. Pro jeho zobrazení se prosím přihlaste.</h2>
     <v-col align="center">
       <LoginForm class="my-5" />

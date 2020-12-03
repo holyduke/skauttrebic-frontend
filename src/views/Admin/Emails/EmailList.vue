@@ -1,75 +1,37 @@
 <template>
-  <v-container grid-list-xs>
-    <v-data-table
-      item-key="name"
-      loading
-      loading-text="Načítám emaily..."
-      :search="search"
-      :headers="headers"
-      :items="clens"
-      loader-height="6"
-      sort-by="jmeno"
-      class="elevation-3"
-      hide-default-footer
-      v-if="loadingData"
-      show-select
-    >
-      <template v-slot:top>
-        <v-toolbar flat color="white">
-          <v-toolbar-title>Emaily pro zasílání příspěvků</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-text-field
-            class="d-none d-md-flex mdAndUp"
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Vyhledat"
-            single-line
-            hide-details
-            single-expand
-          ></v-text-field>
-          <v-divider class="mx-4" inset vertical></v-divider>
-          <v-dialog v-model="dialog" max-width="500px">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                color="primary"
-                class="mb-2 d-none d-md-flex mdAndUp"
-                v-bind="attrs"
-                v-on="on"
-                >Nový člen</v-btn
-              >
-            </template>
-          </v-dialog>
-        </v-toolbar>
-        <v-container class="d-md-none">
-          <v-btn color="primary" dark class="mb-2" @click="freshNewClen()"
-            >Nový člen</v-btn
-          >
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Vyhledat"
-            single-line
-            hide-details
-            single-expand
-          ></v-text-field>
-        </v-container>
-      </template>
-    </v-data-table>
+  <v-container grid-list-xs class="main-center-limitwidth mt-3">
+    <h1 class="mb-0" id="Aktuality">Spravovat emaily</h1>
+    <v-divider class="mb-4"></v-divider>
+    <p>Každý člen oddílu by zde měl mít vytvořenou kartu, ve které budou uvedené kontaktní emaily na rodiče (případně na něj). Při zveřejnění nového příspěvku budou na tyto emaily odeslány upozornění.</p>
 
-    <!-------------------------- PHONE VERSION ---------------------->
+    <br>
+    
     <v-data-table
-      v-else
+      :loading="loading" loading-text="Načítám členy..."
       :search="search"
       :headers="headers"
       :items="clens"
       justify="space-around"
       sort-by="jmeno"
       class="elevation-3"
-      hide-default-footer
+      :items-per-page="25"
+      :footer-props="{
+        showFirstLastPage: true,
+        'items-per-page-text': 'Položek na stránku',
+        'items-per-page-all-text': 'Vše',
+        'items-per-page-options': [25, 50, 100, 200],
+        'show-current-page': true,
+      }"
       calculate-widths
       v-model="selected"
       show-select
     >
+      <!-- translate of -->
+      <template
+          v-slot:[`footer.page-text`]="{ pageStart, pageStop, itemsLength }"
+        >
+          {{ pageStart }} - {{ pageStop }} z {{ itemsLength }}
+      </template>
       <!-- :mobile-breakpoint="0" pro zakazani mobiloveho rezimu -->
       <template v-slot:top>
         <v-toolbar flat color="white">
@@ -244,7 +206,7 @@ export default {
     valid: false,
     hiddenDeleteButton: true,
     selected: [],
-    loadingData: false,
+    loading: false,
     search: "",
     oddils: [],
     dialog: false,
@@ -368,7 +330,7 @@ export default {
 
     setLoading() {
       this.clens = [];
-      this.loadingData = true;
+      this.loading = true;
       this.close();
     },
 
@@ -524,7 +486,7 @@ export default {
     loadData() {
       this.oddils = [];
       this.clens = [];
-      this.loadingData = true;
+      this.loading = true;
       console.log("refreshing database");
 
       //get oddily
@@ -592,11 +554,11 @@ export default {
           });
           // });
           console.log("this.clens", this.clens);
-          this.loadingData = false;
+          this.loading = false;
         })
         .catch((e) => {
           console.log("error in getting clens:", e);
-          this.loadingData = false;
+          this.loading = false;
         });
     },
   },

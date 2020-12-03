@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs class="my-3">
+  <v-container grid-list-xs class="my-3 main-center-limitwidth">
     <h1 class="mb-0" id="Aktuality">Registrovaní vedoucí</h1>
     <v-divider class="mb-4"></v-divider>
     <p>Zde můžete schválit registraci jiných vedoucích, kteří se zaregistrovali na web. Schválení proveďte až po <strong>důkladném ověření</strong> totožnosti zaregistrovaného účtu. (jméno, email, přihlašovací jméno musí patřit skutečně danému vedoucímu). Pokud náhodou schválíte nesprávnou registraci, ihned kontaktujte správce webu.</p>
@@ -14,8 +14,21 @@
       loader-height="6"
       sort-by="id"
       class="elevation-3"
-      hide-default-footer
+      :items-per-page="50"
+      :footer-props="{
+        showFirstLastPage: true,
+        'items-per-page-text': 'Položek na stránku',
+        'items-per-page-all-text': 'Vše',
+        'items-per-page-options': [10, 50, 100],
+        'show-current-page': true,
+      }"
     >   
+      <!-- translate of -->
+      <template
+          v-slot:[`footer.page-text`]="{ pageStart, pageStop, itemsLength }"
+        >
+          {{ pageStart }} - {{ pageStop }} z {{ itemsLength }}
+      </template>
       <template v-slot:[`item.createdAt`]="{ item }">
         <span>{{ item.createdAtFormated }}</span>
       </template>

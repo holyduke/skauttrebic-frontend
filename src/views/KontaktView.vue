@@ -1,5 +1,5 @@
 <template>
-  <v-container class="my-3" grid-list-xs text-center>
+  <v-container class="my-3 main-center-limitwidth" grid-list-xs text-center>
     <div v-if="id">
       <h1 class="heading mb-0" id="Aktuality">Vedoucí</h1>  
       <v-divider class="mb-2"></v-divider>    

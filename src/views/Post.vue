@@ -1,7 +1,6 @@
 <template>
-  <v-container grid-list-xs class="my-5">
-    <div v-if="aktualita">
-      <!-- Loading -->
+  <v-container grid-list-xs class="my-5 main-center-limitwidth">
+    <!-- Loading -->
       <div v-if="loading" class="text-center grey--text align-center justify-center"> 
         <p>Načítám aktualitu...</p>
         <v-progress-circular
@@ -9,14 +8,14 @@
         color="primary"
         indeterminate
       ></v-progress-circular>
-      </div>
+    </div>
+    <div v-else>      
       <div
         :class="{
           'ma-0': $vuetify.breakpoint.mdAndDown,
           marginlg: $vuetify.breakpoint.lg,
           marginxl: $vuetify.breakpoint.xl,
         }"
-        v-else
       >
         <v-layout row wrap justify-space-around class="heading mx-0">
           <v-flex xs12 sm8 md9 lg10 xl10>
@@ -165,7 +164,6 @@ export default {
 
   created() {
     this.loading = true;
-    // this.slug = this.$route.params.slug.replace("+", "%2B");
     console.log("getting post with _id = " + this.$route.params._id);
     axios
       .get(`/aktualitas/` + this.$route.params._id)
@@ -239,6 +237,7 @@ h4 {
   margin-left: -1px;
   margin-right: -1px;
   word-wrap: break-word;
+  min-height: 500px;
 }
 
 .zprava:hover {

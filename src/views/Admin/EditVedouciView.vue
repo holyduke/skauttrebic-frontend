@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs class="py-8">
+  <v-container grid-list-xs class="py-8 main-center-limitwidth">
     <h1 v-if="editView">Editovat vedoucí - {{ editedPerson.jmeno }}</h1>
     <h1 v-else>Vytvořit nového vedoucího</h1>
 

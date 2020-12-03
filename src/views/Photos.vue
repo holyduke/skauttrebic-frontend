@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs class="my-3 px-4">
+  <v-container grid-list-xs class="my-3 px-4 main-center-limitwidth">
     <div class="main-container">
       <h1 class="mb-0" id="Aktuality">Fotografie</h1>
       <v-divider class="mb-2"></v-divider>

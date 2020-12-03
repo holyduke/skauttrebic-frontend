@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs class="my-3">
+  <v-container grid-list-xs class="my-3 main-center-limitwidth">
     <h1 class="mb-0" id="Aktuality">Aktuality</h1>
     <v-divider class="mb-2"></v-divider>
     <v-btn
