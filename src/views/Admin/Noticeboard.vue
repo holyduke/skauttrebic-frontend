@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs class="py-8 main-center-limitwidth">
+  <v-container grid-list-xs class="main-center-limitwidth">
     <h1>Nástěnka</h1>
     <v-row justify="space-around">
       <v-col cols="12" md="6" class="px-200">

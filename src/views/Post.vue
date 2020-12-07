@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs class="my-5 main-center-limitwidth">
+  <v-container grid-list-xs class="main-center-limitwidth">
     <!-- Loading -->
       <div v-if="loading" class="text-center grey--text align-center justify-center"> 
         <p>Načítám aktualitu...</p>

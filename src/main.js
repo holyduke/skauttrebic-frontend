@@ -6,6 +6,8 @@ import store from './store/store'
 import axios from "axios";
 import i18n from './i18n'
 import cs from 'vuetify/es5/locale/zh-Hans'
+import VuePictureSwipe from 'vue-picture-swipe';
+Vue.component('vue-picture-swipe', VuePictureSwipe);
 
 import CKEditor from '@ckeditor/ckeditor5-vue';
 Vue.use( CKEditor );

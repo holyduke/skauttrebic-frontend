@@ -312,7 +312,7 @@ export default {
         subs: null,
       },
       {
-        icon: "mdi-home",
+        icon: "mdi-home-modern",
         title: "Klubovna",
         link: "/klubovna",
         subs: null,

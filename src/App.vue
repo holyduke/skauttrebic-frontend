@@ -16,6 +16,7 @@ import Navbar from "./components/Navbars/Navbar";
 import Footer from "./components/Footer";
 import LoadingScreen from "./components/LoadingScreen";
 
+
 export default {
   name: "App",
 

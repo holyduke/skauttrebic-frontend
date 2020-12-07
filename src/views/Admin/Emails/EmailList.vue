@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-xs class="main-center-limitwidth mt-3">
+  <v-container grid-list-xs class="main-center-limitwidth">
     <h1 class="mb-0" id="Aktuality">Spravovat emaily</h1>
     <v-divider class="mb-4"></v-divider>
     <p>Každý člen oddílu by zde měl mít vytvořenou kartu, ve které budou uvedené kontaktní emaily na rodiče (případně na něj). Při zveřejnění nového příspěvku budou na tyto emaily odeslány upozornění.</p>
@@ -14,13 +14,10 @@
       justify="space-around"
       sort-by="jmeno"
       class="elevation-3"
-      :items-per-page="25"
       :footer-props="{
-        showFirstLastPage: true,
         'items-per-page-text': 'Položek na stránku',
         'items-per-page-all-text': 'Vše',
         'items-per-page-options': [25, 50, 100, 200],
-        'show-current-page': true,
       }"
       calculate-widths
       v-model="selected"
@@ -31,6 +28,9 @@
           v-slot:[`footer.page-text`]="{ pageStart, pageStop, itemsLength }"
         >
           {{ pageStart }} - {{ pageStop }} z {{ itemsLength }}
+      </template>
+      <template v-slot:no-results>
+          Pro výraz "{{ search }}" nebyly nalezeny žádné výsledky.
       </template>
       <!-- :mobile-breakpoint="0" pro zakazani mobiloveho rezimu -->
       <template v-slot:top>
@@ -298,11 +298,6 @@ export default {
   },
 
   watch: {
-    // dialog() {
-    //   if (!this.dialog) {
-    //     console.log("dialog window closed");
-    //   }
-    // },
     selected() {
       if (this.selected.length > 0) {
         this.hiddenDeleteButton = false;
@@ -500,7 +495,7 @@ export default {
               id
               nazev
             }
-          }`,
+          }`,        
         },
       }).then((result) => {
         result.data.data.oddils.forEach((oddil) => {
