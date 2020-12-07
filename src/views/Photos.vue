@@ -49,6 +49,17 @@
           <strong>Roveři & Rangers</strong>
         </v-btn>
       </div>
+
+      <div class="mt-2 zonerama">
+        <v-btn
+          class="white--text"
+          color="#58b220"
+          target="_blank"
+          href="https://skautky2.rajce.idnes.cz/"
+        >
+          <strong>Skautky</strong>
+        </v-btn>
+      </div>
       <!-- <div class="zonerama">
         <iframe src="https://www.zonerama.com/Embed/Account/260312?color=green&autoplay=false&vertical=false" style="width: 720px; height: 330px;" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
       </div> -->
