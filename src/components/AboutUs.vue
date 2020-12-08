@@ -24,7 +24,7 @@ export default {
             {icon: "mdi-newspaper-variant", title: "Aktuality", link: "/aktuality"},
             {icon: "mdi-account-group", title: "O nás", link: "/about"},
             {icon: "mdi-flash", title: "Trafo", link: "/trafo"},
-            {icon: "mdi-image-multiple", title: "Fotografie", link: "/fotografie"},
+            {icon: "mdi-image-multiple", title: "Fotogalerie", link: "/fotogalerie"},
             {icon: "mdi-card-account-phone", title: "Kontakt", link: "/kontakt"},
         ],
     }),

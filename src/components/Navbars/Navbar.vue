@@ -307,8 +307,8 @@ export default {
       },
       {
         icon: "mdi-image-multiple",
-        title: "Fotografie",
-        link: "/fotografie",
+        title: "Fotogalerie",
+        link: "/fotogalerie",
         subs: null,
       },
       {

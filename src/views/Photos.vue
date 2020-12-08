@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xs class="px-4 main-center-limitwidth">
     <div class="main-container">
-      <h1 class="mb-0" id="Aktuality">Fotografie</h1>
+      <h1 class="mb-0" id="Aktuality">Fotogalerie</h1>
       <v-divider class="mb-2"></v-divider>
       <div v-if="skautZoneramaLoading" class="zonerama">
         <v-skeleton-loader

@@ -60,12 +60,12 @@ const routes = [
 		}
 	},
 	{
-		path: '/fotografie',
+		path: '/fotogalerie',
 		name: 'Photos',
 		component: () => import(/* webpackChunkName: "Photos-lazy-load" */ '../views/Photos.vue'),
 		meta: {
 			requiresAuth: true,
-			title: 'Skaut Třebíč - Fotografie'
+			title: 'Skaut Třebíč - Fotogalerie'
 		}
 	},
 	{
