@@ -102,7 +102,7 @@ export default {
         title: "Kolik to stojí a jak můžete přispět?",
         paragraphs: [
           "Nová klubovna není kvůli své velikosti malým peněžním soustem. Celá výstavba byla rozpočtována asi za 11 miliónů korun. Po vstřícném jednání s městem Třebíč jsme dostali od města dar tří miliónů korun. Dále máme značkou podporu i jiných dárců a partnerů. Finančně nás podpořili i mnozí rodičové při registracích prostřednictvím donátorských kategorií. I třebíčské farnosti se rozhodli podpořit náš projekt skrze kostelní sbírky.",
-          "V současné chvíli dle našich odhadů chybí <b>1,5 milionu</b>. Jsme velmi vděční za vaše dary a důvěru. Jestli máte zájem podpořit nás ještě více, můžete tak učinit na střediskový <b><a target='_blank' href='https://ib.fio.cz/ib/transparent?a=2101617105'> transparentní účet</a> - 2101617105/2010</b>.",
+          "V současné chvíli dle našich odhadů chybí <b>1,5 milionu Kč</b>. Jsme velmi vděční za vaše dary a důvěru. Jestli máte zájem podpořit nás ještě více, můžete tak učinit na střediskový <b><a target='_blank' href='https://ib.fio.cz/ib/transparent?a=2101617105'> transparentní účet</a> - 2101617105/2010</b>.",
           "Chcete-li nám poskytnout finanční dar a máte zájem o sepsání darovací smlouvy, prosíme, kontaktujte nás na e-mailu <b>junak.srdicko@skaut.cz</b> nebo na tel. <b>775 674 017</b>.",
           "Děkujeme!"
         ],
