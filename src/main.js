@@ -22,6 +22,20 @@ else  {
 }
 
 
+//logout on 401 authoritaziton error
+axios.interceptors.response.use(function (response) {
+  return response
+}, function (error) {
+  console.log(error.response.data)
+  if (error.response.data.statusCode == 401) {
+    console.log('JWT not valid!', error.response.data);
+    store.dispatch('logout')
+    router.push('/login')
+  }
+  return Promise.reject(error)
+})
+
+
 const vuetify = new Vuetify({
   lang: {
     // If you change the language here, then it changes in the editor itself
