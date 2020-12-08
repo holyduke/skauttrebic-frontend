@@ -3,9 +3,14 @@
     <Navbar />
     <v-main >
       <div :class="{ contributor: isContributor }">
-        <v-container grid-list-xs>
+        <div v-if="!isHomePage">
+           <v-container grid-list-xs >
+            <router-view></router-view>
+          </v-container>
+        </div>
+        <div v-else>
           <router-view></router-view>
-        </v-container>
+        </div>            
       </div>
     </v-main>
     <Footer />
@@ -25,6 +30,10 @@ export default {
   computed: {
     isContributor() {
       return this.$store.getters.isContributor
+    },
+
+    isHomePage() {
+      return this.$route.path == "/"
     }
   },
 
