@@ -305,16 +305,16 @@ export default {
         ],
         chosen: false,
       },
-      // {
-      //   icon: "mdi-flash",
-      //   title: "Trafo",
-      //   link: "/trafo",
-      //   subs: null,
-      // },
       {
         icon: "mdi-image-multiple",
         title: "Fotografie",
         link: "/fotografie",
+        subs: null,
+      },
+      {
+        icon: "mdi-home-modern",
+        title: "Klubovna",
+        link: "/klubovna",
         subs: null,
       },
       {
