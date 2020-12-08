@@ -3,7 +3,9 @@
     <Navbar />
     <v-main >
       <div :class="{ contributor: isContributor }">
-        <router-view></router-view>
+        <v-container grid-list-xs>
+          <router-view></router-view>
+        </v-container>
       </div>
     </v-main>
     <Footer />
