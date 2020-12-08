@@ -23,7 +23,7 @@
               <div>
                 <h1>{{ aktualita.nadpis }}</h1>
                 <v-divider class="mb-2"></v-divider>
-                <h4>Publikováno: {{ getCETDate }}</h4>
+                <h4>Zveřejněno: {{ getCETDate }}</h4>
                 <h4 v-if="authorAvailable">
                   Autor:
                   <v-chip
