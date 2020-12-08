@@ -21,7 +21,7 @@
       </v-tooltip>
       <v-layout row wrap justify-space-around align-center temporary>
           <template v-if="loading">
-            <v-flex  xl3 lg4 md6 sm6 xs12 mt-1 v-for="index in 7" :key="index">
+            <v-flex  xl4 lg4 md6 sm6 xs12 mt-1 v-for="index in 7" :key="index">
               <PersonCardLoader />
             </v-flex>    
           </template>   

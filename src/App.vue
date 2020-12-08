@@ -112,10 +112,6 @@ export default {
   /* -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; */
 }
-/* body {
-  padding: 0;
-  margin: 0;
-} */
 
 h1 {
   font-family: "skautbold";
@@ -137,5 +133,7 @@ h1 {
 .main-center-limitwidth {
   margin: auto;
   max-width: 1500px;
+  margin-top: 0px;
+  padding-top: 0px;
 }
 </style>

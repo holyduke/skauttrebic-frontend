@@ -22,9 +22,9 @@
         </v-img>
         <v-card-title v-show="jmeno" class="jmeno">
           <div class="jmenoprijmeni">
-            {{ jmeno }}
-            <span v-if="prezdivka">({{ prezdivka }})</span>
+            {{ jmeno }}            
           </div>
+          <div v-if="prezdivka">{{ prezdivka }}</div>
         </v-card-title>
         <v-card-subtitle v-show="funkce" class="fce">{{
           funkce
@@ -256,6 +256,5 @@ export default {
   display: inline-block;
   font-size: 1rem;
   text-align: left;
-  /* min-height: 90px; */
 }
 </style>

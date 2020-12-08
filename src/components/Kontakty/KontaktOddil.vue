@@ -23,7 +23,7 @@
       <!-- <h1>There are {{vedouci.length}} vedoucis.</h1> -->
       <v-layout row wrap justify-space-around align-center temporary>
         <template v-if="loading">
-          <v-flex  xl3 lg4 md6 sm6 xs12 mt-1 v-for="index in 5" :key="index">
+          <v-flex  xl4 lg4 md6 sm6 xs12 mt-1 v-for="index in 5" :key="index">
             <PersonCardLoader />
           </v-flex>    
         </template>        
