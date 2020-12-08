@@ -14,6 +14,7 @@
       justify="space-around"
       sort-by="jmeno"
       class="elevation-3"
+      :items-per-page="50"
       :footer-props="{
         'items-per-page-text': 'Položek na stránku',
         'items-per-page-all-text': 'Vše',

@@ -16,7 +16,6 @@
       class="elevation-3"
       :items-per-page="50"
       :footer-props="{
-        showFirstLastPage: true,
         'items-per-page-text': 'Položek na stránku',
         'items-per-page-all-text': 'Vše',
         'items-per-page-options': [10, 50, 100],

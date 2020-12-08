@@ -13,6 +13,7 @@
       <div v-show="!skautZoneramaLoading" class="zonerama">
         <iframe
           src="https://www.zonerama.com/Embed/Account/246290?color=blue&autoplay=false&vertical=false"
+          target="_blank"
           style="width: 100%; height: 350px"
           scrolling="no"
           @load="skautLoaded()"
@@ -31,6 +32,7 @@
       <div v-show="!vlcataZoneramaLoading" class="zonerama">
         <iframe
           src="https://www.zonerama.com/Embed/Account/24898?color=orange&autoplay=false&vertical=false"
+          target="_blank"
           style="width: 100%; height: 350px"
           scrolling="no"
           @load="vlcataLoaded()"
@@ -39,14 +41,34 @@
         ></iframe>
       </div>
 
+      <div v-if="vlcataZoneramaLoading" class="zonerama">
+        <v-skeleton-loader
+          class="mx-auto"
+          style="width: 100%; height: 370px"
+          type="card"
+        ></v-skeleton-loader>
+      </div>
+      <div v-show="!roveriZoneramaLoading" class="zonerama">
+        <iframe
+          src="https://www.zonerama.com/Embed/Account/260312?color=green&autoplay=false&vertical=false"
+          target="_blank"
+          style="width: 100%; height: 350px"
+          scrolling="no"
+          @load="roveriLoaded()"
+          frameborder="0"
+          allowTransparency="true"
+        ></iframe>
+      </div>
+
+
       <div class="mt-2 zonerama">
         <v-btn
           class="white--text"
-          color="#d12121"
+          color="#58b220"
           target="_blank"
-          href="https://www.zonerama.com/RR2oddil/796874?secret=tPo6kX1lgW019pxPY8LkoYx92&fbclid=IwAR2dDjDAMN-WM4jGyY0AZ4N8rdGvEmEajokDc9ADja2BiCXn4ZCjQu5nXoI"
+          href="https://skautky2.rajce.idnes.cz/"
         >
-          <strong>Roveři & Rangers</strong>
+          <strong>Skautky</strong>
         </v-btn>
       </div>
       <!-- <div class="zonerama">
@@ -67,6 +89,7 @@ export default {
       colors: Constants.colors,
       skautZoneramaLoading: true,
       vlcataZoneramaLoading: true,
+      roveriZoneramaLoading: true,
     };
   },
 
@@ -79,6 +102,11 @@ export default {
     vlcataLoaded() {
       this.vlcataZoneramaLoading = false;
       console.log("vlcata loaded");
+    },
+
+    roveriLoaded() {
+      this.roveriZoneramaLoading = false;
+      console.log("roveri loaded");
     }
   },
 };
