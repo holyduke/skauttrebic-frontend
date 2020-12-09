@@ -73,7 +73,7 @@ export default {
       {
         title: "Část za námi a část před námi…",
         paragraphs: [
-          "Od začátku roku 2020 intenzivně probíhá výstavba klubovny. Na začátku bylo třeba vyztužit původní základovou desku budovy a rozšířit půdorysný tvar objektu. Následovala celá hrubá stavba – vyzdívání nosných zdí obou pater, stropy z betonových panelů, plochá střecha, vnitřní příčky, kanalizace, rozvod vody, elektroinstalace a osazení oken. Do konce roku budou hotové vnitřní omítky a hrubé podlahy.",
+          "Od začátku roku 2020 intenzivně probíhá výstavba klubovny. Na začátku bylo třeba vyztužit původní základovou desku budovy a rozšířit půdorysný tvar objektu. Následovala celá hrubá stavba – vyzdívání nosných zdí obou pater, stropy z betonových panelů, plochá střecha, vnitřní příčky, kanalizace, rozvod vody a elektroinstalace. Do konce roku budou hotové vnitřní omítky a hrubé podlahy.",
           "V roce 2021 nás čeká ještě spousta práce. Mezi hlavní patří zateplení objektu a povrchová úprava fasády, vnitřní a vnější dveře, rozvod topení, dokončení podlah a elektroinstalací. Na brigádách se podílí mnoho rodičů a členů oddílů a za to jim patří velký dík!"
         ],
         images: [
@@ -93,7 +93,7 @@ export default {
           {src:"https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/20200601_131319_b027f83a61.jpg", thumbnail:'https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/medium_20200601_131319_b027f83a61.jpg',w: 4032, h: 3024, title:'Vyzdívání druhého patra - červen 2020'},
           {src:"https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/20200819_143834_1_bebd3e1e41.jpg", thumbnail:'https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/medium_20200819_143834_1_bebd3e1e41.jpg',w: 4608, h: 3456, title:'Vyzděný celý objekt a položené stropy - srpen 2020'},
           {src:"https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/20200819_144057_f48072c6ed.jpg", thumbnail:'https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/medium_20200819_144057_f48072c6ed.jpg',w: 4608, h: 3456, title:'Realizace ploché střechy na celém objektu - srpen 2020'},
-          {src:"https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/130273400_733139894246153_7101959505760727454_n_1_4ca21d5d70.jpg", thumbnail:'https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/medium_130273400_733139894246153_7101959505760727454_n_1_4ca21d5d70.jpg',w: 2048, h: 1536, title:'Osazování oken - říjen 2020'},
+          // {src:"https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/130273400_733139894246153_7101959505760727454_n_1_4ca21d5d70.jpg", thumbnail:'https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/medium_130273400_733139894246153_7101959505760727454_n_1_4ca21d5d70.jpg',w: 2048, h: 1536, title:'Osazování oken - říjen 2020'},
           {src:"https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/129938947_413123993059795_4622378331242291024_n_18389bd209.jpg", thumbnail:'https://s3.eu-central-1.amazonaws.com/skauttrebic.cz/medium_129938947_413123993059795_4622378331242291024_n_18389bd209.jpg',w: 1536, h: 2048, title:'Hydroizolace stropů nad sklepem v prvním patře - prosinec 2020'},
           ],
         index: null,
