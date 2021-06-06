@@ -3,11 +3,8 @@
     <v-footer absolute class="font-weight-medium">
       <v-col class="text-center" cols="12">
         <v-btn class="mr-1" color="#e8e8e8" elevation="1" x-small to="/registrace">Registrace pro vedoucí</v-btn>
-         •   {{ new Date().getFullYear() }}  •
-        <a
-          target="_blank"
-          href="http://dominikjasek.skauting.cz/"
-        >Dominik Jašek</a>
+        • {{ new Date().getFullYear() }} •
+        <a target="_blank" href="https://github.com/dominikjasek/">Dominik Jašek</a>
       </v-col>
     </v-footer>
   </v-card>
